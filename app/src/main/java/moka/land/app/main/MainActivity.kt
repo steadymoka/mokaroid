@@ -1,7 +1,8 @@
-package moka.land
+package moka.land.app.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import moka.land.R
 
 class MainActivity : AppCompatActivity() {
 
