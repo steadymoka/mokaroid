@@ -1,6 +1,6 @@
 # moka Android standard :) 
 
-- app/
+- [app/](/app)
 - res/
 - dialog/
 
