@@ -941,7 +941,10 @@ id baseline
 id blocking
 id bottom
 id bounce
+id buttonNegative
+id buttonNeutral
 id buttonPanel
+id buttonPositive
 id center
 id chain
 id checkbox
@@ -1024,6 +1027,7 @@ id reverseSawtooth
 id right
 id right_icon
 id right_side
+id root
 id sawtooth
 id screen
 id scrollIndicatorDown
@@ -1129,6 +1133,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout custom_dialog
+layout layout_base_dialog
 layout layout_loading_dialog
 layout notification_action
 layout notification_action_tombstone
@@ -1539,6 +1544,7 @@ style Widget_AppCompat_Toolbar_Button_Navigation
 style Widget_Compat_NotificationActionContainer
 style Widget_Compat_NotificationActionText
 style Widget_Support_CoordinatorLayout
+style dialogButtonTextStyle
 styleable ActionBar background backgroundSplit backgroundStacked contentInsetEnd contentInsetEndWithActions contentInsetLeft contentInsetRight contentInsetStart contentInsetStartWithNavigation customNavigationLayout displayOptions divider elevation height hideOnContentScroll homeAsUpIndicator homeLayout icon indeterminateProgressStyle itemPadding logo navigationMode popupTheme progressBarPadding progressBarStyle subtitle subtitleTextStyle title titleTextStyle
 styleable ActionBarLayout android_layout_gravity
 styleable ActionMenuItemView android_minWidth

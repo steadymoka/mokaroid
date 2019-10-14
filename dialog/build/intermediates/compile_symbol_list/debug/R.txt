@@ -940,7 +940,10 @@ int id baseline 0x0
 int id blocking 0x0
 int id bottom 0x0
 int id bounce 0x0
+int id buttonNegative 0x0
+int id buttonNeutral 0x0
 int id buttonPanel 0x0
+int id buttonPositive 0x0
 int id center 0x0
 int id chain 0x0
 int id checkbox 0x0
@@ -1023,6 +1026,7 @@ int id reverseSawtooth 0x0
 int id right 0x0
 int id right_icon 0x0
 int id right_side 0x0
+int id root 0x0
 int id sawtooth 0x0
 int id screen 0x0
 int id scrollIndicatorDown 0x0
@@ -1128,6 +1132,7 @@ int layout abc_search_view 0x0
 int layout abc_select_dialog_material 0x0
 int layout abc_tooltip 0x0
 int layout custom_dialog 0x0
+int layout layout_base_dialog 0x0
 int layout layout_loading_dialog 0x0
 int layout notification_action 0x0
 int layout notification_action_tombstone 0x0
@@ -1538,6 +1543,7 @@ int style Widget_AppCompat_Toolbar_Button_Navigation 0x0
 int style Widget_Compat_NotificationActionContainer 0x0
 int style Widget_Compat_NotificationActionText 0x0
 int style Widget_Support_CoordinatorLayout 0x0
+int style dialogButtonTextStyle 0x0
 int[] styleable ActionBar { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
 int styleable ActionBar_background 0
 int styleable ActionBar_backgroundSplit 1

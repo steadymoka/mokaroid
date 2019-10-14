@@ -15,14 +15,18 @@ import java.lang.String;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import land.moka.dialog.databinding.LayoutBaseDialogBindingImpl;
 import land.moka.dialog.databinding.LayoutLoadingDialogBindingImpl;
 
 public class DataBinderMapperImpl extends DataBinderMapper {
-  private static final int LAYOUT_LAYOUTLOADINGDIALOG = 1;
+  private static final int LAYOUT_LAYOUTBASEDIALOG = 1;
 
-  private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(1);
+  private static final int LAYOUT_LAYOUTLOADINGDIALOG = 2;
+
+  private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(2);
 
   static {
+    INTERNAL_LAYOUT_ID_LOOKUP.put(land.moka.dialog.R.layout.layout_base_dialog, LAYOUT_LAYOUTBASEDIALOG);
     INTERNAL_LAYOUT_ID_LOOKUP.put(land.moka.dialog.R.layout.layout_loading_dialog, LAYOUT_LAYOUTLOADINGDIALOG);
   }
 
@@ -35,6 +39,12 @@ public class DataBinderMapperImpl extends DataBinderMapper {
         throw new RuntimeException("view must have a tag");
       }
       switch(localizedLayoutId) {
+        case  LAYOUT_LAYOUTBASEDIALOG: {
+          if ("layout/layout_base_dialog_0".equals(tag)) {
+            return new LayoutBaseDialogBindingImpl(component, view);
+          }
+          throw new IllegalArgumentException("The tag for layout_base_dialog is invalid. Received: " + tag);
+        }
         case  LAYOUT_LAYOUTLOADINGDIALOG: {
           if ("layout/layout_loading_dialog_0".equals(tag)) {
             return new LayoutLoadingDialogBindingImpl(component, view);
@@ -94,9 +104,10 @@ public class DataBinderMapperImpl extends DataBinderMapper {
   }
 
   private static class InnerLayoutIdLookup {
-    static final HashMap<String, Integer> sKeys = new HashMap<String, Integer>(1);
+    static final HashMap<String, Integer> sKeys = new HashMap<String, Integer>(2);
 
     static {
+      sKeys.put("layout/layout_base_dialog_0", land.moka.dialog.R.layout.layout_base_dialog);
       sKeys.put("layout/layout_loading_dialog_0", land.moka.dialog.R.layout.layout_loading_dialog);
     }
   }
