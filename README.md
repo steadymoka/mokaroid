@@ -1,10 +1,10 @@
 # moka Android standard :) 
 
-- [app/](/app)
+- [app/](app/)
 - res/
 - dialog/
 
-## app/
+## app (Architecture)
 
 - This is the boilerplate code to develope Android
 
