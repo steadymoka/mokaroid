@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<EditText
+		android:id="@+id/editText_text"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginTop="12dp"
+		android:layout_marginRight="16dp"
+		android:layout_marginBottom="12dp"
+		android:background="@color/white_01"
+		android:elevation="3px"
+		android:hint="입력해주세요"
+		android:paddingLeft="16dp"
+		android:paddingTop="10dp"
+		android:paddingRight="16dp"
+		android:paddingBottom="10dp"
+		android:textColorHint="@color/black_09"
+		android:textSize="13dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/textView_dream"
+		android:layout_width="0dp"
+		android:layout_height="52dp"
+		android:layout_weight="1"
+		android:background="?attr/selectableItemBackground"
+		android:clickable="true"
+		android:gravity="center_vertical"
+		android:paddingLeft="24dp"
+		android:paddingRight="24dp"
+		android:text="목표 수정하기"
+		android:textColor="#FF808080"
+		android:textSize="13dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/editText_text" />
+
+	<View
+		android:id="@+id/view_divider01"
+		style="@style/HorizontalDivider"
+		android:layout_width="0dp"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+		android:alpha="0.8"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textView_dream" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
