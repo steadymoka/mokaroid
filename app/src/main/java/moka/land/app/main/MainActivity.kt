@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import io.haruharu.webview.WebViewActivity
 import land.moka.dialog.LoadingDialog
 import moka.land.R
 
@@ -25,6 +26,10 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.textView02).setOnClickListener {
             LoadingDialog().show(supportFragmentManager)
+        }
+
+        findViewById<TextView>(R.id.textView03).setOnClickListener {
+            WebViewActivity.goWebView(this, "https://naver.com", "HARU HARU")
         }
     }
 

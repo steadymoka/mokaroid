@@ -1,0 +1,45 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+	package
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:3:2-31
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:1:1-14:12
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:2:2-60
+application
+ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:5:2-11:16
+activity#io.haruharu.webview.WebViewActivity
+ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:7:3-9:47
+	android:theme
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:9:4-44
+	android:name
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml:8:4-35
+uses-sdk
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		ADDED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml
+		INJECTED from /Users/moka/Develope/android/MokaAStd/webview/src/main/AndroidManifest.xml

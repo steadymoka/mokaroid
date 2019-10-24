@@ -1,0 +1,15 @@
+R_DEF: Internal format may change without notice
+local
+id frameLayout_refresh
+id frameLayout_webViewContainer
+id imageView_back
+id imageView_refresh
+id linearLayout_toolbar
+id progressBar_loading
+id progressBar_progress
+id textView_webviewTitle
+id view_shadow
+id web_frame
+id web_view_market_tv
+layout layout_web_view
+style Theme.TransStatus
