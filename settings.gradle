@@ -1,6 +1,6 @@
 rootProject.name='MokaAStd'
 
 include ':app'
-include ':res'
+include ':base'
 include ':dialog'
 include ':webview'

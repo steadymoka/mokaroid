@@ -1,4 +1,4 @@
-package land.moka.res
+package land.moka.base
 
 import android.text.Editable
 import android.text.TextWatcher
