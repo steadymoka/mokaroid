@@ -5,13 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import land.moka.dialog.databinding.LayoutBaseDialogBinding
+import kotlinx.android.synthetic.main.layout_base_dialog.*
 
 abstract class BaseDialog : AppCompatDialogFragment() {
-
-    private lateinit var rootBinding: LayoutBaseDialogBinding
 
     var onClickPositive: (() -> Unit)? = null
     var onClickNegative: (() -> Unit)? = null
@@ -23,16 +20,15 @@ abstract class BaseDialog : AppCompatDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return DataBindingUtil.inflate<LayoutBaseDialogBinding>(inflater, R.layout.layout_base_dialog, container, false)
-            .apply {
-                rootBinding = this
-                lifecycleOwner = this@BaseDialog
+        return inflater.inflate(R.layout.layout_base_dialog, container, false)
+    }
 
-                _init()
-                _bindView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _init()
+        _bindView()
 
-                init()
-            }.root
+        init()
     }
 
     override fun onResume() {
@@ -46,24 +42,24 @@ abstract class BaseDialog : AppCompatDialogFragment() {
             }
         }
         else {
-            rootBinding.root.minWidth = (300 * resources.displayMetrics.density).toInt() // 200dp
+            root.minWidth = (300 * resources.displayMetrics.density).toInt() // 200dp
         }
     }
 
     private fun _init() {
-        rootBinding.content.addView(getContentView())
-        rootBinding.buttonPositive.visibility = if (isPositive()) View.VISIBLE else View.GONE
-        rootBinding.buttonNegative.visibility = if (isNegativeText()) View.VISIBLE else View.GONE
-        rootBinding.buttonNeutral.visibility = if (isNeutralText()) View.VISIBLE else View.GONE
-        rootBinding.buttonPositive.text = getPositiveText()
-        rootBinding.buttonNegative.text = getNegativeText()
-        rootBinding.buttonNeutral.text = getNeutralText()
+        content.addView(getContentView())
+        buttonPositive.visibility = if (isPositive()) View.VISIBLE else View.GONE
+        buttonNegative.visibility = if (isNegativeText()) View.VISIBLE else View.GONE
+        buttonNeutral.visibility = if (isNeutralText()) View.VISIBLE else View.GONE
+        buttonPositive.text = getPositiveText()
+        buttonNegative.text = getNegativeText()
+        buttonNeutral.text = getNeutralText()
     }
 
     private fun _bindView() {
-        rootBinding.buttonPositive.setOnClickListener { onClickPositive?.invoke(); dismiss() }
-        rootBinding.buttonNegative.setOnClickListener { onClickNegative?.invoke(); dismiss() }
-        rootBinding.buttonNeutral.setOnClickListener { onClickNeutral?.invoke(); dismiss() }
+        buttonPositive.setOnClickListener { onClickPositive?.invoke(); dismiss() }
+        buttonNegative.setOnClickListener { onClickNegative?.invoke(); dismiss() }
+        buttonNeutral.setOnClickListener { onClickNeutral?.invoke(); dismiss() }
     }
 
     open fun getPositiveText(): CharSequence = "확인"

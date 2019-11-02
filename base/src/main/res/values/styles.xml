@@ -27,10 +27,10 @@
 	<style name="dialogButtonTextStyle">
 		<item name="android:textColor">@color/black_04</item>
 		<item name="android:layout_width">wrap_content</item>
-		<item name="android:minWidth">62dp</item>
+		<item name="android:minWidth">64dp</item>
 		<item name="android:layout_height">38dp</item>
-		<item name="android:paddingLeft">10dp</item>
-		<item name="android:paddingRight">10dp</item>
+		<item name="android:paddingLeft">14dp</item>
+		<item name="android:paddingRight">14dp</item>
 		<item name="android:layout_marginRight">8dp</item>
 		<item name="android:textSize">12dp</item>
 		<item name="android:textStyle">bold</item>
