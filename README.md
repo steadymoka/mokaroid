@@ -1,13 +1,16 @@
 # moka Android standard :) 
 
-- [app/](app/)
-- res/
-- dialog/
+- [app/](app/) : Android Architecture
+- [base/](base/) : resource / extention functions
+- [dialog/](dialog/)
+- [webview/](webview/)
 
 ## app (Architecture)
 
 - This is the boilerplate code to develope Android
 
-## res
+## base
 
 ## dialog
+
+## webview
