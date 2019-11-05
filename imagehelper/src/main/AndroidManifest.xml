@@ -1,0 +1,13 @@
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="io.haruharu.imagehelper">
+
+	<application>
+
+		<activity
+			android:name=".viewer.ImageViewerLayout"
+			android:theme="@style/Theme.TransStatus" />
+
+	</application>
+
+</manifest>

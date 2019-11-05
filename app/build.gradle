@@ -42,6 +42,7 @@ dependencies {
     implementation project(':base')
     implementation project(":dialog")
     implementation project(":webview")
+    implementation project(":imagehelper")
 
     /* Android X */
     implementation "androidx.appcompat:appcompat:1.1.0"

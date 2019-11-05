@@ -1,0 +1,10 @@
+R_DEF: Internal format may change without notice
+local
+id footer
+id header
+id photoView
+id root
+id viewPager
+layout layout_image_viewer
+layout layout_viewer_item
+style Theme.TransStatus
