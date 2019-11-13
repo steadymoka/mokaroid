@@ -52,4 +52,10 @@ class ImageViewerLayout : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        ImageViewer.addHeader = null
+        ImageViewer.addFooter = null
+        super.onDestroy()
+    }
+
 }
