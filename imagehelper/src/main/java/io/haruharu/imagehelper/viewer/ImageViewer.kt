@@ -8,10 +8,10 @@ import android.widget.FrameLayout
 class ImageViewer {
 
     companion object {
-        var finish: (() -> Unit)? = null
-        var addHeader: ((parent: FrameLayout) -> Unit)? = null
-        var addFooter: ((parent: FrameLayout) -> Unit)? = null
-        var onPageSelected: ((position: Int) -> Unit)? = null
+        internal var finish: (() -> Unit)? = null
+        internal var addHeader: ((parent: FrameLayout) -> Unit)? = null
+        internal var addFooter: ((parent: FrameLayout) -> Unit)? = null
+        internal var onPageSelected: ((position: Int) -> Unit)? = null
     }
 
     init {
@@ -47,6 +47,10 @@ class ImageViewer {
 
     fun finish() {
         finish?.invoke()
+    }
+
+    fun addOnPageSelected(onPageSelected: ((position: Int) -> Unit)) {
+        ImageViewer.onPageSelected = onPageSelected
     }
 
 }

@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<TextView>(R.id.textView01).setOnClickListener {
+
         }
 
         findViewById<TextView>(R.id.textView02).setOnClickListener {
