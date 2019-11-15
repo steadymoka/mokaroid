@@ -2,41 +2,24 @@ package io.haruharu.imagehelper.viewer
 
 import android.content.Context
 import android.content.Intent
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
-import io.haruharu.imagehelper.R
 
-class OverlayView(context: Context, resId: Int) : FrameLayout(context) {
+class ImageViewer {
 
-    val root: View = LayoutInflater.from(context).inflate(resId, null, false)
+    companion object {
+        var finish: (() -> Unit)? = null
+        var addHeader: ((parent: FrameLayout) -> Unit)? = null
+        var addFooter: ((parent: FrameLayout) -> Unit)? = null
+        var onPageSelected: ((position: Int) -> Unit)? = null
+    }
 
     init {
-        addView(root)
+        finish = null
+        addHeader = null
+        addFooter = null
+        onPageSelected = null
     }
-
-    fun getView(viewId: Int): View? {
-        return root.findViewById(viewId)
-    }
-
-    fun getTextView(viewId: Int): TextView? {
-        return root.findViewById(viewId) as? TextView
-    }
-
-    fun getImageView(viewId: Int): ImageView? {
-        return root.findViewById(viewId) as? ImageView
-    }
-
-}
-
-object ImageViewer {
-
-    var finish: (() -> Unit)? = null
-    var addHeader: ((parent: FrameLayout) -> Unit)? = null
-    var addFooter: ((parent: FrameLayout) -> Unit)? = null
-    var onPageSelected: ((position: Int) -> Unit)? = null
 
     /*- -*/
 
