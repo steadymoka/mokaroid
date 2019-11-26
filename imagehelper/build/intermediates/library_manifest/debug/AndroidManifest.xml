@@ -8,9 +8,14 @@
         android:minSdkVersion="21"
         android:targetSdkVersion="29" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application>
         <activity
             android:name="io.haruharu.imagehelper.viewer.ImageViewerLayout"
+            android:theme="@style/Theme.TransStatus" />
+        <activity
+            android:name="io.haruharu.imagehelper.picker.layout.ImagePickerLayout"
             android:theme="@style/Theme.TransStatus" />
     </application>
 

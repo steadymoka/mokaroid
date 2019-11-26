@@ -960,6 +960,7 @@ id icon
 id icon_group
 id ignore
 id image
+id imageViewClose
 id info
 id invisible
 id italic
@@ -1062,6 +1063,7 @@ id unchecked
 id uniform
 id up
 id viewPager
+id viewToolbar
 id visible
 id wrap
 id wrap_content
@@ -1106,6 +1108,7 @@ layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
 layout custom_dialog
+layout layout_image_picker
 layout layout_image_viewer
 layout layout_viewer_item
 layout notification_action

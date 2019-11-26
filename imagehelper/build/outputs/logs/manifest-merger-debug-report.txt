@@ -1,34 +1,44 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
-INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
+ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
+INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
 	package
 		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:3:2-35
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
-		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
-		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-13:12
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:1:1-19:12
 		INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:2:2-60
-application
-ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:2-11:16
-activity#io.haruharu.imagehelper.viewer.ImageViewerLayout
-ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:7:3-9:47
-	android:theme
-		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:9:4-44
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:2-78
 	android:name
-		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:8:4-44
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:19-75
+application
+ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:7:2-17:16
+activity#io.haruharu.imagehelper.viewer.ImageViewerLayout
+ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:9:3-11:47
+	android:theme
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:11:4-44
+	android:name
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:10:4-44
+activity#io.haruharu.imagehelper.picker.layout.ImagePickerLayout
+ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:13:3-15:47
+	android:theme
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:15:4-44
+	android:name
+		ADDED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:14:4-51
 uses-sdk
 INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml

@@ -10,14 +10,24 @@
 9        android:targetSdkVersion="29" />
 9-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml
 10
-11    <application>
-11-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:2-11:16
-12        <activity
-12-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:7:3-9:47
-13            android:name="io.haruharu.imagehelper.viewer.ImageViewerLayout"
-13-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:8:4-44
-14            android:theme="@style/Theme.TransStatus" />
-14-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:9:4-44
-15    </application>
-16
-17</manifest>
+11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+11-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:2-78
+11-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:5:19-75
+12
+13    <application>
+13-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:7:2-17:16
+14        <activity
+14-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:9:3-11:47
+15            android:name="io.haruharu.imagehelper.viewer.ImageViewerLayout"
+15-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:10:4-44
+16            android:theme="@style/Theme.TransStatus" />
+16-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:11:4-44
+17        <activity
+17-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:13:3-15:47
+18            android:name="io.haruharu.imagehelper.picker.layout.ImagePickerLayout"
+18-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:14:4-51
+19            android:theme="@style/Theme.TransStatus" />
+19-->/Users/moka/Develope/android/MokaAStd/imagehelper/src/main/AndroidManifest.xml:15:4-44
+20    </application>
+21
+22</manifest>

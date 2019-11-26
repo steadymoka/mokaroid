@@ -1,8 +1,7 @@
 package land.moka.base
 
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -115,31 +114,22 @@ fun View.visibleOrGone(isVisible: Boolean) {
         this.gone()
 }
 
-// -
+fun View.leftMargin(dp: Int) {
+    (this.layoutParams as? ViewGroup.MarginLayoutParams)?.leftMargin = dp
+}
+
+fun View.rightMargin(dp: Int) {
+    (this.layoutParams as? ViewGroup.MarginLayoutParams)?.rightMargin = dp
+}
+
+fun View.topMargin(dp: Int) {
+    (this.layoutParams as? ViewGroup.MarginLayoutParams)?.topMargin = dp
+}
+
+fun View.bottomMargin(dp: Int) {
+    (this.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin = dp
+}
 
 fun EditText.toCursorLast() {
     this.setSelection(this.text.length)
-}
-
-fun EditText.countValid(cnt: Int, callback: (() -> Unit)? = null) {
-    this.addTextChangedListener(object : TextWatcher {
-
-        override fun afterTextChanged(s: Editable?) {
-        }
-
-        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        }
-
-        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            val text = this@countValid.text.toString()
-            val textCount = text.length
-
-            if (cnt < textCount) {
-                this@countValid.setText(text.substring(0, cnt))
-                this@countValid.setSelection(cnt)
-                if (null != callback) callback()
-            }
-        }
-
-    })
 }

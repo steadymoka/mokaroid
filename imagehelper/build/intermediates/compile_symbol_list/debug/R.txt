@@ -959,6 +959,7 @@ int id icon 0x0
 int id icon_group 0x0
 int id ignore 0x0
 int id image 0x0
+int id imageViewClose 0x0
 int id info 0x0
 int id invisible 0x0
 int id italic 0x0
@@ -1061,6 +1062,7 @@ int id unchecked 0x0
 int id uniform 0x0
 int id up 0x0
 int id viewPager 0x0
+int id viewToolbar 0x0
 int id visible 0x0
 int id wrap 0x0
 int id wrap_content 0x0
@@ -1105,6 +1107,7 @@ int layout abc_search_view 0x0
 int layout abc_select_dialog_material 0x0
 int layout abc_tooltip 0x0
 int layout custom_dialog 0x0
+int layout layout_image_picker 0x0
 int layout layout_image_viewer 0x0
 int layout layout_viewer_item 0x0
 int layout notification_action 0x0

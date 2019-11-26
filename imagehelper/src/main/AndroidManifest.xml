@@ -2,10 +2,16 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="io.haruharu.imagehelper">
 
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 	<application>
 
 		<activity
 			android:name=".viewer.ImageViewerLayout"
+			android:theme="@style/Theme.TransStatus" />
+
+		<activity
+			android:name=".picker.layout.ImagePickerLayout"
 			android:theme="@style/Theme.TransStatus" />
 
 	</application>
