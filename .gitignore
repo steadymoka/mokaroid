@@ -9,10 +9,14 @@
 /.idea/assetWizardSettings.xml
 /.idea
 .DS_Store
-/build
 /captures
 .externalNativeBuild
 .cxx
 
-app/build
-*/build/
+/build
+/app/build
+/base/build/
+/imagehelper/build/
+/webview/build/
+/permissionmanager/build/
+/dialog/build/
