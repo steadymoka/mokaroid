@@ -3,6 +3,7 @@ package io.haruharu.imagehelper.picker.layout
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import io.haruharu.imagehelper.R
 import io.haruharu.imagehelper.databinding.LayoutImagePickerBinding
@@ -13,6 +14,7 @@ import land.moka.base.topMargin
 internal class ImagePickerLayout : AppCompatActivity() {
 
     private lateinit var binding: LayoutImagePickerBinding
+    private val viewModel by lazy { ImagePickerViewModel() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +23,8 @@ internal class ImagePickerLayout : AppCompatActivity() {
 
         initViews()
         bindEvents()
+
+        val builder = intent.getSerializableExtra(KEY_BUILDER_EXTRA)
     }
 
     private fun initViews() {
@@ -29,6 +33,8 @@ internal class ImagePickerLayout : AppCompatActivity() {
 
     private fun bindEvents() {
         binding.imageViewClose.setOnClickListener { finish() }
+        binding.textViewDirectory.setOnClickListener { }
+        binding.textViewDone.setOnClickListener { }
     }
 
     /* */

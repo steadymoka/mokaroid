@@ -20,11 +20,67 @@
 		android:background="?attr/selectableItemBackgroundBorderless"
 		android:clickable="true"
 		android:focusable="true"
-		android:padding="18dp"
-		android:tint="@color/black_06"
+		android:padding="20dp"
+		android:tint="@color/black_04"
 		app:layout_constraintBottom_toBottomOf="@+id/viewToolbar"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toTopOf="@+id/viewToolbar"
 		app:srcCompat="@drawable/mk_vc_left_arrow" />
+
+	<TextView
+		android:id="@+id/textViewDirectory"
+		android:layout_width="wrap_content"
+		android:layout_height="0dp"
+		android:gravity="center"
+		android:paddingLeft="12dp"
+		android:paddingRight="28dp"
+		android:text="전체사진"
+		android:textColor="@color/black_04"
+		android:textSize="13dp"
+		android:textStyle="bold"
+		app:layout_constraintBottom_toBottomOf="@+id/viewToolbar"
+		app:layout_constraintLeft_toRightOf="@+id/imageViewClose"
+		app:layout_constraintTop_toTopOf="@+id/viewToolbar" />
+
+	<androidx.appcompat.widget.AppCompatImageView
+		android:id="@+id/imageViewDownArrow"
+		android:layout_width="24dp"
+		android:layout_height="24dp"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:clickable="true"
+		android:focusable="true"
+		android:padding="6dp"
+		android:tint="@color/black_04"
+		app:layout_constraintBottom_toBottomOf="@+id/textViewDirectory"
+		app:layout_constraintRight_toRightOf="@+id/textViewDirectory"
+		app:layout_constraintTop_toTopOf="@+id/textViewDirectory"
+		app:srcCompat="@drawable/mk_vc_down_arrow" />
+
+	<TextView
+		android:id="@+id/textViewDone"
+		android:layout_width="?attr/actionBarSize"
+		android:layout_height="0dp"
+		android:layout_marginRight="8dp"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:gravity="center"
+		android:text="완료"
+		android:textSize="13dp"
+		android:textStyle="bold"
+		app:layout_constraintBottom_toBottomOf="@+id/viewToolbar"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="@+id/viewToolbar" />
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewAlbum"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:background="@color/white_01"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintHeight_max="wrap"
+		app:layout_constraintHeight_percent="0.66"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/viewToolbar"
+		app:layout_constraintVertical_bias="0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
