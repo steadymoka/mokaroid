@@ -193,6 +193,11 @@ int attr editTextStyle 0x0
 int attr elevation 0x0
 int attr emptyVisibility 0x0
 int attr expandActivityOverflowButtonDrawable 0x0
+int attr fastScrollEnabled 0x0
+int attr fastScrollHorizontalThumbDrawable 0x0
+int attr fastScrollHorizontalTrackDrawable 0x0
+int attr fastScrollVerticalThumbDrawable 0x0
+int attr fastScrollVerticalTrackDrawable 0x0
 int attr firstBaselineToTopHeight 0x0
 int attr flow_firstHorizontalBias 0x0
 int attr flow_firstHorizontalStyle 0x0
@@ -247,6 +252,7 @@ int attr keylines 0x0
 int attr lastBaselineToBottomHeight 0x0
 int attr layout 0x0
 int attr layoutDescription 0x0
+int attr layoutManager 0x0
 int attr layout_anchor 0x0
 int attr layout_anchorGravity 0x0
 int attr layout_behavior 0x0
@@ -389,10 +395,12 @@ int attr radioButtonStyle 0x0
 int attr ratingBarStyle 0x0
 int attr ratingBarStyleIndicator 0x0
 int attr ratingBarStyleSmall 0x0
+int attr recyclerViewStyle 0x0
 int attr region_heightLessThan 0x0
 int attr region_heightMoreThan 0x0
 int attr region_widthLessThan 0x0
 int attr region_widthMoreThan 0x0
+int attr reverseLayout 0x0
 int attr round 0x0
 int attr roundPercent 0x0
 int attr saturation 0x0
@@ -409,11 +417,13 @@ int attr showText 0x0
 int attr showTitle 0x0
 int attr singleChoiceItemLayout 0x0
 int attr sizePercent 0x0
+int attr spanCount 0x0
 int attr spinBars 0x0
 int attr spinnerDropDownItemStyle 0x0
 int attr spinnerStyle 0x0
 int attr splitTrack 0x0
 int attr srcCompat 0x0
+int attr stackFromEnd 0x0
 int attr staggered 0x0
 int attr state_above_anchor 0x0
 int attr statusBarBackground 0x0
@@ -693,6 +703,9 @@ int dimen compat_notification_large_icon_max_height 0x0
 int dimen compat_notification_large_icon_max_width 0x0
 int dimen disabled_alpha_material_dark 0x0
 int dimen disabled_alpha_material_light 0x0
+int dimen fastscroll_default_thickness 0x0
+int dimen fastscroll_margin 0x0
+int dimen fastscroll_minimum_range 0x0
 int dimen highlight_alpha_material_colored 0x0
 int dimen highlight_alpha_material_dark 0x0
 int dimen highlight_alpha_material_light 0x0
@@ -700,6 +713,9 @@ int dimen hint_alpha_material_dark 0x0
 int dimen hint_alpha_material_light 0x0
 int dimen hint_pressed_alpha_material_dark 0x0
 int dimen hint_pressed_alpha_material_light 0x0
+int dimen item_touch_helper_max_drag_scroll_per_frame 0x0
+int dimen item_touch_helper_swipe_escape_max_velocity 0x0
+int dimen item_touch_helper_swipe_escape_velocity 0x0
 int dimen notification_action_icon_size 0x0
 int dimen notification_action_text_size 0x0
 int dimen notification_big_circle_margin 0x0
@@ -950,6 +966,7 @@ int id imageView_refresh 0x0
 int id info 0x0
 int id invisible 0x0
 int id italic 0x0
+int id item_touch_helper_previous_elevation 0x0
 int id jumpToEnd 0x0
 int id jumpToStart 0x0
 int id layout 0x0
@@ -2412,6 +2429,19 @@ int styleable PropertySet_visibilityMode 4
 int[] styleable RecycleListView { 0x0, 0x0 }
 int styleable RecycleListView_paddingBottomNoButtons 0
 int styleable RecycleListView_paddingTopNoTitle 1
+int[] styleable RecyclerView { 0x10100eb, 0x10100f1, 0x10100c4, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
+int styleable RecyclerView_android_clipToPadding 0
+int styleable RecyclerView_android_descendantFocusability 1
+int styleable RecyclerView_android_orientation 2
+int styleable RecyclerView_fastScrollEnabled 3
+int styleable RecyclerView_fastScrollHorizontalThumbDrawable 4
+int styleable RecyclerView_fastScrollHorizontalTrackDrawable 5
+int styleable RecyclerView_fastScrollVerticalThumbDrawable 6
+int styleable RecyclerView_fastScrollVerticalTrackDrawable 7
+int styleable RecyclerView_layoutManager 8
+int styleable RecyclerView_reverseLayout 9
+int styleable RecyclerView_spanCount 10
+int styleable RecyclerView_stackFromEnd 11
 int[] styleable SearchView { 0x10100da, 0x1010264, 0x1010220, 0x101011f, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 }
 int styleable SearchView_android_focusable 0
 int styleable SearchView_android_imeOptions 1

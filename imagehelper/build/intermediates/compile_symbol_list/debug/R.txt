@@ -831,6 +831,7 @@ int drawable btn_radio_off_mtrl 0x0
 int drawable btn_radio_off_to_on_mtrl_animation 0x0
 int drawable btn_radio_on_mtrl 0x0
 int drawable btn_radio_on_to_off_mtrl_animation 0x0
+int drawable mk_vc_down_arrow 0x0
 int drawable mk_vc_left_arrow 0x0
 int drawable notification_action_background 0x0
 int drawable notification_bg 0x0
@@ -960,6 +961,7 @@ int id icon_group 0x0
 int id ignore 0x0
 int id image 0x0
 int id imageViewClose 0x0
+int id imageViewDownArrow 0x0
 int id info 0x0
 int id invisible 0x0
 int id italic 0x0
@@ -1051,6 +1053,8 @@ int id text 0x0
 int id text2 0x0
 int id textSpacerNoButtons 0x0
 int id textSpacerNoTitle 0x0
+int id textViewDirectory 0x0
+int id textViewDone 0x0
 int id time 0x0
 int id title 0x0
 int id titleDividerNoCustom 0x0

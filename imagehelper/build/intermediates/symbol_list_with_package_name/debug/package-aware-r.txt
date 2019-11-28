@@ -832,6 +832,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable mk_vc_down_arrow
 drawable mk_vc_left_arrow
 drawable notification_action_background
 drawable notification_bg
@@ -961,6 +962,7 @@ id icon_group
 id ignore
 id image
 id imageViewClose
+id imageViewDownArrow
 id info
 id invisible
 id italic
@@ -1052,6 +1054,8 @@ id text
 id text2
 id textSpacerNoButtons
 id textSpacerNoTitle
+id textViewDirectory
+id textViewDone
 id time
 id title
 id titleDividerNoCustom
