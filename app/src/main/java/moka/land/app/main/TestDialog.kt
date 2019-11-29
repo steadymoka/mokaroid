@@ -3,7 +3,7 @@ package moka.land.app.main
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import land.moka.dialog.BaseDialog
+import moka.moka.dialog.BaseDialog
 import moka.land.R
 import moka.land.databinding.DialogTestBinding
 

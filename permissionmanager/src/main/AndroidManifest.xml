@@ -1,2 +1,13 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-	package="io.haruharu.permissionmanager" />
+<manifest
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="moka.land.permissionmanager">
+
+	<application>
+
+		<activity
+			android:name=".PermissionLayout"
+			android:theme="@style/Theme.Moka.NoActionBar.Transparent" />
+
+	</application>
+
+</manifest>

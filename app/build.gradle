@@ -43,6 +43,7 @@ dependencies {
     implementation project(":dialog")
     implementation project(":webview")
     implementation project(":imagehelper")
+    implementation project(":permissionmanager")
 
     /* Android X */
     implementation "androidx.appcompat:appcompat:1.1.0"

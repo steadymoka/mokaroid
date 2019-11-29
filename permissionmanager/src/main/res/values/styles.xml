@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- Activity Transparent -->
+	<style name="Theme.Moka.NoActionBar.Transparent" parent="Theme.AppCompat.Light.NoActionBar">
+		<item name="android:windowTranslucentStatus">true</item>
+
+		<!-- 투명정도를 나타내는 색-->
+		<item name="android:windowIsTranslucent">true</item>
+		<item name="android:windowBackground">@color/permissionTransparent</item>
+		<item name="android:colorBackgroundCacheHint">@null</item>
+		<item name="android:windowAnimationStyle">@android:style/Animation</item>
+		<!--
+		true - 반투명 검정 /  false - 완전 투명
+		-->
+		<item name="android:backgroundDimEnabled">false</item>
+	</style>
+
+</resources>
