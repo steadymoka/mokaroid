@@ -1,4 +1,4 @@
-package moka.moka.dialog
+package moka.land.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.layout_base_dialog.*
+import moka.moka.dialog.R
 
 abstract class _BaseDialog : AppCompatDialogFragment() {
 

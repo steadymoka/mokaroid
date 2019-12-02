@@ -13,7 +13,7 @@ import moka.land.base.log
 import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.permissionmanager.PermissionManager
 import moka.land.webview.WebViewActivity
-import moka.moka.dialog.LoadingDialog
+import moka.land.dialog.LoadingDialog
 
 class MainActivity : AppCompatActivity() {
 

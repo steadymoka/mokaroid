@@ -1,4 +1,4 @@
-package moka.moka.dialog
+package moka.land.dialog
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
+import moka.moka.dialog.R
 
 class LoadingDialog : AppCompatDialogFragment() {
 
