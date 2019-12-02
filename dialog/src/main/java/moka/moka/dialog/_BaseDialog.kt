@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.layout_base_dialog.*
 
-abstract class BaseDialog : AppCompatDialogFragment() {
+abstract class _BaseDialog : AppCompatDialogFragment() {
 
     var onClickPositive: (() -> Unit)? = null
     var onClickNegative: (() -> Unit)? = null
@@ -48,12 +48,17 @@ abstract class BaseDialog : AppCompatDialogFragment() {
 
     private fun _init() {
         content.addView(getContentView())
-        buttonPositive.visibility = if (isPositive()) View.VISIBLE else View.GONE
-        buttonNegative.visibility = if (isNegativeText()) View.VISIBLE else View.GONE
-        buttonNeutral.visibility = if (isNeutralText()) View.VISIBLE else View.GONE
+        buttonPositive.visibility = if (getPositiveText().isEmpty()) View.VISIBLE else View.GONE
+        buttonNegative.visibility = if (getNegativeText().isEmpty()) View.VISIBLE else View.GONE
+        buttonNeutral.visibility = if (getNeutralText().isEmpty()) View.VISIBLE else View.GONE
         buttonPositive.text = getPositiveText()
         buttonNegative.text = getNegativeText()
         buttonNeutral.text = getNeutralText()
+
+        if (getCancelable() == false) {
+            this.isCancelable = false
+            this.dialog?.setCanceledOnTouchOutside(false)
+        }
     }
 
     private fun _bindView() {
@@ -62,19 +67,15 @@ abstract class BaseDialog : AppCompatDialogFragment() {
         buttonNeutral.setOnClickListener { onClickNeutral?.invoke(); dismiss() }
     }
 
-    open fun getPositiveText(): CharSequence = "확인"
+    open fun getPositiveText(): CharSequence = ""
 
-    open fun getNegativeText(): CharSequence = "취소"
+    open fun getNegativeText(): CharSequence = ""
 
-    open fun getNeutralText(): CharSequence = "삭제"
-
-    open fun isPositive(): Boolean = true
-
-    open fun isNegativeText(): Boolean = true
-
-    open fun isNeutralText(): Boolean = true
+    open fun getNeutralText(): CharSequence = ""
 
     open fun getWidthRatio(): Float? = null
+
+    open fun getCancelable(): Boolean? = null
 
     // -
 

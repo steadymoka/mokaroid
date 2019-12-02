@@ -3,11 +3,11 @@ package moka.land.app.main
 import android.view.LayoutInflater
 import android.view.View
 import androidx.databinding.DataBindingUtil
-import moka.moka.dialog.BaseDialog
+import moka.moka.dialog._BaseDialog
 import moka.land.R
 import moka.land.databinding.DialogTestBinding
 
-class TestDialog : BaseDialog() {
+class TestDialog : _BaseDialog() {
 
     var onClickOk: ((test: String) -> Unit)? = null
 

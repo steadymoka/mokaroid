@@ -28,9 +28,9 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     inner class Option {
         var fbAudienceKey: String? = null
         var admobKey: String? = null
-        var isMedia: Boolean = true
+        var media: Boolean = true
         var period: Period = Period.ADMOB_FACEBOOK
-        var nativeLayoutResId: Int = R.layout.view_moka_ad_native
+        var nativeLayoutResId: Int = R.layout.mk_view_moka_ad_native
     }
 
     inner class Runner {
@@ -42,6 +42,9 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
 
     private lateinit var option: Option
     private var callback: ((isSuccess: Boolean) -> Unit)? = null
+
+    private var audienceNativeAd: NativeAd? = null
+    private var admobNativeAdView: UnifiedNativeAdView? = null
 
     fun setOption(block: Option.() -> Unit): Runner {
         val option = Option()
@@ -73,6 +76,8 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     fun onDestroy() {
+        admobNativeAdView?.destroy()
+        audienceNativeAd?.destroy()
     }
 
     fun showError() {
@@ -85,19 +90,19 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             return
         }
         View.inflate(context, option.nativeLayoutResId, this)
-        findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.isMedia)
+        findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
 
-        val nativeAd = NativeAd(context, option.fbAudienceKey)
-        nativeAd.setAdListener(object : NativeAdListener {
+        audienceNativeAd = NativeAd(context, option.fbAudienceKey)
+        audienceNativeAd!!.setAdListener(object : NativeAdListener {
             override fun onMediaDownloaded(p0: Ad?) {
             }
 
             override fun onAdLoaded(ad: Ad) {
-                if (ad != nativeAd) {
+                if (ad != audienceNativeAd) {
                     return
                 }
 
-                inflateNativeAdViews(nativeAd)
+                inflateNativeAdViews(audienceNativeAd!!)
                 callback?.invoke(true)
             }
 
@@ -112,11 +117,11 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             override fun onLoggingImpression(p0: Ad?) {
             }
         })
-        nativeAd.loadAd(NativeAdBase.MediaCacheFlag.ALL)
+        audienceNativeAd!!.loadAd(NativeAdBase.MediaCacheFlag.ALL)
     }
 
     private fun inflateNativeAdViews(facebookNativeAd: NativeAd) {
-        findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.isMedia)
+        findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
 
         // layout setting
         val relativeLayout_container = findViewById<ConstraintLayout>(R.id.constraintLayout_ad).apply {
@@ -126,7 +131,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
 
         val mediaFrame = findViewById<FrameLayout>(R.id.frameLayout_media)
         val mediaView = com.facebook.ads.MediaView(context)
-        if (option.isMedia) {
+        if (option.media) {
             mediaFrame.addView(mediaView)
         }
 
@@ -166,15 +171,15 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             return
         }
 
-        val nativeAdView = UnifiedNativeAdView(context)
-        nativeAdView.addView(View.inflate(context, option.nativeLayoutResId, null))
-        nativeAdView.findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.isMedia)
-        addView(nativeAdView)
+        admobNativeAdView = UnifiedNativeAdView(context)
+        admobNativeAdView!!.addView(View.inflate(context, option.nativeLayoutResId, null))
+        admobNativeAdView!!.findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
+        addView(admobNativeAdView)
 
         AdLoader
             .Builder(context, option.admobKey)
             .forUnifiedNativeAd { unifiedNativeAd ->
-                populateUnifiedNativeAdView(unifiedNativeAd, nativeAdView)
+                populateUnifiedNativeAdView(unifiedNativeAd, admobNativeAdView!!)
             }
             .withNativeAdOptions(
                 NativeAdOptions.Builder()
@@ -236,7 +241,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         sponsorTextView.text = "Sponsored by ${adItem.advertiser}"
         nativeAdView.advertiserView = sponsorTextView
 
-        if (option.isMedia) {
+        if (option.media) {
             val mediaFrame = nativeAdView.findViewById<FrameLayout>(R.id.frameLayout_media)
             val mediaView = MediaView(context).apply {
                 setMediaContent(adItem.mediaContent)
