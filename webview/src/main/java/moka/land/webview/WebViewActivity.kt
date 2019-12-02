@@ -21,6 +21,7 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.updateLayoutParams
 import kotlinx.android.synthetic.main.layout_web_view.*
+import moka.land.base.statusBarSize
 
 
 class WebViewActivity : AppCompatActivity() {
@@ -208,15 +209,6 @@ class WebViewActivity : AppCompatActivity() {
             intent.putExtra(KEY_TITLE, title)
             activity.startActivity(intent)
         }
-    }
-
-    private val statusBarSize: Int by lazy {
-        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
-
-        if (resourceId > 0)
-            resources.getDimensionPixelSize(resourceId)
-        else
-            19
     }
 
 }

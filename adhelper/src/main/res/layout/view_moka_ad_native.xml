@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<androidx.constraintlayout.widget.ConstraintLayout
+		android:id="@+id/constraintLayout_ad"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:paddingBottom="8dp"
+		android:visibility="invisible"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<FrameLayout
+			android:id="@+id/frameLayout_media"
+			android:layout_width="match_parent"
+			android:layout_height="160dp"
+			android:visibility="visible"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="parent">
+
+		</FrameLayout>
+
+		<androidx.cardview.widget.CardView
+			android:id="@+id/cardView_adIcon"
+			android:layout_width="50dp"
+			android:layout_height="50dp"
+			android:layout_marginLeft="8dp"
+			app:cardCornerRadius="2dp"
+			app:cardElevation="0dp"
+			app:layout_constraintBottom_toBottomOf="@+id/constraintLayout_texts"
+			app:layout_constraintLeft_toLeftOf="parent"
+			app:layout_constraintTop_toTopOf="@+id/constraintLayout_texts">
+
+			<ImageView
+				android:id="@+id/imageView_adIcon"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent" />
+
+		</androidx.cardview.widget.CardView>
+
+		<androidx.constraintlayout.widget.ConstraintLayout
+			android:id="@+id/constraintLayout_texts"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="12dp"
+			android:layout_marginTop="6dp"
+			android:layout_marginRight="8dp"
+			app:layout_constraintLeft_toRightOf="@+id/cardView_adIcon"
+			app:layout_constraintRight_toLeftOf="@+id/textView_callToAction"
+			app:layout_constraintTop_toBottomOf="@+id/frameLayout_media">
+
+			<FrameLayout
+				android:id="@+id/frameLayout_adChoice"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:minHeight="15dp"
+				android:paddingRight="5dp"
+				app:layout_constraintBottom_toTopOf="@+id/textView_title"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintTop_toTopOf="parent">
+
+				<ImageView
+					android:id="@+id/imageView_adChoice"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:minHeight="15dp"
+					app:layout_constraintBottom_toTopOf="@+id/textView_title"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+			</FrameLayout>
+
+			<TextView
+				android:id="@+id/textView_sponsored"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingBottom="1dp"
+				android:text="Sponsored"
+				android:textColor="@color/black_08"
+				android:textSize="9dp"
+				app:layout_constraintBottom_toBottomOf="@+id/frameLayout_adChoice"
+				app:layout_constraintLeft_toRightOf="@+id/frameLayout_adChoice"
+				app:layout_constraintTop_toTopOf="@+id/frameLayout_adChoice" />
+
+			<TextView
+				android:id="@+id/textView_title"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textColor="@color/black_03"
+				android:textSize="13dp"
+				android:textStyle="bold"
+				app:layout_constraintBottom_toTopOf="@+id/textView_socialContext"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/frameLayout_adChoice"
+				app:layout_constraintVertical_chainStyle="packed" />
+
+			<TextView
+				android:id="@+id/textView_socialContext"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:ellipsize="end"
+				android:singleLine="true"
+				android:textColor="@color/black_03"
+				android:textSize="10dp"
+				app:layout_constraintBottom_toTopOf="@+id/textView_body"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/textView_title"
+				app:layout_constraintVertical_chainStyle="packed" />
+
+			<TextView
+				android:id="@+id/textView_body"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="2dp"
+				android:ellipsize="end"
+				android:lines="1"
+				android:textColor="@color/black_03"
+				android:textSize="8dp"
+				android:visibility="gone"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintLeft_toLeftOf="parent"
+				app:layout_constraintTop_toBottomOf="@+id/textView_socialContext"
+				app:layout_constraintVertical_chainStyle="packed" />
+
+		</androidx.constraintlayout.widget.ConstraintLayout>
+
+		<TextView
+			android:id="@+id/textView_callToAction"
+			android:layout_width="58dp"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:layout_marginRight="12dp"
+			android:background="@drawable/mk_rc_ac_ac_ro2"
+			android:gravity="center"
+			android:paddingTop="8dp"
+			android:paddingBottom="8dp"
+			android:text="설치"
+			android:textColor="@color/white_01"
+			android:textSize="10dp"
+			app:layout_constraintBottom_toBottomOf="@+id/constraintLayout_texts"
+			app:layout_constraintRight_toRightOf="parent"
+			app:layout_constraintTop_toTopOf="@+id/constraintLayout_texts" />
+
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+	<FrameLayout
+		android:id="@+id/frameLayout_loading"
+		android:layout_width="20dp"
+		android:layout_height="20dp"
+		android:alpha="0.6"
+		android:translationZ="1dp"
+		android:visibility="visible"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<ProgressBar
+			android:layout_width="match_parent"
+			android:layout_height="30dp"
+			android:layout_gravity="center"
+			android:visibility="visible" />
+
+	</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
