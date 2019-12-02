@@ -124,19 +124,9 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     private fun inflateNativeAdViews(facebookNativeAd: NativeAd) {
-        findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
-
         // layout setting
-        val relativeLayout_container = findViewById<ConstraintLayout>(R.id.constraintLayout_ad).apply {
-            visible()
-        }
-        findViewById<FrameLayout>(R.id.frameLayout_loading).gone()
-
-        val mediaFrame = findViewById<FrameLayout>(R.id.frameLayout_media)
-        val mediaView = com.facebook.ads.MediaView(context)
-        if (option.media) {
-            mediaFrame.addView(mediaView)
-        }
+        val relativeLayoutContainer = findViewById<ConstraintLayout>(R.id.constraintLayout_ad)
+        relativeLayoutContainer.visible()
 
         // Add the AdChoices icon
         findViewById<FrameLayout>(R.id.frameLayout_adChoice).apply {
@@ -147,10 +137,15 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             })
         }
 
-        // Setting the Text.
+        // Ad thumbnail Icon
+        findViewById<CardView>(R.id.cardView_adIcon).apply {
+            updateLayoutParams { translationY = dip(-4).toFloat() }
+        }
+
+        // Setting the Text
         findViewById<TextView>(R.id.textView_sponsored).apply {
             text = "Sponsored by ${facebookNativeAd.advertiserName}"
-            updateLayoutParams { translationX = dip(-15).toFloat() }
+            updateLayoutParams { translationX = dip(-16).toFloat() }
         }
         val textView_title = findViewById<TextView>(R.id.textView_title).apply {
             text = facebookNativeAd.adSocialContext
@@ -164,6 +159,15 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             text = facebookNativeAd.adCallToAction
         }
 
+        // media view
+        val mediaView = com.facebook.ads.MediaView(context)
+        if (option.media) {
+            val mediaFrame = findViewById<FrameLayout>(R.id.frameLayout_media)
+            mediaFrame.updateLayoutParams<ConstraintLayout.LayoutParams> { height = dip(160) }
+            mediaFrame.visible()
+            mediaFrame.addView(mediaView)
+        }
+
         // Register the Title and CTA button to listen for clicks.
         val clickableViews: ArrayList<View> = ArrayList()
         clickableViews.add(mediaView)
@@ -171,7 +175,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         clickableViews.add(textView_callToAction)
 
         facebookNativeAd.registerViewForInteraction(
-            relativeLayout_container,
+            relativeLayoutContainer,
             mediaView,
             findViewById<ImageView>(R.id.imageView_adIcon),
             clickableViews)
@@ -217,9 +221,15 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     private fun populateUnifiedNativeAdView(adItem: UnifiedNativeAd, nativeAdView: UnifiedNativeAdView) {
-        nativeAdView.findViewById<FrameLayout>(R.id.frameLayout_loading).gone()
         nativeAdView.findViewById<ConstraintLayout>(R.id.constraintLayout_ad).visible()
 
+        // Add the AdChoices icon
+        if (null != adItem.adChoicesInfo) {
+            val adChoiceImageView = nativeAdView.findViewById<ImageView>(R.id.imageView_adChoice)
+            adChoiceImageView.setImageDrawable(adItem.adChoicesInfo.images[0].drawable)
+        }
+
+        // Ad thumbnail Icon
         if (null != adItem.icon) {
             val iconView = nativeAdView.findViewById<ImageView>(R.id.imageView_adIcon)
             iconView.setImageDrawable(adItem.icon.drawable)
@@ -229,6 +239,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             nativeAdView.findViewById<CardView>(R.id.cardView_adIcon).gone()
         }
 
+        // Setting the Text
         val headlineView = nativeAdView.findViewById<TextView>(R.id.textView_title)
         headlineView.text = adItem.headline
         nativeAdView.headlineView = headlineView
@@ -237,26 +248,25 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         bodyView.text = adItem.body
         nativeAdView.bodyView = bodyView
 
-        val callToAction = nativeAdView.findViewById<TextView>(R.id.textView_callToAction)
-        callToAction.text = adItem.callToAction
-        nativeAdView.callToActionView = callToAction
-
-        if (null != adItem.adChoicesInfo) {
-            val adChoiceImageView = nativeAdView.findViewById<ImageView>(R.id.imageView_adChoice)
-            adChoiceImageView.setImageDrawable(adItem.adChoicesInfo.images[0].drawable)
-        }
-
         val sponsorTextView = nativeAdView.findViewById<TextView>(R.id.textView_sponsored)
         sponsorTextView.text = "Sponsored by ${adItem.advertiser}"
         nativeAdView.advertiserView = sponsorTextView
 
+        val callToAction = nativeAdView.findViewById<TextView>(R.id.textView_callToAction)
+        callToAction.text = adItem.callToAction
+        nativeAdView.callToActionView = callToAction
+
+        // media
         if (option.media) {
-            val mediaFrame = nativeAdView.findViewById<FrameLayout>(R.id.frameLayout_media)
             val mediaView = MediaView(context).apply {
                 setMediaContent(adItem.mediaContent)
                 setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 nativeAdView.mediaView = this
             }
+
+            val mediaFrame = nativeAdView.findViewById<FrameLayout>(R.id.frameLayout_media)
+            mediaFrame.updateLayoutParams<ConstraintLayout.LayoutParams> { height = dip(160) }
+            mediaFrame.visible()
             mediaFrame.addView(mediaView)
         }
 

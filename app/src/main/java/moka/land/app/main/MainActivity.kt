@@ -28,8 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         nativeAd
             .setOption {
-                media = false
-                period = Period.ADMOB_FACEBOOK
+                media = true
+                period = Period.FACEBOOK_ADMOB
                 admobKey = "ca-app-pub-3940256099942544/2247696110"
                 fbAudienceKey = "YOUR_PLACEMENT_ID"
             }
