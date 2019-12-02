@@ -17,7 +17,7 @@ import moka.land.base.log
  */
 
 @SuppressLint("StaticFieldLeak")
-class MokaRewardedAd private constructor() {
+class RewardedAdHelper private constructor() {
 
     companion object {
 

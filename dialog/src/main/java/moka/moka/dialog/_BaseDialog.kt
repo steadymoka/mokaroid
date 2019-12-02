@@ -48,9 +48,9 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
 
     private fun _init() {
         content.addView(getContentView())
-        buttonPositive.visibility = if (getPositiveText().isEmpty()) View.VISIBLE else View.GONE
-        buttonNegative.visibility = if (getNegativeText().isEmpty()) View.VISIBLE else View.GONE
-        buttonNeutral.visibility = if (getNeutralText().isEmpty()) View.VISIBLE else View.GONE
+        buttonPositive.visibility = if (getPositiveText().isNotEmpty()) View.VISIBLE else View.GONE
+        buttonNegative.visibility = if (getNegativeText().isNotEmpty()) View.VISIBLE else View.GONE
+        buttonNeutral.visibility = if (getNeutralText().isNotEmpty()) View.VISIBLE else View.GONE
         buttonPositive.text = getPositiveText()
         buttonNegative.text = getNegativeText()
         buttonNeutral.text = getNeutralText()

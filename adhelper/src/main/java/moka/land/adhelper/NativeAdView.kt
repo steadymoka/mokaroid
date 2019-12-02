@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import com.facebook.ads.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -85,7 +86,9 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     private fun loadFBAudienceNativeAd(fail: () -> Unit) {
+        log("=== Audience's native ad is loading")
         if (option.fbAudienceKey.isNullOrEmpty()) {
+            log("=== Audience's native ad key is empty")
             fail()
             return
         }
@@ -107,7 +110,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             }
 
             override fun onError(ad: Ad?, error: AdError?) {
-                log("facebook error : ${error?.errorCode} / ${error?.errorMessage}")
+                log("=== Audience's ad failed to load / ${error?.errorCode} / ${error?.errorMessage}")
                 fail()
             }
 
@@ -137,17 +140,26 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
 
         // Add the AdChoices icon
         findViewById<FrameLayout>(R.id.frameLayout_adChoice).apply {
-            addView(AdOptionsView(context, facebookNativeAd, null).apply {})
+            addView(AdOptionsView(context, facebookNativeAd, null).apply {
+                scaleX = 0.7f
+                scaleY = 0.7f
+                translationX = dip(-9).toFloat()
+            })
         }
 
         // Setting the Text.
         findViewById<TextView>(R.id.textView_sponsored).apply {
             text = "Sponsored by ${facebookNativeAd.advertiserName}"
+            updateLayoutParams { translationX = dip(-15).toFloat() }
         }
         val textView_title = findViewById<TextView>(R.id.textView_title).apply {
             text = facebookNativeAd.adSocialContext
+            updateLayoutParams { translationY = dip(-4).toFloat() }
         }
-        findViewById<TextView>(R.id.textView_socialContext).text = facebookNativeAd.adBodyText
+        findViewById<TextView>(R.id.textView_socialContext).apply {
+            text = facebookNativeAd.adBodyText
+            updateLayoutParams { translationY = dip(-4).toFloat() }
+        }
         val textView_callToAction = findViewById<TextView>(R.id.textView_callToAction).apply {
             text = facebookNativeAd.adCallToAction
         }
@@ -166,7 +178,9 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     private fun loadAdmobNativeAd(fail: () -> Unit) {
+        log("=== Admob's native ad is loading")
         if (option.admobKey.isNullOrEmpty()) {
+            log("=== Admob's key is empty")
             fail()
             return
         }
@@ -188,15 +202,10 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             )
             .withAdListener(object : AdListener() {
 
-                override fun onAdFailedToLoad(p0: Int) {
-                    super.onAdFailedToLoad(p0)
-                    log("onAdFailedToLoad is called")
+                override fun onAdFailedToLoad(fail: Int) {
+                    super.onAdFailedToLoad(fail)
+                    log("=== Admob's ad failed to load / ${fail}")
                     fail()
-                }
-
-                override fun onAdLoaded() {
-                    super.onAdLoaded()
-                    log("onAdLoaded is called")
                 }
             })
             .build()

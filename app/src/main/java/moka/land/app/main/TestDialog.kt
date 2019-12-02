@@ -25,8 +25,4 @@ class TestDialog : _BaseDialog() {
 
     override fun getPositiveText(): CharSequence = "프리미엄 구매"
 
-    override fun isNeutralText(): Boolean = false
-
-    override fun isNegativeText(): Boolean = false
-
 }

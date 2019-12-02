@@ -10,7 +10,7 @@ import moka.land.base.BuildConfig.DEBUG
 import moka.land.base.log
 
 
-class MokaInterstitialAd private constructor(
+class InterstitialAdHelper private constructor(
     var context: Context
 ) {
 
@@ -96,8 +96,8 @@ class MokaInterstitialAd private constructor(
     }
 
     companion object {
-        fun with(context: Context): MokaInterstitialAd {
-            return MokaInterstitialAd(context)
+        fun with(context: Context): InterstitialAdHelper {
+            return InterstitialAdHelper(context)
         }
     }
 
