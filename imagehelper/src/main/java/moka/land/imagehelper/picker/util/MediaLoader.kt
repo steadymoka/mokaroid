@@ -51,7 +51,6 @@ object MediaLoader {
             Log.wtf("aaaa", "uri: ${uri}, projection: ${projection}, selection: ${selection}, sortOrder: $order")
 
             val albumList = mediaList
-                .asSequence()
                 .groupBy { it.album }
                 .toSortedMap(Comparator { albumName1: String, albumName2: String ->
                     Log.wtf("MediaLoader", "albumName1: ${albumName1}, albumName2: ${albumName2}")
@@ -62,7 +61,11 @@ object MediaLoader {
 
             cursor.close()
             return@withContext albumList.toMutableList().apply {
-                add(0, Album("전체", Media(Uri.EMPTY, "전체", 0).uri, mediaList))
+                add(index = 0,
+                    element = Album(
+                        name = "전체",
+                        thumbnailUri = Media(Uri.EMPTY, "전체", 0).uri,
+                        mediaUris = mediaList))
             }
         }
     }
