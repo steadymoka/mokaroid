@@ -139,7 +139,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
 
         // Ad thumbnail Icon
         findViewById<CardView>(R.id.cardView_adIcon).apply {
-            updateLayoutParams { translationY = dip(4).toFloat() }
+            updateLayoutParams { translationY = dip(2).toFloat() }
         }
 
         // Setting the Text

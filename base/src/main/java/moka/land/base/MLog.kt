@@ -1,7 +1,6 @@
 package moka.land.base
 
 import android.util.Log
-import moka.land.base.BuildConfig.DEBUG
 
 fun logE(a: String, message: String) {
     if (DEBUG)
