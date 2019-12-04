@@ -3,7 +3,8 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="@color/white_01">
 
 	<View
 		android:id="@+id/viewToolbar"
@@ -47,8 +48,6 @@
 		android:layout_width="24dp"
 		android:layout_height="24dp"
 		android:background="?attr/selectableItemBackgroundBorderless"
-		android:clickable="true"
-		android:focusable="true"
 		android:padding="6dp"
 		android:tint="@color/black_04"
 		app:layout_constraintBottom_toBottomOf="@+id/textViewDirectory"
@@ -71,16 +70,47 @@
 		app:layout_constraintTop_toTopOf="@+id/viewToolbar" />
 
 	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewMedia"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/viewToolbar"
+		app:spanCount="3" />
+
+	<View
+		android:id="@+id/viewDim"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		android:alpha="0.77"
+		android:background="@color/black_01"
+		android:visibility="gone"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/viewToolbar" />
+
+	<androidx.recyclerview.widget.RecyclerView
 		android:id="@+id/recyclerViewAlbum"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
 		android:background="@color/white_01"
+		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintHeight_max="wrap"
-		app:layout_constraintHeight_percent="0.66"
+		app:layout_constraintHeight_percent="0"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toBottomOf="@+id/viewToolbar"
 		app:layout_constraintVertical_bias="0" />
+
+	<View
+		style="@style/Shadow"
+		android:alpha="0.5"
+		app:layout_constraintLeft_toLeftOf="@+id/recyclerViewAlbum"
+		app:layout_constraintRight_toRightOf="@+id/recyclerViewAlbum"
+		app:layout_constraintTop_toBottomOf="@+id/recyclerViewAlbum" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

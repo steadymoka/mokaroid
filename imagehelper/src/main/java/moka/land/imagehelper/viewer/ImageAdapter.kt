@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import moka.land.imagehelper.R
-import kotlinx.android.synthetic.main.layout_viewer_item.view.*
+import kotlinx.android.synthetic.main.mk_layout_viewer_item.view.*
 
 class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
 
@@ -21,7 +21,7 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
     override fun getItemCount(): Int = items.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseItemView {
-        return BaseItemView(LayoutInflater.from(parent.context).inflate(R.layout.layout_viewer_item, parent, false))
+        return BaseItemView(LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_viewer_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: BaseItemView, position: Int) {

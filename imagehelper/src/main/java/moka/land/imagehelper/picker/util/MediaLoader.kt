@@ -5,7 +5,6 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import moka.land.imagehelper.picker.conf.MediaType
 import moka.land.imagehelper.picker.model.Album
 import moka.land.imagehelper.picker.model.Media
@@ -15,9 +14,9 @@ import java.io.File
 
 object MediaLoader {
 
-    private const val INDEX_MEDIA_URI = MediaStore.MediaColumns.DATA
-    private const val INDEX_DATE_ADDED = MediaStore.MediaColumns.DATE_ADDED
-    private const val INDEX_BUCKET_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+    private const val INDEX_MEDIA_ID = MediaStore.MediaColumns._ID
+    private const val INDEX_DATE_ADDED_SECOND = MediaStore.MediaColumns.DATE_ADDED
+    private const val INDEX_ALBUM_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
 
     @SuppressLint("Recycle")
     internal suspend fun get(context: Context, mediaType: MediaType): List<Album> {
@@ -33,29 +32,27 @@ object MediaLoader {
                     Uri.EMPTY
                 }
             }
-            val projection = arrayOf(INDEX_MEDIA_URI, INDEX_BUCKET_NAME, INDEX_DATE_ADDED)
+            val projection = arrayOf(INDEX_MEDIA_ID, INDEX_ALBUM_NAME, INDEX_DATE_ADDED_SECOND)
             val selection = MediaStore.Images.Media.SIZE + " > 0"
-            val order = "$INDEX_DATE_ADDED DESC"
+            val order = "$INDEX_DATE_ADDED_SECOND DESC"
 
             val cursor = context.contentResolver.query(uri, projection, selection, null, order)
                 ?: return@withContext emptyList()
-
-            Log.wtf("aaaa", "cursor: ${cursor.count}")
 
             val mediaList = generateSequence { if (cursor.moveToNext()) cursor else null }
                 .map { getImage(it) }
                 .filterNotNull()
                 .toList()
 
-            Log.wtf("aaaa", "mediaList: ${mediaList}")
-            Log.wtf("aaaa", "uri: ${uri}, projection: ${projection}, selection: ${selection}, sortOrder: $order")
+//                .toSortedMap(Comparator { albumName1: String, albumName2: String ->
+//                    if (albumName2 == "Camera")
+//                        1
+//                    else
+//                        albumName1.compareTo(albumName2, true)
+//                })
 
             val albumList = mediaList
                 .groupBy { it.album }
-                .toSortedMap(Comparator { albumName1: String, albumName2: String ->
-                    Log.wtf("MediaLoader", "albumName1: ${albumName1}, albumName2: ${albumName2}")
-                    if (albumName2 == "Camera") 1 else albumName1.compareTo(albumName2, true)
-                })
                 .map { getAlbum(it) }
                 .toList()
 
@@ -63,8 +60,8 @@ object MediaLoader {
             return@withContext albumList.toMutableList().apply {
                 add(index = 0,
                     element = Album(
-                        name = "전체",
-                        thumbnailUri = Media(Uri.EMPTY, "전체", 0).uri,
+                        name = "전체사진",
+                        thumbnailUri = Media(Uri.EMPTY, "전체사진", 0).uri,
                         mediaUris = mediaList))
             }
         }
@@ -74,20 +71,14 @@ object MediaLoader {
         return Album(data.key, data.value[0].uri, data.value)
     }
 
-    private fun getImage(cursor: Cursor): Media? {
-        return try {
-            cursor.run {
-                val folderName = getString(getColumnIndex(INDEX_BUCKET_NAME))
-                val mediaPath = getString(getColumnIndex(INDEX_MEDIA_URI))
-                val datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED))
-                val mediaUri: Uri = Uri.fromFile(File(mediaPath))
-                Media(mediaUri, folderName, datedAddedSecond)
-            }
-        }
-        catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
+    private fun getImage(cursor: Cursor): Media? = cursor.run {
+        val indexId = getColumnIndex(INDEX_MEDIA_ID)
+        val mediaId = getLong(indexId)
+        return Media(
+            uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
+            album = getString(getColumnIndex(INDEX_ALBUM_NAME)),
+            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND))
+        )
     }
 
 }

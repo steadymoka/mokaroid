@@ -1,20 +1,24 @@
 package moka.land.imagehelper.picker.builder
 
+import android.Manifest
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.layout.ImagePickerLayout
+import moka.land.permissionmanager.PermissionManager
 import java.lang.ref.WeakReference
 
 class ImagePicker private constructor(
-    var context: WeakReference<Context>,
-    var builder: ImagePickerBuilder) {
+    private var context: WeakReference<Context>,
+    private var builder: ImagePickerBuilder) {
 
-    /*
-
-    show functions */
+    fun setOption(option: ImagePickerBuilder.() -> Unit): ImagePicker {
+        this.builder.option()
+        return this
+    }
 
     fun showSingle(onSingleSelected: ((uri: Uri) -> Unit)) {
         if (null == context.get()) {
@@ -22,9 +26,7 @@ class ImagePicker private constructor(
         }
         this.builder.selectType = SelectType.SINGLE
         this.builder.onSingleSelected = onSingleSelected
-
-        val intent = ImagePickerLayout.getIntent(context.get()!!, this.builder)
-        context.get()!!.startActivity(intent)
+        show()
     }
 
     fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit)) {
@@ -33,14 +35,36 @@ class ImagePicker private constructor(
         }
         this.builder.selectType = SelectType.MULTI
         this.builder.onMultiSelected = onMultiSelected
-
-        val intent = ImagePickerLayout.getIntent(context.get()!!, this.builder)
-        context.get()!!.startActivity(intent)
+        show()
     }
 
-    /*
+    private fun show() {
+        checkPermission { isGranted ->
+            if (isGranted) {
+                val intent = ImagePickerLayout.getIntent(context.get()!!, this@ImagePicker.builder)
+                context.get()!!.startActivity(intent)
+            }
+            else {
+                Toast.makeText(context.get(), "권한을 확인해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-    get instance functions */
+    private fun checkPermission(callback: (isGranted: Boolean) -> Unit) {
+        if (null == context.get()) {
+            return
+        }
+        PermissionManager
+            .with(context.get()!!)
+            .setPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .check { isGranted, _ ->
+                callback(isGranted)
+            }
+    }
+
+    /**
+     * get instance functions
+     */
 
     companion object {
         fun with(activity: FragmentActivity): ImagePicker {

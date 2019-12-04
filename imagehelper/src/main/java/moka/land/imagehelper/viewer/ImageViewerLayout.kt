@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import moka.land.imagehelper.R
-import kotlinx.android.synthetic.main.layout_image_viewer.*
+import kotlinx.android.synthetic.main.mk_layout_image_viewer.*
 import moka.land.base.goneFadeOut
 import moka.land.base.visibleFadeIn
 
@@ -20,7 +20,7 @@ class ImageViewerLayout : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.layout_image_viewer)
+        setContentView(R.layout.mk_layout_image_viewer)
 
         ImageViewer.finish = { finish() }
         ImageViewer.addHeader?.invoke(header)

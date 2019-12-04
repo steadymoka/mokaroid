@@ -13,6 +13,14 @@ abstract class _RecyclerItemView<DATA : Any>(parent: ViewGroup, resId: Int)
     var preData: DATA? = null
     var afterData: DATA? = null
 
-    abstract fun refreshView(data: DATA)
+    open fun refreshView() {
+
+    }
+
+    open fun onRecycled() {
+    }
+
+    open fun onClickItem() {
+    }
 
 }

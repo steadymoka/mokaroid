@@ -1,20 +1,44 @@
 package moka.land.base.adapter
 
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
 
-abstract class _BaseAdapter<DATA : Any, in VIEW : _RecyclerItemView<DATA>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class _BaseAdapter<DATA : Any, VIEW : _RecyclerItemView<DATA>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    var items: List<DATA> = ArrayList()
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
+    var onClickItem: ((DATA) -> Unit)? = null
+
+    var items = mutableListOf<DATA>()
+        private set
+
+    fun setItems(items: List<DATA>) {
+        this.items.clear()
+        this.items.addAll(items)
+        this.notifyDataSetChanged()
+    }
+
+    fun replaceItems(items: List<DATA>) {
+        val diffCallback = _DiffUtilCallback(this.items, items)
+        val result = DiffUtil.calculateDiff(diffCallback)
+
+        this.items.clear()
+        this.items.addAll(items)
+
+        result.dispatchUpdatesTo(this)
+    }
 
     override fun getItemCount(): Int = items.size
 
-    abstract override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+    abstract fun getViewToCreateViewHolder(parent: ViewGroup, viewType: Int): VIEW
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return getViewToCreateViewHolder(parent, viewType).apply {
+            itemView.setOnClickListener {
+                onClickItem()
+                onClickItem?.invoke(items[adapterPosition])
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val itemView = holder as VIEW
@@ -35,7 +59,12 @@ abstract class _BaseAdapter<DATA : Any, in VIEW : _RecyclerItemView<DATA>> : Rec
         val data = items[position]
         itemView.index = position
         itemView.data = data
-        itemView.refreshView(data)
+        itemView.refreshView()
     }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        val itemView = holder as VIEW
+        itemView.onRecycled()
+        super.onViewRecycled(holder)
+    }
 }
