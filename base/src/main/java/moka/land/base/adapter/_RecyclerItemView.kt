@@ -14,7 +14,6 @@ abstract class _RecyclerItemView<DATA : Any>(parent: ViewGroup, resId: Int)
     var afterData: DATA? = null
 
     open fun refreshView() {
-
     }
 
     open fun onRecycled() {

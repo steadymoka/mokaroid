@@ -3,29 +3,43 @@ package moka.land.imagehelper.picker.layout.adapter
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import moka.land.base.adapter._BaseAdapter
+import moka.land.base.adapter._HeaderFooterAdapter
 import moka.land.base.adapter._RecyclerItemView
-import moka.land.base.dip
+import moka.land.base.gone
+import moka.land.base.visible
 import moka.land.imagehelper.R
 import moka.land.imagehelper.databinding.MkLayoutMediaItemBinding
+import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.model.Media
 
-class MediaAdapter : _BaseAdapter<MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
+class MediaAdapter : _HeaderFooterAdapter<Any, MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
 
+    inner class Option {
+        var selectType: SelectType = SelectType.SINGLE
+        var camera: Boolean = true
+    }
+
+    /**
+     */
+
+    private lateinit var option: Option
     internal val selectedDataList = mutableListOf<Data>()
 
-    override fun getItemViewType(position: Int) = items[position].type.ordinal
+    fun setOption(set: Option.() -> Unit) {
+        this.option = Option()
+        this.option.set()
 
-    override fun getViewToCreateViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
-        return when (Type.get(viewType)) {
-            Type.HEADER -> {
-                HeaderView(parent)
-            }
-            Type.ITEM -> {
-                ItemView(parent)
-            }
+        if (option.camera) {
+            headerItems.add(Any())
         }
+    }
+
+    override fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+        return HeaderView(parent)
+    }
+
+    override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+        return ItemView(parent)
     }
 
     /**
@@ -36,30 +50,76 @@ class MediaAdapter : _BaseAdapter<MediaAdapter.Data, _RecyclerItemView<MediaAdap
 
     inner class ItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_item) {
 
-        private val binding = MkLayoutMediaItemBinding.bind(itemView)
+        private val _view = MkLayoutMediaItemBinding.bind(itemView)
 
         override fun refreshView() {
             Glide.with(itemView)
                 .load(data.media.uri)
                 .thumbnail(0.66f)
-                .transform(CenterCrop(), RoundedCorners(dip(1)))
-                .into(binding.imageViewThumbnail)
+                .transform(CenterCrop())
+                .into(_view.imageViewThumbnail)
+
+            if (selectedDataList.contains(data)) {
+                _view.viewClicked.visible()
+                _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_red_red)
+
+                when (option.selectType) {
+                    SelectType.SINGLE -> {
+                        _view.textViewCheck.text = ""
+                        _view.imageViewCheck.visible()
+                    }
+                    SelectType.MULTI -> {
+                        _view.textViewCheck.text = "${selectedDataList.indexOf(data) + 1}"
+                        _view.imageViewCheck.gone()
+                    }
+                }
+            }
+            else {
+                _view.imageViewCheck.gone()
+                _view.viewClicked.gone()
+                _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_white_tr)
+                _view.textViewCheck.text = ""
+            }
         }
 
         override fun onRecycled() {
-            Glide.with(itemView).clear(binding.imageViewThumbnail)
+            Glide.with(itemView).clear(_view.imageViewThumbnail)
+        }
+
+        override fun onClickItem() {
+            when (option.selectType) {
+                SelectType.SINGLE -> {
+                    if (selectedDataList.isNotEmpty()) {
+                        notifyContentItemChanged(items.indexOf(selectedDataList[0]))
+                    }
+
+                    if (selectedDataList.getOrNull(0) == data) {
+                        selectedDataList.clear()
+                        notifyContentItemChanged(items.indexOf(data))
+                    }
+                    else {
+                        selectedDataList.clear()
+                        selectedDataList.add(data)
+                        notifyContentItemChanged(items.indexOf(data))
+                    }
+                }
+                SelectType.MULTI -> {
+                    if (selectedDataList.contains(data)) {
+                        selectedDataList.remove(data)
+                        notifyContentItemChanged(items.indexOf(data))
+                    }
+                    else {
+                        selectedDataList.add(data)
+                    }
+                    selectedDataList.forEach {
+                        notifyContentItemChanged(items.indexOf(it))
+                    }
+                }
+            }
         }
 
     }
 
-    enum class Type {
-        HEADER, ITEM;
-
-        companion object {
-            fun get(ordinal: Int) = values().filter { it.ordinal == ordinal }[0]
-        }
-    }
-
-    data class Data(var type: Type = Type.ITEM, var media: Media)
+    data class Data(var media: Media)
 
 }

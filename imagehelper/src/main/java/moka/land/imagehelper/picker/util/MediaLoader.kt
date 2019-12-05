@@ -19,7 +19,7 @@ object MediaLoader {
     private const val INDEX_ALBUM_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
 
     @SuppressLint("Recycle")
-    internal suspend fun get(context: Context, mediaType: MediaType): List<Album> {
+    internal suspend fun load(context: Context, mediaType: MediaType): List<Album> {
         return withContext<List<Album>>(Dispatchers.IO) {
             val uri = when (mediaType) {
                 MediaType.IMAGE_ONLY -> {
@@ -43,13 +43,6 @@ object MediaLoader {
                 .map { getImage(it) }
                 .filterNotNull()
                 .toList()
-
-//                .toSortedMap(Comparator { albumName1: String, albumName2: String ->
-//                    if (albumName2 == "Camera")
-//                        1
-//                    else
-//                        albumName1.compareTo(albumName2, true)
-//                })
 
             val albumList = mediaList
                 .groupBy { it.album }

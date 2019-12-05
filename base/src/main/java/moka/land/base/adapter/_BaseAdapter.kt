@@ -23,19 +23,18 @@ abstract class _BaseAdapter<DATA : Any, VIEW : _RecyclerItemView<DATA>> : Recycl
 
         this.items.clear()
         this.items.addAll(items)
-
         result.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount(): Int = items.size
 
-    abstract fun getViewToCreateViewHolder(parent: ViewGroup, viewType: Int): VIEW
+    abstract fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): VIEW
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return getViewToCreateViewHolder(parent, viewType).apply {
+        return getViewToCreateItemViewHolder(parent, viewType).apply {
             itemView.setOnClickListener {
                 onClickItem()
-                onClickItem?.invoke(items[adapterPosition])
+                onClickItem?.invoke(data)
             }
         }
     }

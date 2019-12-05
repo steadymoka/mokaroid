@@ -12,6 +12,7 @@ import moka.land.adhelper.Period
 import moka.land.base.log
 import moka.land.dialog.LoadingDialog
 import moka.land.imagehelper.picker.builder.ImagePicker
+import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.webview.WebViewActivity
 
 class MainActivity : AppCompatActivity() {
@@ -27,9 +28,7 @@ class MainActivity : AppCompatActivity() {
                 admobKey = "ca-app-pub-3940256099942544/2247696110"
                 fbAudienceKey = "YOUR_PLACEMENT_ID"
             }
-            .showNative {
-                log("result: ${it}")
-            }
+            .showNative {}
 
         findViewById<BannerAdView>(R.id.bannerView)
             .setOption {
@@ -37,12 +36,15 @@ class MainActivity : AppCompatActivity() {
                 admobKey = "ca-app-pub-3940256099942544/6300978111"
                 fbAudienceKey = "YOUR_PLACEMENT_ID"
             }
-            .show { log("banner result: ${it}") }
+            .show {}
 
         findViewById<TextView>(R.id.textView01).setOnClickListener {
             ImagePicker
                 .with(this)
-                .showMulti {
+                .setOption {
+                    this.camera = true
+                }
+                .showSingle {
                     Log.wtf("moka", "it: $it")
                 }
         }

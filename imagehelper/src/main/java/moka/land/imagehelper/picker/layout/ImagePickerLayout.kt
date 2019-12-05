@@ -1,28 +1,33 @@
 package moka.land.imagehelper.picker.layout
 
 import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
 import moka.land.base.*
 import moka.land.base.adapter.GridSpacingItemDecoration
 import moka.land.imagehelper.databinding.MkLayoutImagePickerBinding
 import moka.land.imagehelper.picker.builder.ImagePickerBuilder
+import moka.land.imagehelper.picker.conf.MediaType
+import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.layout.adapter.AlbumAdapter
 import moka.land.imagehelper.picker.layout.adapter.MediaAdapter
+import moka.land.imagehelper.picker.util.CameraUtil
 
 internal class ImagePickerLayout : AppCompatActivity() {
 
-    private lateinit var binding: MkLayoutImagePickerBinding
+    private lateinit var _view: MkLayoutImagePickerBinding
     private lateinit var builder: ImagePickerBuilder
 
     private val viewModel by lazy { ImagePickerViewModel() }
@@ -31,50 +36,101 @@ internal class ImagePickerLayout : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = MkLayoutImagePickerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        _view = MkLayoutImagePickerBinding.inflate(layoutInflater)
+        builder = intent.getSerializableExtra(KEY_BUILDER_EXTRA) as ImagePickerBuilder
+        setContentView(_view.root)
 
         initViews()
         bindEvents()
         bindViewModel()
-
-        builder = intent.getSerializableExtra(KEY_BUILDER_EXTRA) as ImagePickerBuilder
 
         lifecycleScope.launch {
             viewModel.loadAlbumList(this@ImagePickerLayout)
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+
+        val imageBitmap = data?.extras?.get("data") as Bitmap
+        CameraUtil.saveBitmap(this, imageBitmap) {
+            lifecycleScope.launch {
+                viewModel.loadAlbumList(this@ImagePickerLayout)
+                viewModel.mediaList.value = viewModel.albumList.value?.get(0)?.album?.mediaUris?.map { MediaAdapter.Data(media = it) }
+                _view.recyclerViewMedia.scrollToPosition(0)
+            }
+        }
+    }
+
     private fun initViews() {
-        binding.viewToolbar.topMargin(statusBarSize)
-        binding.recyclerViewAlbum.adapter = albumAdapter
-        binding.recyclerViewMedia.adapter = mediaAdapter
-        binding.recyclerViewMedia.addItemDecoration(GridSpacingItemDecoration(3, 8))
+        _view.viewToolbar.topMargin(statusBarSize)
+
+        _view.recyclerViewAlbum.adapter = albumAdapter
+        _view.recyclerViewAlbum.itemAnimator = null
+
+        mediaAdapter.setOption {
+            this.selectType = builder.selectType
+            this.camera = builder.camera
+        }
+        _view.recyclerViewMedia.adapter = mediaAdapter
+        _view.recyclerViewMedia.itemAnimator = null
+        _view.recyclerViewMedia.addItemDecoration(GridSpacingItemDecoration(3, dip(2)))
     }
 
     private fun bindEvents() {
-        binding.imageViewClose.setOnClickListener { finish() }
+        _view.imageViewClose.setOnClickListener { finish() }
 
-        binding.textViewDirectory.setOnClickListener {
+        _view.textViewDirectory.setOnClickListener {
             viewModel.openAlbumList.value = !(viewModel.openAlbumList.value ?: false)
         }
 
-        binding.textViewDone.setOnClickListener {
+        _view.textViewDone.setOnClickListener {
+            onClickDone()
         }
 
-        binding.viewDim.setOnClickListener {
+        _view.viewDim.setOnClickListener {
             viewModel.openAlbumList.value = false
         }
 
         albumAdapter.onClickItem = { data ->
-            binding.textViewDirectory.text = data.album.name
-            binding.recyclerViewMedia.scrollToPosition(0)
+            _view.textViewDirectory.text = data.album.name
+            _view.recyclerViewMedia.scrollToPosition(0)
             viewModel.openAlbumList.value = false
             viewModel.mediaList.value = data.album.mediaUris.map { MediaAdapter.Data(media = it) }
         }
 
-        mediaAdapter.onClickItem = { data ->
+        mediaAdapter.onClickHeader = {
+            val intent = CameraUtil.getCameraIntent(this, MediaType.IMAGE_ONLY)
+            startActivityForResult(intent, 1004)
+        }
 
+        mediaAdapter.onClickItem = { data ->
+        }
+    }
+
+    private fun onClickDone() {
+        when (builder.selectType) {
+            SelectType.SINGLE -> {
+                if (mediaAdapter.selectedDataList.isNotEmpty()) {
+                    builder.onSingleSelected?.invoke(mediaAdapter.selectedDataList[0].media.uri)
+                    finish()
+                }
+                else {
+                    Toast.makeText(this, "선택 해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
+            SelectType.MULTI -> {
+                if (mediaAdapter.selectedDataList.isNotEmpty()) {
+                    builder.onMultiSelected?.invoke(mediaAdapter.selectedDataList.map { it.media.uri })
+                    finish()
+                }
+                else {
+                    Toast.makeText(this, "선택 해주세요", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -95,12 +151,12 @@ internal class ImagePickerLayout : AppCompatActivity() {
         viewModel.openAlbumList.observe(this, Observer {
             when (it) {
                 true -> {
-                    binding.viewDim.visibleFadeIn(200)
-                    expand(binding.recyclerViewAlbum, 300, 0f, 0.6f)
+                    _view.viewDim.visibleFadeIn(200)
+                    expand(_view.recyclerViewAlbum, 300, 0f, 0.6f)
                 }
                 false -> {
-                    binding.viewDim.goneFadeOut(200)
-                    collapse(binding.recyclerViewAlbum, 300, 0.6f, 0f)
+                    _view.viewDim.goneFadeOut(200)
+                    collapse(_view.recyclerViewAlbum, 300, 0.6f, 0f)
                 }
             }
         })
@@ -151,7 +207,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         expandAnimator!!.start()
     }
 
-    /* */
+/* */
 
     companion object {
 
