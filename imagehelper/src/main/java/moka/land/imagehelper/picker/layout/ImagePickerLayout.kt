@@ -19,6 +19,7 @@ import moka.land.base.*
 import moka.land.base.adapter.GridSpacingItemDecoration
 import moka.land.dialog.LoadingDialog
 import moka.land.imagehelper.databinding.MkLayoutImagePickerBinding
+import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.imagehelper.picker.builder.ImagePickerBuilder
 import moka.land.imagehelper.picker.conf.MediaType
 import moka.land.imagehelper.picker.conf.SelectType
@@ -125,7 +126,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         when (builder.selectType) {
             SelectType.SINGLE -> {
                 if (mediaAdapter.selectedDataList.isNotEmpty()) {
-                    builder.onSingleSelected?.invoke(mediaAdapter.selectedDataList[0].media.uri)
+                    ImagePicker.onSingleSelected?.invoke(mediaAdapter.selectedDataList[0].media.uri)
                     finish()
                 }
                 else {
@@ -134,7 +135,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
             }
             SelectType.MULTI -> {
                 if (mediaAdapter.selectedDataList.isNotEmpty()) {
-                    builder.onMultiSelected?.invoke(mediaAdapter.selectedDataList.map { it.media.uri })
+                    ImagePicker.onMultiSelected?.invoke(mediaAdapter.selectedDataList.map { it.media.uri })
                     finish()
                 }
                 else {

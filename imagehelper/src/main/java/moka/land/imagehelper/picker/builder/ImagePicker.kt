@@ -25,7 +25,7 @@ class ImagePicker private constructor(
             return
         }
         this.builder.selectType = SelectType.SINGLE
-        this.builder.onSingleSelected = onSingleSelected
+        ImagePicker.onSingleSelected = onSingleSelected
         show()
     }
 
@@ -34,7 +34,7 @@ class ImagePicker private constructor(
             return
         }
         this.builder.selectType = SelectType.MULTI
-        this.builder.onMultiSelected = onMultiSelected
+        ImagePicker.onMultiSelected = onMultiSelected
         show()
     }
 
@@ -67,6 +67,9 @@ class ImagePicker private constructor(
      */
 
     companion object {
+        var onSingleSelected: ((uri: Uri) -> Unit)? = null
+        var onMultiSelected: ((uriList: List<Uri>) -> Unit)? = null
+
         fun with(activity: FragmentActivity): ImagePicker {
             return ImagePicker(WeakReference(activity), ImagePickerBuilder())
         }
