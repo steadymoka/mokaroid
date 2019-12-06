@@ -3,12 +3,16 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
 
+final BUILD_DATE = new Date().format('yyyy_MM_dd')
+final APP_NAME = 'stdAndroid'
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.2'
 
     defaultConfig {
         applicationId 'moka.land'
+
         minSdkVersion 21
         targetSdkVersion 29
 
@@ -16,9 +20,10 @@ android {
 
         versionCode 1
         versionName '1.0'
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        setProperty("archivesBaseName", APP_NAME + "_v" + versionCode + "(" + versionName + ")_" + BUILD_DATE)
     }
-    dataBinding {
+    viewBinding {
         enabled = true
     }
     buildTypes {

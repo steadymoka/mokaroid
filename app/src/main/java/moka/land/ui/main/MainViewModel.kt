@@ -1,4 +1,4 @@
-package moka.land.app.main
+package moka.land.ui.main
 
 import androidx.lifecycle.ViewModel
 

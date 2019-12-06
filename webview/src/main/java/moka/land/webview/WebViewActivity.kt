@@ -101,11 +101,11 @@ class WebViewActivity : AppCompatActivity() {
     }
 
     fun getWebViewClient(): WebViewClient {
-        return MocaWebViewClient()
+        return MokaWebViewClient()
     }
 
     fun getWebChromeClient(): WebChromeClient {
-        return MocaWebChromeClient()
+        return MokaWebChromeClient()
     }
 
     fun onRefresh() {
@@ -153,14 +153,14 @@ class WebViewActivity : AppCompatActivity() {
         imageView_refresh.visibility = View.VISIBLE
     }
 
-    private inner class MocaWebChromeClient : WebChromeClient() {
+    private inner class MokaWebChromeClient : WebChromeClient() {
 
         override fun onProgressChanged(webView: WebView, progress: Int) {
             updateProgressBar(progress)
         }
     }
 
-    private inner class MocaWebViewClient : WebViewClient() {
+    private inner class MokaWebViewClient : WebViewClient() {
 
         override fun onPageStarted(webView: WebView?, url: String?, favicon: Bitmap?) {
             startLoading()

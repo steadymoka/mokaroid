@@ -18,9 +18,9 @@
 
 		<meta-data
 			android:name="com.google.android.gms.ads.APPLICATION_ID"
-			android:value="ca-app-pub-7847386025632674~7406421748" />
+			android:value="ca-app-pub-3940256099942544~3347511713" />
 
-		<activity android:name=".app.main.MainActivity">
+		<activity android:name=".ui.main.MainNavGraph">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 

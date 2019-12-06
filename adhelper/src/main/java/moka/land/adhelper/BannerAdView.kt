@@ -14,7 +14,12 @@ import com.google.android.gms.ads.AdView
 import kotlinx.android.synthetic.main.view_moka_ad_banner.view.*
 import moka.land.base.BuildConfig.DEBUG
 
-class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet) {
+interface Runner {
+
+    fun show(callback: ((isSuccess: Boolean) -> Unit)? = null)
+}
+
+class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet), Runner {
 
     init {
         View.inflate(context, R.layout.view_moka_ad_banner, this)
@@ -24,13 +29,6 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         var fbAudienceKey: String? = null
         var admobKey: String? = null
         var period: Period = Period.ADMOB_FACEBOOK
-    }
-
-    inner class Runner {
-        fun show(callback: ((isSuccess: Boolean) -> Unit)? = null) {
-            this@BannerAdView.callback = callback
-            showAdBanner()
-        }
     }
 
     private lateinit var option: Option
@@ -43,10 +41,12 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         val option = Option()
         option.block()
         this.option = option
-        return Runner()
+        return this
     }
 
-    private fun showAdBanner() {
+    override fun show(callback: ((isSuccess: Boolean) -> Unit)?) {
+        this@BannerAdView.callback = callback
+
         when (option.period) {
             Period.FACEBOOK_ADMOB -> {
                 loadFacebookBannerAd {
