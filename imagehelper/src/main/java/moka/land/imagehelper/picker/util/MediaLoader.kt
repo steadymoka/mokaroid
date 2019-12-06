@@ -1,16 +1,24 @@
 package moka.land.imagehelper.picker.util
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.database.Cursor
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import moka.land.imagehelper.picker.conf.MediaType
 import moka.land.imagehelper.picker.model.Album
 import moka.land.imagehelper.picker.model.Media
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 object MediaLoader {
 
@@ -72,6 +80,31 @@ object MediaLoader {
             album = getString(getColumnIndex(INDEX_ALBUM_NAME)),
             datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND))
         )
+    }
+
+    /**
+     * Public util functions
+     */
+
+    suspend fun Context.getFile(uri: Uri): File {
+        return MediaLoader.getFile(this, uri)
+    }
+
+    @JvmName("getFileFromUri")
+    suspend fun getFile(context: Context, uri: Uri): File {
+        return suspendCoroutine { continuation ->
+            Glide.with(context)
+                .asFile()
+                .load(uri)
+                .into(object : CustomTarget<File>() {
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+
+                    override fun onResourceReady(resource: File, transition: Transition<in File>?) {
+                        continuation.resume(resource)
+                    }
+                })
+        }
     }
 
 }

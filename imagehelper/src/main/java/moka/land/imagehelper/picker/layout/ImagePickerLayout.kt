@@ -26,6 +26,7 @@ import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.layout.adapter.AlbumAdapter
 import moka.land.imagehelper.picker.layout.adapter.MediaAdapter
 import moka.land.imagehelper.picker.util.CameraUtil
+import moka.land.imagehelper.picker.util.MediaLoader.getFile
 import java.io.File
 
 internal class ImagePickerLayout : AppCompatActivity() {
