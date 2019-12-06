@@ -21,7 +21,6 @@ import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import moka.land.base.*
 import moka.land.base.BuildConfig
-import com.facebook.ads.AdOptionsView
 
 
 interface Runnable {
@@ -55,6 +54,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
 
     override fun showNative(callback: ((isSuccess: Boolean) -> Unit)?) {
         this.callback = callback
+
         when (option.period) {
             Period.FACEBOOK_ADMOB -> {
                 loadFBAudienceNativeAd {

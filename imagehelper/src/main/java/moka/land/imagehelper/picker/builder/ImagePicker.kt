@@ -11,16 +11,23 @@ import moka.land.imagehelper.picker.layout.ImagePickerLayout
 import moka.land.permissionmanager.PermissionManager
 import java.lang.ref.WeakReference
 
+interface Runnable {
+
+    fun showSingle(onSingleSelected: ((uri: Uri) -> Unit))
+
+    fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit))
+}
+
 class ImagePicker private constructor(
     private var context: WeakReference<Context>,
-    private var builder: ImagePickerBuilder) {
+    private var builder: ImagePickerBuilder) : Runnable {
 
-    fun setOption(option: ImagePickerBuilder.() -> Unit): ImagePicker {
+    fun setOption(option: ImagePickerBuilder.() -> Unit): Runnable {
         this.builder.option()
         return this
     }
 
-    fun showSingle(onSingleSelected: ((uri: Uri) -> Unit)) {
+    override fun showSingle(onSingleSelected: ((uri: Uri) -> Unit)) {
         if (null == context.get()) {
             return
         }
@@ -29,7 +36,7 @@ class ImagePicker private constructor(
         show()
     }
 
-    fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit)) {
+    override fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit)) {
         if (null == context.get()) {
             return
         }
