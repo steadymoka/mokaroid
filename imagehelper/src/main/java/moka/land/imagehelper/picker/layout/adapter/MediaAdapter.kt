@@ -4,6 +4,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import moka.land.base.adapter._HeaderFooterAdapter
+import moka.land.base.adapter._ItemData
 import moka.land.base.adapter._RecyclerItemView
 import moka.land.base.gone
 import moka.land.base.visible
@@ -12,7 +13,7 @@ import moka.land.imagehelper.databinding.MkLayoutMediaItemBinding
 import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.model.Media
 
-class MediaAdapter : _HeaderFooterAdapter<Any, MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
+class MediaAdapter : _HeaderFooterAdapter<_ItemData, MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
 
     inner class Option {
         var selectType: SelectType = SelectType.SINGLE
@@ -30,7 +31,7 @@ class MediaAdapter : _HeaderFooterAdapter<Any, MediaAdapter.Data, _RecyclerItemV
         this.option.set()
 
         if (option.camera) {
-            headerItems.add(Any())
+            headerItems.add(object : _ItemData {})
         }
     }
 
@@ -120,6 +121,6 @@ class MediaAdapter : _HeaderFooterAdapter<Any, MediaAdapter.Data, _RecyclerItemV
 
     }
 
-    data class Data(var media: Media)
+    data class Data(var media: Media) : _ItemData
 
 }

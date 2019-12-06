@@ -5,6 +5,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import moka.land.base.adapter._BaseAdapter
+import moka.land.base.adapter._ItemData
 import moka.land.base.adapter._RecyclerItemView
 import moka.land.base.dip
 import moka.land.base.visibleOrGone
@@ -56,6 +57,6 @@ class AlbumAdapter : _BaseAdapter<AlbumAdapter.Data, _RecyclerItemView<AlbumAdap
 
     }
 
-    data class Data(var album: Album)
+    data class Data(var album: Album) : _ItemData
 
 }

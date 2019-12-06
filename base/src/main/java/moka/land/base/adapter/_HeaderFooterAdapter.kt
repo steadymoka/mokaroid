@@ -3,7 +3,7 @@ package moka.land.base.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class _HeaderFooterAdapter<HEADER : Any, DATA : Any, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
+abstract class _HeaderFooterAdapter<HEADER : _ItemData, DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
 
     var onClickHeader: ((HEADER) -> Unit)? = null
 

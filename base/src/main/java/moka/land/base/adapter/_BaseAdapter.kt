@@ -4,7 +4,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class _BaseAdapter<DATA : Any, VIEW : _RecyclerItemView<DATA>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class _BaseAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var onClickItem: ((DATA) -> Unit)? = null
 
