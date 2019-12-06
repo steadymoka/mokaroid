@@ -24,7 +24,13 @@ import moka.land.base.BuildConfig
 import com.facebook.ads.AdOptionsView
 
 
-class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet) {
+interface Runnable {
+
+    fun showNative(callback: ((isSuccess: Boolean) -> Unit)? = null)
+
+}
+
+class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet), Runnable {
 
     inner class Option {
         var fbAudienceKey: String? = null
@@ -34,27 +40,21 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         var nativeLayoutResId: Int = R.layout.mk_view_moka_ad_native
     }
 
-    inner class Runner {
-        fun showNative(callback: ((isSuccess: Boolean) -> Unit)? = null) {
-            this@NativeAdView.callback = callback
-            showAdNative()
-        }
-    }
-
     private lateinit var option: Option
     private var callback: ((isSuccess: Boolean) -> Unit)? = null
 
     private var audienceNativeAd: NativeAd? = null
     private var admobNativeAdView: UnifiedNativeAdView? = null
 
-    fun setOption(block: Option.() -> Unit): Runner {
+    fun setOption(block: Option.() -> Unit): Runnable {
         val option = Option()
         option.block()
         this.option = option
-        return Runner()
+        return this
     }
 
-    private fun showAdNative() {
+    override fun showNative(callback: ((isSuccess: Boolean) -> Unit)?) {
+        this.callback = callback
         when (option.period) {
             Period.FACEBOOK_ADMOB -> {
                 loadFBAudienceNativeAd {
