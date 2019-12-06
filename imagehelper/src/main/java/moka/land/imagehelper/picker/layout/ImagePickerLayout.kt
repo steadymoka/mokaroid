@@ -4,7 +4,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -17,6 +17,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import moka.land.base.*
 import moka.land.base.adapter.GridSpacingItemDecoration
+import moka.land.dialog.LoadingDialog
 import moka.land.imagehelper.databinding.MkLayoutImagePickerBinding
 import moka.land.imagehelper.picker.builder.ImagePickerBuilder
 import moka.land.imagehelper.picker.conf.MediaType
@@ -24,6 +25,7 @@ import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.layout.adapter.AlbumAdapter
 import moka.land.imagehelper.picker.layout.adapter.MediaAdapter
 import moka.land.imagehelper.picker.util.CameraUtil
+import java.io.File
 
 internal class ImagePickerLayout : AppCompatActivity() {
 
@@ -49,19 +51,22 @@ internal class ImagePickerLayout : AppCompatActivity() {
         }
     }
 
+    private var fileToSave: File? = null
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode != Activity.RESULT_OK || null == fileToSave) {
             return
         }
 
-        val imageBitmap = data?.extras?.get("data") as Bitmap
-        CameraUtil.saveBitmap(this, imageBitmap) {
-            lifecycleScope.launch {
-                viewModel.loadAlbumList(this@ImagePickerLayout)
-                viewModel.mediaList.value = viewModel.albumList.value?.get(0)?.album?.mediaUris?.map { MediaAdapter.Data(media = it) }
-                _view.recyclerViewMedia.scrollToPosition(0)
-            }
+        val loadingDialog = LoadingDialog()
+        lifecycleScope.launch {
+            loadingDialog.show(this@ImagePickerLayout.supportFragmentManager)
+            CameraUtil.save(this@ImagePickerLayout, fileToSave!!)
+            viewModel.loadAlbumList(this@ImagePickerLayout)
+            viewModel.mediaList.value = viewModel.albumList.value?.get(0)?.album?.mediaUris?.map { MediaAdapter.Data(media = it) }
+            _view.recyclerViewMedia.scrollToPosition(0)
+            loadingDialog.dismiss()
         }
     }
 
@@ -103,8 +108,13 @@ internal class ImagePickerLayout : AppCompatActivity() {
         }
 
         mediaAdapter.onClickHeader = {
-            val intent = CameraUtil.getCameraIntent(this, MediaType.IMAGE_ONLY)
-            startActivityForResult(intent, 1004)
+            lifecycleScope.launch {
+                fileToSave = CameraUtil.getFileToSave(this@ImagePickerLayout, MediaType.IMAGE_ONLY)
+                val intent = CameraUtil.getCameraIntent(this@ImagePickerLayout, MediaType.IMAGE_ONLY, fileToSave!!)
+                startActivityForResult(intent, 1004)
+
+
+            }
         }
 
         mediaAdapter.onClickItem = { data ->
@@ -207,7 +217,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         expandAnimator!!.start()
     }
 
-/* */
+    /* */
 
     companion object {
 

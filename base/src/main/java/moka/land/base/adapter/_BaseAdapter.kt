@@ -66,4 +66,5 @@ abstract class _BaseAdapter<DATA : Any, VIEW : _RecyclerItemView<DATA>> : Recycl
         itemView.onRecycled()
         super.onViewRecycled(holder)
     }
+
 }
