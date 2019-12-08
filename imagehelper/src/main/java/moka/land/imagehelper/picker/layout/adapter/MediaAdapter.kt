@@ -10,10 +10,10 @@ import moka.land.base.gone
 import moka.land.base.visible
 import moka.land.imagehelper.R
 import moka.land.imagehelper.databinding.MkLayoutMediaItemBinding
-import moka.land.imagehelper.picker.conf.SelectType
+import moka.land.imagehelper.picker.type.SelectType
 import moka.land.imagehelper.picker.model.Media
 
-class MediaAdapter : _HeaderFooterAdapter<_ItemData, MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
+class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
 
     inner class Option {
         var selectType: SelectType = SelectType.SINGLE
@@ -35,7 +35,7 @@ class MediaAdapter : _HeaderFooterAdapter<_ItemData, MediaAdapter.Data, _Recycle
         }
     }
 
-    override fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+    override fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<_ItemData> {
         return HeaderView(parent)
     }
 
@@ -47,7 +47,7 @@ class MediaAdapter : _HeaderFooterAdapter<_ItemData, MediaAdapter.Data, _Recycle
      * ItemView & Data & Type
      */
 
-    inner class HeaderView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_header)
+    inner class HeaderView(parent: ViewGroup) : _RecyclerItemView<_ItemData>(parent, R.layout.mk_layout_media_header)
 
     inner class ItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_item) {
 

@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'com.apollographql.android'
 
 final BUILD_DATE = new Date().format('yyyy_MM_dd')
 final APP_NAME = 'stdAndroid'
@@ -81,5 +82,8 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.2.2'
     implementation 'androidx.room:room-runtime:2.2.2'
     kapt 'androidx.room:room-compiler:2.2.2'
+
+    /* Apollo */
+    implementation "com.apollographql.apollo:apollo-runtime:1.2.2"
 
 }

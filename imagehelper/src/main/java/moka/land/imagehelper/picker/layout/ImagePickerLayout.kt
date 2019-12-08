@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -20,19 +19,18 @@ import moka.land.base.adapter.GridSpacingItemDecoration
 import moka.land.dialog.LoadingDialog
 import moka.land.imagehelper.databinding.MkLayoutImagePickerBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
-import moka.land.imagehelper.picker.builder.ImagePickerBuilder
-import moka.land.imagehelper.picker.conf.MediaType
-import moka.land.imagehelper.picker.conf.SelectType
+import moka.land.imagehelper.picker.builder.ImagePickerConfig
+import moka.land.imagehelper.picker.type.MediaType
+import moka.land.imagehelper.picker.type.SelectType
 import moka.land.imagehelper.picker.layout.adapter.AlbumAdapter
 import moka.land.imagehelper.picker.layout.adapter.MediaAdapter
 import moka.land.imagehelper.picker.util.CameraUtil
-import moka.land.imagehelper.picker.util.MediaLoader.getFile
 import java.io.File
 
 internal class ImagePickerLayout : AppCompatActivity() {
 
     private lateinit var _view: MkLayoutImagePickerBinding
-    private lateinit var builder: ImagePickerBuilder
+    private lateinit var config: ImagePickerConfig
 
     private val viewModel by lazy { ImagePickerViewModel() }
     private val albumAdapter by lazy { AlbumAdapter() }
@@ -41,7 +39,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _view = MkLayoutImagePickerBinding.inflate(layoutInflater)
-        builder = intent.getSerializableExtra(KEY_BUILDER_EXTRA) as ImagePickerBuilder
+        config = intent.getSerializableExtra(KEY_BUILDER_EXTRA) as ImagePickerConfig
         setContentView(_view.root)
 
         initViews()
@@ -79,8 +77,8 @@ internal class ImagePickerLayout : AppCompatActivity() {
         _view.recyclerViewAlbum.itemAnimator = null
 
         mediaAdapter.setOption {
-            this.selectType = builder.selectType
-            this.camera = builder.camera
+            this.selectType = config.selectType
+            this.camera = config.camera
         }
         _view.recyclerViewMedia.adapter = mediaAdapter
         _view.recyclerViewMedia.itemAnimator = null
@@ -114,17 +112,16 @@ internal class ImagePickerLayout : AppCompatActivity() {
                 fileToSave = CameraUtil.getFileToSave(this@ImagePickerLayout, MediaType.IMAGE_ONLY)
                 val intent = CameraUtil.getCameraIntent(this@ImagePickerLayout, MediaType.IMAGE_ONLY, fileToSave!!)
                 startActivityForResult(intent, 1004)
-
-
             }
         }
 
         mediaAdapter.onClickItem = { data ->
+            // todo 사진 크게보기
         }
     }
 
     private fun onClickDone() {
-        when (builder.selectType) {
+        when (config.selectType) {
             SelectType.SINGLE -> {
                 if (mediaAdapter.selectedDataList.isNotEmpty()) {
                     ImagePicker.onSingleSelected?.invoke(mediaAdapter.selectedDataList[0].media.uri)
@@ -225,9 +222,9 @@ internal class ImagePickerLayout : AppCompatActivity() {
 
         private const val KEY_BUILDER_EXTRA = "ImagePickerLayout.KEY_BUILDER_EXTRA"
 
-        fun getIntent(context: Context, builder: ImagePickerBuilder): Intent {
+        fun getIntent(context: Context, config: ImagePickerConfig): Intent {
             return Intent(context, ImagePickerLayout::class.java).apply {
-                putExtra(KEY_BUILDER_EXTRA, builder)
+                putExtra(KEY_BUILDER_EXTRA, config)
             }
         }
 

@@ -11,6 +11,9 @@ interface Runnable {
 
 }
 
+/**
+ * Builder(Runner) & Config
+ */
 class PermissionManager : BaseConfig<PermissionManager>(), Runnable {
 
     @Transient

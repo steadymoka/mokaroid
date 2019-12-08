@@ -1,7 +1,6 @@
 package moka.land.imagehelper.picker.util
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.database.Cursor
 import android.graphics.drawable.Drawable
@@ -10,14 +9,13 @@ import android.provider.MediaStore
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
-import moka.land.imagehelper.picker.conf.MediaType
+import moka.land.imagehelper.picker.type.MediaType
 import moka.land.imagehelper.picker.model.Album
 import moka.land.imagehelper.picker.model.Media
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 object MediaLoader {

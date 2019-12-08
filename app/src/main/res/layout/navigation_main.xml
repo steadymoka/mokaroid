@@ -6,7 +6,7 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<androidx.viewpager.widget.ViewPager
+	<moka.land.component.widget.LockableViewPager
 		android:id="@+id/viewPager"
 		android:layout_width="0dp"
 		android:layout_height="0dp"

@@ -1,4 +1,4 @@
-package moka.land.imagehelper.picker.conf
+package moka.land.imagehelper.picker.type
 
 import java.io.Serializable
 

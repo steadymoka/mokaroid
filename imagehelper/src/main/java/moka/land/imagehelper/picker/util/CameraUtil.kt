@@ -14,7 +14,7 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import moka.land.imagehelper.picker.conf.MediaType
+import moka.land.imagehelper.picker.type.MediaType
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream

@@ -6,8 +6,8 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import moka.land.imagehelper.picker.conf.SelectType
 import moka.land.imagehelper.picker.layout.ImagePickerLayout
+import moka.land.imagehelper.picker.type.SelectType
 import moka.land.permissionmanager.PermissionManager
 import java.lang.ref.WeakReference
 
@@ -18,12 +18,15 @@ interface Runnable {
     fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit))
 }
 
+/**
+ * Builder(Runner) of ImagePicker
+ */
 class ImagePicker private constructor(
     private var context: WeakReference<Context>,
-    private var builder: ImagePickerBuilder) : Runnable {
+    private var config: ImagePickerConfig) : Runnable {
 
-    fun setOption(option: ImagePickerBuilder.() -> Unit): Runnable {
-        this.builder.option()
+    fun setConfig(option: ImagePickerConfig.() -> Unit): Runnable {
+        this.config.option()
         return this
     }
 
@@ -31,7 +34,7 @@ class ImagePicker private constructor(
         if (null == context.get()) {
             return
         }
-        this.builder.selectType = SelectType.SINGLE
+        this.config.selectType = SelectType.SINGLE
         ImagePicker.onSingleSelected = onSingleSelected
         show()
     }
@@ -40,7 +43,7 @@ class ImagePicker private constructor(
         if (null == context.get()) {
             return
         }
-        this.builder.selectType = SelectType.MULTI
+        this.config.selectType = SelectType.MULTI
         ImagePicker.onMultiSelected = onMultiSelected
         show()
     }
@@ -48,7 +51,7 @@ class ImagePicker private constructor(
     private fun show() {
         checkPermission { isGranted ->
             if (isGranted) {
-                val intent = ImagePickerLayout.getIntent(context.get()!!, this@ImagePicker.builder)
+                val intent = ImagePickerLayout.getIntent(context.get()!!, this@ImagePicker.config)
                 context.get()!!.startActivity(intent)
             }
             else {
@@ -78,16 +81,16 @@ class ImagePicker private constructor(
         var onMultiSelected: ((uriList: List<Uri>) -> Unit)? = null
 
         fun with(activity: FragmentActivity): ImagePicker {
-            return ImagePicker(WeakReference(activity), ImagePickerBuilder())
+            return ImagePicker(WeakReference(activity), ImagePickerConfig())
         }
 
         fun with(fragment: Fragment): ImagePicker {
             fragment.activity ?: throw Error("cannot get activity")
-            return ImagePicker(WeakReference(fragment.activity!!), ImagePickerBuilder())
+            return ImagePicker(WeakReference(fragment.activity!!), ImagePickerConfig())
         }
 
         fun with(context: Context): ImagePicker {
-            return ImagePicker(WeakReference(context), ImagePickerBuilder())
+            return ImagePicker(WeakReference(context), ImagePickerConfig())
         }
     }
 

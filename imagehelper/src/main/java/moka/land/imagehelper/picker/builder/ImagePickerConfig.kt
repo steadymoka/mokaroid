@@ -1,9 +1,9 @@
 package moka.land.imagehelper.picker.builder
 
-import moka.land.imagehelper.picker.conf.SelectType
+import moka.land.imagehelper.picker.type.SelectType
 import java.io.Serializable
 
-class ImagePickerBuilder : Serializable {
+class ImagePickerConfig : Serializable {
 
     internal var selectType: SelectType = SelectType.SINGLE
 
