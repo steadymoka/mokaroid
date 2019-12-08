@@ -3,13 +3,13 @@ package moka.land.base.adapter
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class _HeaderFooterAdapter<HEADER : _ItemData, DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
+abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
 
-    var onClickHeader: ((HEADER) -> Unit)? = null
+    var onClickHeader: ((_ItemData) -> Unit)? = null
 
-    var headerItems = mutableListOf<HEADER>()
+    var headerItems = mutableListOf<_ItemData>()
 
-    abstract fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): VIEW
+    abstract fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<_ItemData>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (Type.get(viewType)) {
@@ -35,10 +35,7 @@ abstract class _HeaderFooterAdapter<HEADER : _ItemData, DATA : _ItemData, VIEW :
     }
 
     override fun getItemCount(): Int {
-        return when {
-            items.size > 0 -> items.size + headerItems.size
-            else -> 0
-        }
+        return items.size + headerItems.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -62,7 +59,7 @@ abstract class _HeaderFooterAdapter<HEADER : _ItemData, DATA : _ItemData, VIEW :
         notifyItemChanged(headerPosition)
     }
 
-    fun notifyHeaderItemChanged(data: HEADER) {
+    fun notifyHeaderItemChanged(data: _ItemData) {
         notifyItemChanged(headerItems.indexOf(data))
     }
 

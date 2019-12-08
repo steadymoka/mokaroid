@@ -1,11 +1,13 @@
 package moka.land.base.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class _RecyclerItemView<DATA : _ItemData>(parent: ViewGroup, resId: Int)
-    : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(resId, parent, false)) {
+abstract class _RecyclerItemView<DATA : _ItemData>(view: View) : RecyclerView.ViewHolder(view) {
+
+    constructor(parent: ViewGroup, resId: Int) : this(LayoutInflater.from(parent.context).inflate(resId, parent, false))
 
     var index: Int = 0
 

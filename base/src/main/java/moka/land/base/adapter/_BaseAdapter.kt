@@ -18,12 +18,16 @@ abstract class _BaseAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : 
     }
 
     fun replaceItems(items: List<DATA>) {
-        val diffCallback = _DiffUtilCallback(this.items, items)
+        val diffCallback = getDiffCallback(items)
         val result = DiffUtil.calculateDiff(diffCallback)
 
         this.items.clear()
         this.items.addAll(items)
         result.dispatchUpdatesTo(this)
+    }
+
+    open fun getDiffCallback(items: List<DATA>): DiffUtil.Callback {
+        return _DiffUtilCallback(this.items, items)
     }
 
     override fun getItemCount(): Int = items.size
