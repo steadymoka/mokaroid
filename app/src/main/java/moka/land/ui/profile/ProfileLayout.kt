@@ -1,9 +1,11 @@
 package moka.land.ui.profile
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -13,10 +15,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
 import moka.land.R
-import moka.land.base.gone
-import moka.land.base.goneFadeOut
-import moka.land.base.visible
-import moka.land.base.visibleFadeIn
+import moka.land.base.*
+import moka.land.component.AuthManager
 import moka.land.component.widget.EndlessRecyclerViewScrollListener
 import moka.land.databinding.LayoutProfileBinding
 import moka.land.ui.profile.adapter.PinnedAdapter
@@ -51,6 +51,16 @@ class ProfileLayout : Fragment() {
             viewModel.loadProfileData()
         }
         return _view.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (AuthManager.apiKey.isEmpty()) {
+            AlertDialog.Builder(context)
+                .setMessage("GitHub API KEY 를 apikey.properties 파일을 만들어 넣어주세요")
+                .setPositiveButton("확인", null)
+                .show()
+        }
     }
 
     private fun init() {
@@ -121,6 +131,10 @@ class ProfileLayout : Fragment() {
             _view.textViewBio.text = it.bio()
             _view.textViewStatus.text = "\"${it.status()?.message()}\""
             _view.imageViewProfileImage.load(activity!!, "${it.avatarUrl()}")
+
+            _view.run {
+                listOf(view01, view02, view03).forEach { it.gone() }
+            }
         })
 
         viewModel.pinnedRepository.observe(viewLifecycleOwner, Observer {

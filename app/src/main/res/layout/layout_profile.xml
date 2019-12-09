@@ -25,6 +25,46 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
+				<!--				-->
+
+				<TextView
+					android:id="@+id/view01"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="24dp"
+					android:layout_marginTop="50dp"
+					android:background="@drawable/rc_gray_gray_ro2"
+					android:text="　　　　"
+					android:textSize="28dp"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent" />
+
+				<TextView
+					android:id="@+id/view02"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
+					android:alpha="0.7"
+					android:background="@drawable/rc_gray_gray_ro2"
+					android:text="　　　　　　　　 　　"
+					android:textSize="13dp"
+					app:layout_constraintLeft_toLeftOf="@+id/view01"
+					app:layout_constraintTop_toBottomOf="@+id/view01" />
+
+				<TextView
+					android:id="@+id/view03"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:alpha="0.5"
+					android:layout_marginTop="2dp"
+					android:background="@drawable/rc_gray_gray_ro2"
+					android:text="　　　　　　　　  　　　 　 　 　 　　"
+					android:textSize="13dp"
+					app:layout_constraintLeft_toLeftOf="@+id/view01"
+					app:layout_constraintTop_toBottomOf="@+id/view02" />
+
+				<!--				-->
+
 				<TextView
 					android:id="@+id/textViewName"
 					android:layout_width="wrap_content"
@@ -73,7 +113,8 @@
 					<ImageView
 						android:id="@+id/imageViewProfileImage"
 						android:layout_width="match_parent"
-						android:layout_height="match_parent" />
+						android:layout_height="match_parent"
+						android:background="@color/black_13" />
 
 				</androidx.cardview.widget.CardView>
 

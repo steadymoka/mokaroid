@@ -8,6 +8,7 @@ import com.apollographql.apollo.MyRepositoriesQuery
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
+import kotlinx.coroutines.delay
 import moka.land.modules.awaitEnqueue
 import moka.land.util.NotNullMutableLiveData
 
@@ -24,7 +25,7 @@ class ProfileViewModel(
 
     var loading = NotNullMutableLiveData(true)
 
-    var error = NotNullMutableLiveData(Error.NOPE)
+    var error = MutableLiveData<Error>()
 
     var profile = MutableLiveData<Profile>()
 
@@ -41,6 +42,8 @@ class ProfileViewModel(
     suspend fun loadProfileData() {
         try {
             loading.value = true
+
+            delay(1000) // todo place holder check
 
             val query = AboutMokaQuery()
 
