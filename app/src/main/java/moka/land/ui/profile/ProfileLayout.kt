@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
+import moka.land.R
 import moka.land.base.gone
 import moka.land.base.goneFadeOut
 import moka.land.base.visible
@@ -90,6 +92,14 @@ class ProfileLayout : Fragment() {
             }
         }
         _view.recyclerViewRepositories.addOnScrollListener(loadMore!!)
+
+        overviewAdapter.onClickItem = {
+            findNavController().navigate(R.id.goRepository)
+        }
+
+        repositoryAdapter.onClickItem = {
+            findNavController().navigate(R.id.goRepository)
+        }
     }
 
     private fun bindViewModel() {

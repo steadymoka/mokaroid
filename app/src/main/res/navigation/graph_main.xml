@@ -23,6 +23,13 @@
 			app:launchSingleTop="true"
 			app:popExitAnim="@animator/slide_out_right" />
 
+		<action
+			android:id="@+id/goRepository"
+			app:destination="@id/repository"
+			app:enterAnim="@anim/slide_in_right"
+			app:launchSingleTop="true"
+			app:popExitAnim="@animator/slide_out_right" />
+
 	</fragment>
 
 	<!--	-->
@@ -38,6 +45,13 @@
 		android:id="@+id/imageViewerSample"
 		android:name="moka.land.ui.samples.ImageViewerSampleLayout"
 		android:label="imageViewerSample">
+
+	</fragment>
+
+	<fragment
+		android:id="@+id/repository"
+		android:name="moka.land.ui.repository.RepositoryLayout"
+		android:label="repository">
 
 	</fragment>
 
