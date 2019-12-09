@@ -7,6 +7,10 @@ apply plugin: 'com.apollographql.android'
 final BUILD_DATE = new Date().format('yyyy_MM_dd')
 final APP_NAME = 'stdAndroid'
 
+def apikeyPropertiesFile = rootProject.file("app/apikey.properties");
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.2'
@@ -23,6 +27,7 @@ android {
         versionName '1.0'
 
         setProperty("archivesBaseName", APP_NAME + "_v" + versionCode + "(" + versionName + ")_" + BUILD_DATE)
+        buildConfigField("String", "apikey", apikeyProperties['apikey'])
     }
     viewBinding {
         enabled = true
@@ -31,6 +36,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
         }
     }
 }
@@ -78,12 +88,19 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-rc02'
     kapt 'androidx.lifecycle:lifecycle-compiler:2.1.0'
 
+    /* glide */
+    implementation "com.github.bumptech.glide:glide:4.10.0"
+
     /* Room */
     implementation 'androidx.room:room-ktx:2.2.2'
     implementation 'androidx.room:room-runtime:2.2.2'
     kapt 'androidx.room:room-compiler:2.2.2'
 
-    /* Apollo */
+    /* Network */
     implementation "com.apollographql.apollo:apollo-runtime:1.2.2"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.0.0"
+
+    implementation "com.facebook.stetho:stetho:1.5.1"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
 
 }

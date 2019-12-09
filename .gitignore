@@ -21,3 +21,5 @@
 /permissionmanager/build/
 /dialog/build/
 /adhelper/build/
+
+/app/apikey.properties

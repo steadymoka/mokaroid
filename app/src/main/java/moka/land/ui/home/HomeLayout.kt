@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import moka.land.databinding.LayoutHomeBinding
+import moka.land.imagehelper.picker.builder.ImagePicker
 
 class HomeLayout : Fragment() {
 
@@ -13,6 +14,17 @@ class HomeLayout : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return _view.root
+    }
+
+    fun aa() {
+        ImagePicker
+            .with(this)
+            .setConfig {
+                camera = true
+            }
+            .showSingle { uri ->
+
+            }
     }
 
 }

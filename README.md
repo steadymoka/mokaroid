@@ -1,12 +1,12 @@
 # moka Android standard :) 
 
-- [app/](app/) : Android Architecture
+- [app](app/) : Android Architecture
 - [imagehelper](imagehelper/) : ImagePicker / ImageViewer
 - [permissionmanager](permissionmanager/) : Permission check
 - [adhelper](adhelper/) : Google Admob, Facebook AudienceNetwork
-- [base/](base/) : resource / recyclerView adapter / extention functions
-- [dialog/](dialog/)
-- [webview/](webview/)
+- [base](base/) : resource / recyclerView adapter / extention functions
+- [dialog](dialog/)
+- [webview](webview/)
 
 ## app (Architecture)
 
