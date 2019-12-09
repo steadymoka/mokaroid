@@ -15,10 +15,16 @@ typealias Profile = AboutMokaQuery.AsUser
 typealias Pinned = AboutMokaQuery.AsRepository
 typealias Repository = MyRepositoriesQuery.Node1
 
+enum class Error {
+    CONNECTION, SERVER, NOPE
+}
+
 class ProfileViewModel(
     private var apolloClient: ApolloClient) : ViewModel() {
 
-    var loading = MutableLiveData<Boolean>()
+    var loading = NotNullMutableLiveData(true)
+
+    var error = NotNullMutableLiveData(Error.NOPE)
 
     var profile = MutableLiveData<Profile>()
 
@@ -52,10 +58,14 @@ class ProfileViewModel(
                 .pinnedItems()
                 .edges()
                 ?.map { it.node() as Pinned }
+
+            error.value = Error.NOPE
         }
         catch (e: ApolloNetworkException) {
+            error.value = Error.CONNECTION
         }
         catch (e: ApolloHttpException) {
+            error.value = Error.SERVER
         }
         finally {
             loading.value = false
@@ -89,10 +99,13 @@ class ProfileViewModel(
                 loadedRepositories.addAll(repositories)
             }
             myRepository.value = loadedRepositories
+            error.value = Error.NOPE
         }
         catch (e: ApolloNetworkException) {
+            error.value = Error.CONNECTION
         }
         catch (e: ApolloHttpException) {
+            error.value = Error.SERVER
         }
         finally {
             loading.value = false

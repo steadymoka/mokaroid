@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.launch
+import moka.land.base.gone
 import moka.land.base.goneFadeOut
+import moka.land.base.visible
 import moka.land.base.visibleFadeIn
 import moka.land.component.widget.EndlessRecyclerViewScrollListener
 import moka.land.databinding.LayoutProfileBinding
@@ -126,6 +128,22 @@ class ProfileLayout : Fragment() {
                 }
                 Tab.Repositories -> {
                     repositoryAdapter.showLoading = it
+                }
+            }
+        })
+
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                Error.CONNECTION -> {
+                    _view.textViewError.visible()
+                    _view.textViewError.text = "인터넷 연결을 확인해주세요 :D"
+                }
+                Error.SERVER -> {
+                    _view.textViewError.visible()
+                    _view.textViewError.text = "예상치 못한 에러입니다 :D"
+                }
+                Error.NOPE -> {
+                    _view.textViewError.gone()
                 }
             }
         })
