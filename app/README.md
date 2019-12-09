@@ -1,7 +1,16 @@
-# Stack & Artitecture
+# Samples
+
+- [imagehelper](imagehelper/) : ImagePicker / ImageViewer
+- [permissionmanager](permissionmanager/) : Permission check
+- [adhelper](adhelper/) : Google Admob, Facebook AudienceNetwork
+
+
+# My Android Architecture
 
 - kotlin
 - mvvm
 - koin (di)
-- apollo-client
+- apollo-client (graphQL)
 - room
+
+Get my profile information from github api (graphQL)

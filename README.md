@@ -1,6 +1,6 @@
 # moka Android standard :) 
 
-- [app](app/) : Android Architecture
+- [app](app/) : My Android Architecture
 - [imagehelper](imagehelper/) : ImagePicker / ImageViewer
 - [permissionmanager](permissionmanager/) : Permission check
 - [adhelper](adhelper/) : Google Admob, Facebook AudienceNetwork
@@ -10,7 +10,7 @@
 
 ## app (Architecture)
 
-- This is the boilerplate code to develope Android
+- My Android Architecture
 
 ## imagehelper
 
