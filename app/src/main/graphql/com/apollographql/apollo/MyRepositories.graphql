@@ -1,0 +1,32 @@
+query MyRepositories($endCurcor: String) {
+    search(first: 1, query: "moka-a", type: USER) {
+        edges {
+            node {
+                ... on User {
+                    repositories(first: 10, after: $endCurcor) {
+                        pageInfo {
+                            endCursor
+                            hasNextPage
+                        }
+                        totalCount
+                        edges {
+                            node {
+                                ... on Repository {
+                                    name
+                                    description
+                                    primaryLanguage {
+                                        name
+                                        color
+                                    }
+                                    stargazers {
+                                        totalCount
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

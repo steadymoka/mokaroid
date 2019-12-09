@@ -1,5 +1,7 @@
 package moka.land.imagehelper.picker.layout.adapter
 
+import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -23,20 +25,22 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
     /**
      */
 
+    var onClickHeader: (() -> Unit)? = null
+
     private lateinit var option: Option
     internal val selectedDataList = mutableListOf<Data>()
 
     fun setOption(set: Option.() -> Unit) {
         this.option = Option()
         this.option.set()
-
-        if (option.camera) {
-            headerItems.add(object : _ItemData {})
-        }
     }
 
-    override fun getViewToCreateHeaderViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<_ItemData> {
-        return HeaderView(parent)
+    override fun hasHeader(): Boolean = option.camera
+
+    override fun onCreateHeaderView(parent: ViewGroup): View? {
+        return LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_media_header, parent, false).apply {
+            setOnClickListener { onClickHeader?.invoke() }
+        }
     }
 
     override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
@@ -46,8 +50,6 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
     /**
      * ItemView & Data & Type
      */
-
-    inner class HeaderView(parent: ViewGroup) : _RecyclerItemView<_ItemData>(parent, R.layout.mk_layout_media_header)
 
     inner class ItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_item) {
 

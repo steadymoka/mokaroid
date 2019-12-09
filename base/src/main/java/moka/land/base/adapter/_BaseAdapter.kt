@@ -66,8 +66,8 @@ abstract class _BaseAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : 
     }
 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
-        val itemView = holder as VIEW
-        itemView.onRecycled()
+        val itemView = holder as? VIEW
+        itemView?.onRecycled()
         super.onViewRecycled(holder)
     }
 

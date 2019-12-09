@@ -1,28 +1,28 @@
 query AboutMoka {
-  search(first: 1, query: "moka-a", type: USER) {
-    edges {
-      node {
-        ... on User {
-          name
-          avatarUrl
-          bio
-          status {
-            id
-            emoji
-            message
-          }
-          pinnedItems(first: 10) {
-            edges {
-              node {
-                ... on Repository {
-                  name
-                  description
+    search(first: 1, query: "moka-a", type: USER) {
+        edges {
+            node {
+                ... on User {
+                    name
+                    avatarUrl
+                    bio
+                    status {
+                        id
+                        emoji
+                        message
+                    }
+                    pinnedItems(first: 10) {
+                        edges {
+                            node {
+                                ... on Repository {
+                                    name
+                                    description
+                                }
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
     }
-  }
 }

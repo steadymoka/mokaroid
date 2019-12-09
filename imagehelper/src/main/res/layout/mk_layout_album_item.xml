@@ -26,6 +26,7 @@
 		android:layout_height="50dp"
 		android:layout_marginLeft="16dp"
 		android:layout_marginTop="6dp"
+		android:background="@color/black_10"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,6 +42,7 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="12dp"
+		android:text="Test"
 		android:textColor="@color/black_04"
 		android:textSize="13dp"
 		android:textStyle="bold"

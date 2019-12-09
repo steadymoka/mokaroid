@@ -1,84 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/coordinatorLayout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<TextView
-		android:id="@+id/textViewName"
-		android:layout_width="wrap_content"
+	<com.google.android.material.appbar.AppBarLayout
+		android:id="@+id/appBarLayout"
+		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginLeft="24dp"
-		android:layout_marginTop="50dp"
-		android:textColor="@color/black_02"
-		android:textSize="28dp"
-		android:textStyle="bold"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:text="PROFILE" />
+		android:background="@color/white_01"
+		android:elevation="0dp"
+		app:elevation="0dp">
 
-	<TextView
-		android:id="@+id/textViewBio"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:textColor="@color/black_04"
-		android:textSize="13dp"
-		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
-		app:layout_constraintTop_toBottomOf="@+id/textViewName"
-		tools:text="PROFILE" />
-
-	<TextView
-		android:id="@+id/textViewStatus"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="2dp"
-		android:textColor="@color/black_04"
-		android:textSize="13dp"
-		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
-		app:layout_constraintTop_toBottomOf="@+id/textViewBio"
-		tools:text="PROFILE" />
-
-	<androidx.cardview.widget.CardView
-		android:layout_width="70dp"
-		android:layout_height="70dp"
-		android:layout_marginTop="54dp"
-		android:layout_marginRight="24dp"
-		app:cardCornerRadius="35dp"
-		app:cardElevation="1dp"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent">
-
-		<ImageView
-			android:id="@+id/imageViewProfileImage"
+		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"
-			android:layout_height="match_parent" />
+			android:layout_height="wrap_content"
+			android:paddingBottom="28dp"
+			app:layout_scrollFlags="scroll">
 
-	</androidx.cardview.widget.CardView>
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent">
 
-	<TextView
-		android:id="@+id/textViewPinnedRepositoryLabel"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="42dp"
-		android:text="> Pinned Repositories 👇👇"
-		android:textColor="@color/black_02"
-		android:textSize="13dp"
-		android:textStyle="bold"
-		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
-		app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
+				<TextView
+					android:id="@+id/textViewName"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="24dp"
+					android:layout_marginTop="50dp"
+					android:textColor="@color/black_02"
+					android:textSize="28dp"
+					android:textStyle="bold"
+					app:layout_constraintLeft_toLeftOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					tools:text="PROFILE" />
 
-	<View
-		android:layout_width="0dp"
-		android:layout_height="1dp"
-		android:layout_marginLeft="28dp"
-		android:layout_marginTop="8dp"
-		android:layout_marginRight="28dp"
-		android:background="@color/black_12"
-		app:layout_constraintLeft_toLeftOf="parent"
-		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewPinnedRepositoryLabel" />
+				<TextView
+					android:id="@+id/textViewBio"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="8dp"
+					android:textColor="@color/black_04"
+					android:textSize="13dp"
+					app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+					app:layout_constraintTop_toBottomOf="@+id/textViewName"
+					tools:text="PROFILE" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+				<TextView
+					android:id="@+id/textViewStatus"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="2dp"
+					android:textColor="@color/black_04"
+					android:textSize="13dp"
+					app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+					app:layout_constraintTop_toBottomOf="@+id/textViewBio"
+					tools:text="PROFILE" />
+
+				<androidx.cardview.widget.CardView
+					android:layout_width="70dp"
+					android:layout_height="70dp"
+					android:layout_marginTop="54dp"
+					android:layout_marginRight="24dp"
+					app:cardCornerRadius="35dp"
+					app:cardElevation="1dp"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintTop_toTopOf="parent">
+
+					<ImageView
+						android:id="@+id/imageViewProfileImage"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent" />
+
+				</androidx.cardview.widget.CardView>
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</androidx.core.widget.NestedScrollView>
+
+		<com.google.android.material.appbar.CollapsingToolbarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:layout_gravity="bottom">
+
+				<com.google.android.material.tabs.TabLayout
+					android:id="@+id/tabLayout"
+					android:layout_width="0dp"
+					android:layout_height="40dp"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintRight_toRightOf="parent"
+					app:layout_constraintWidth_percent="0.62"
+					app:tabIndicatorColor="@color/black_06"
+					app:tabIndicatorFullWidth="false"
+					app:tabPadding="10dp"
+					app:tabRippleColor="@color/transparency"
+					app:tabSelectedTextColor="@color/black_02"
+					app:tabTextColor="@color/black_10">
+
+					<com.google.android.material.tabs.TabItem
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:text="Overview" />
+
+					<com.google.android.material.tabs.TabItem
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:text="Repositories" />
+
+				</com.google.android.material.tabs.TabLayout>
+
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+		</com.google.android.material.appbar.CollapsingToolbarLayout>
+
+	</com.google.android.material.appbar.AppBarLayout>
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewOverview"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/white_01"
+		android:clipToPadding="false"
+		android:paddingTop="16dp"
+		android:paddingBottom="36dp"
+		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+	<androidx.recyclerview.widget.RecyclerView
+		android:id="@+id/recyclerViewRepositories"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/white_01"
+		android:clipToPadding="false"
+		android:paddingTop="16dp"
+		android:paddingBottom="16dp"
+		android:visibility="gone"
+		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

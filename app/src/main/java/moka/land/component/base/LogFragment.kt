@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import moka.land.base.logA
 
-open class LoggingFragment : Fragment() {
+open class LogFragment : Fragment() {
 
     private var TAG = javaClass.simpleName
 
