@@ -1,8 +1,8 @@
 # Samples
 
-- [imagehelper](../../../imagehelper/) : ImagePicker / ImageViewer
-- [permissionmanager](../../../permissionmanager/) : Permission check
-- [adhelper](../../../adhelper/) : Google Admob, Facebook AudienceNetwork
+- [imagehelper](../../../tree/master/imagehelper/) : ImagePicker / ImageViewer
+- [permissionmanager](../../../tree/master/permissionmanager/) : Permission check
+- [adhelper](../../../tree/master/adhelper/) : Google Admob, Facebook AudienceNetwork
 
 
 # My Android Architecture
