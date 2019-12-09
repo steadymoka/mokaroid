@@ -14,12 +14,14 @@ class RepositoryAdapter : _HeaderFooterAdapter<RepositoryAdapter.Data, _Recycler
 
     var showLoading: Boolean = true
         set(value) {
-            field = value
-            if (field) {
-                notifyItemInserted(itemCount - 1)
-            }
-            else {
-                notifyItemRemoved(itemCount - 1)
+            if (field != value) {
+                field = value
+                if (field) {
+                    notifyItemInserted(itemCount - 1)
+                }
+                else {
+                    notifyItemRemoved(itemCount - 1)
+                }
             }
         }
 

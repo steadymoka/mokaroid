@@ -91,10 +91,6 @@ class ProfileLayout : Fragment() {
     }
 
     private fun bindViewModel() {
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
-
-        })
-
         viewModel.selectedTab.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Tab.Overview -> {
@@ -123,8 +119,15 @@ class ProfileLayout : Fragment() {
             repositoryAdapter.setItems(it.map { RepositoryAdapter.Data(it) })
         })
 
-        viewModel.footerLoading.observe(viewLifecycleOwner, Observer {
-            repositoryAdapter.showLoading = it
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            when (viewModel.selectedTab.value) {
+                Tab.Overview -> {
+                    overviewAdapter.showLoading = it
+                }
+                Tab.Repositories -> {
+                    repositoryAdapter.showLoading = it
+                }
+            }
         })
     }
 

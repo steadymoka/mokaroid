@@ -20,15 +20,13 @@ class ProfileViewModel(
 
     var loading = MutableLiveData<Boolean>()
 
-    var footerLoading = MutableLiveData<Boolean>()
-
     var profile = MutableLiveData<Profile>()
 
     var pinnedRepository = MutableLiveData<List<Pinned>>()
 
-    var myRepository = NotNullMutableLiveData<ArrayList<Repository>>(arrayListOf())
+    var myRepository = NotNullMutableLiveData(arrayListOf<Repository>())
 
-    var selectedTab = MutableLiveData<Tab>()
+    var selectedTab = NotNullMutableLiveData(Tab.Overview)
 
     private var endCursorOfMyRepositories: String? = null
 
@@ -37,6 +35,7 @@ class ProfileViewModel(
     suspend fun loadProfileData() {
         try {
             loading.value = true
+
             val query = AboutMokaQuery()
 
             profile.value = apolloClient.query(query).awaitEnqueue()
@@ -65,12 +64,7 @@ class ProfileViewModel(
 
     suspend fun loadRepositories() {
         try {
-            if (null == endCursorOfMyRepositories) {
-                loading.value = true
-            }
-            else {
-                footerLoading.value = true
-            }
+            loading.value = true
 
             val query = MyRepositoriesQuery(Input.optional(endCursorOfMyRepositories))
 
@@ -102,7 +96,6 @@ class ProfileViewModel(
         }
         finally {
             loading.value = false
-            footerLoading.value = false
         }
     }
 

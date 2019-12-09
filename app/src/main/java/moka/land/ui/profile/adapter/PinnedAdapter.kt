@@ -12,8 +12,27 @@ import moka.land.ui.profile.Pinned
 
 class PinnedAdapter : _HeaderFooterAdapter<PinnedAdapter.Data, _RecyclerItemView<PinnedAdapter.Data>>() {
 
+    var showLoading: Boolean = true
+        set(value) {
+            if (field != value) {
+                field = value
+                if (field) {
+                    notifyItemInserted(itemCount - 1)
+                }
+                else {
+                    notifyItemRemoved(itemCount - 1)
+                }
+            }
+        }
+
+    override fun hasFooter(): Boolean = showLoading
+
     override fun onCreateHeaderView(parent: ViewGroup): View {
         return LayoutInflater.from(parent.context).inflate(R.layout.layout_pinned_repository_header, parent, false)
+    }
+
+    override fun onCreateFooterView(parent: ViewGroup): View? {
+        return LayoutInflater.from(parent.context).inflate(R.layout.layout_repository_footer, parent, false)
     }
 
     override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
