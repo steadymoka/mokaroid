@@ -7,7 +7,37 @@
 	<fragment
 		android:id="@+id/start"
 		android:name="moka.land.ui.main._BlankFragment"
-		android:label="blankMain">
+		android:label="start">
+
+		<action
+			android:id="@+id/goImagePickerSample"
+			app:destination="@id/imagePickerSample"
+			app:enterAnim="@anim/slide_in_right"
+			app:launchSingleTop="true"
+			app:popExitAnim="@animator/slide_out_right" />
+
+		<action
+			android:id="@+id/goImageViewerSample"
+			app:destination="@id/imageViewerSample"
+			app:enterAnim="@anim/slide_in_right"
+			app:launchSingleTop="true"
+			app:popExitAnim="@animator/slide_out_right" />
+
+	</fragment>
+
+	<!--	-->
+
+	<fragment
+		android:id="@+id/imagePickerSample"
+		android:name="moka.land.ui.samples.ImagePickerSampleLayout"
+		android:label="imagePickerSample">
+
+	</fragment>
+
+	<fragment
+		android:id="@+id/imageViewerSample"
+		android:name="moka.land.ui.samples.ImageViewerSampleLayout"
+		android:label="imageViewerSample">
 
 	</fragment>
 

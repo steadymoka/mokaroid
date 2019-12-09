@@ -4,15 +4,26 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="match_parent"
+	android:background="@color/white_01">
+
+	<ImageView
+		android:id="@+id/imageViewBack"
+		android:layout_width="?attr/actionBarSize"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:padding="18dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/mk_vc_left_arrow" />
 
 	<TextView
 		android:id="@+id/textViewTitle"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:layout_marginLeft="24dp"
-		android:layout_marginTop="46dp"
-		android:text="Libraries Samples"
+		android:layout_marginTop="60dp"
+		android:text="ImagePicker Sample"
 		android:textColor="@color/black_02"
 		android:textSize="28dp"
 		android:textStyle="bold"
@@ -21,15 +32,21 @@
 		tools:text="Libraries Samples" />
 
 	<TextView
-		android:id="@+id/textViewImagePicker"
+		android:id="@+id/textViewTestButton"
 		android:layout_width="0dp"
 		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
 		android:layout_marginTop="22dp"
-		android:background="?attr/selectableItemBackground"
+		android:layout_marginRight="24dp"
+		android:background="@color/white_02"
+		android:elevation="2dp"
+		android:foreground="?attr/selectableItemBackground"
+		android:gravity="center"
 		android:paddingLeft="24dp"
 		android:paddingTop="16dp"
+		android:paddingRight="24dp"
 		android:paddingBottom="16dp"
-		android:text="📌  ImagePicker"
+		android:text="Test Button"
 		android:textColor="@color/black_04"
 		android:textSize="14dp"
 		android:textStyle="bold"
@@ -38,21 +55,17 @@
 		app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
 		tools:text="Libraries Samples" />
 
-	<TextView
-		android:id="@+id/textViewImageViewer"
+	<ImageView
+		android:id="@+id/imageViewTarget"
 		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:background="?attr/selectableItemBackground"
-		android:paddingLeft="24dp"
-		android:paddingTop="16dp"
-		android:paddingBottom="16dp"
-		android:text="📌  ImageViewer"
-		android:textColor="@color/black_04"
-		android:textSize="14dp"
-		android:textStyle="bold"
+		android:layout_height="0dp"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="22dp"
+		android:layout_marginRight="24dp"
+		android:background="@color/black_10"
+		app:layout_constraintDimensionRatio="1:1"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewImagePicker"
-		tools:text="Libraries Samples" />
+		app:layout_constraintTop_toBottomOf="@+id/textViewTestButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

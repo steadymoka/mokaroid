@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.launch
 import moka.land.databinding.LayoutProfileBinding
 import moka.land.util.load
@@ -29,9 +28,13 @@ class ProfileLayout : Fragment() {
 
     private fun bindViewModel() {
         viewModel.loading.observe(viewLifecycleOwner, Observer {
+
         })
 
         viewModel.profile.observe(viewLifecycleOwner, Observer {
+            _view.textViewName.text = it.name()
+            _view.textViewBio.text = it.bio()
+            _view.textViewStatus.text = "\"${it.status()?.message()}\""
             _view.imageViewProfileImage.load(activity!!, "${it.avatarUrl()}")
         })
 

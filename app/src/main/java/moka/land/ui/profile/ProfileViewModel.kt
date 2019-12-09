@@ -47,4 +47,8 @@ class ProfileViewModel(
         }
     }
 
+    suspend fun loadPinnedRepository() {
+
+    }
+
 }

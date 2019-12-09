@@ -6,14 +6,49 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent">
 
-	<androidx.cardview.widget.CardView
-		android:layout_width="100dp"
-		android:layout_height="100dp"
-		android:layout_marginLeft="22dp"
-		android:layout_marginTop="22dp"
-		app:cardCornerRadius="50dp"
-		app:cardElevation="1dp"
+	<TextView
+		android:id="@+id/textViewName"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="50dp"
+		android:textColor="@color/black_02"
+		android:textSize="28dp"
+		android:textStyle="bold"
 		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="PROFILE" />
+
+	<TextView
+		android:id="@+id/textViewBio"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:textColor="@color/black_04"
+		android:textSize="13dp"
+		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+		app:layout_constraintTop_toBottomOf="@+id/textViewName"
+		tools:text="PROFILE" />
+
+	<TextView
+		android:id="@+id/textViewStatus"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="2dp"
+		android:textColor="@color/black_04"
+		android:textSize="13dp"
+		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+		app:layout_constraintTop_toBottomOf="@+id/textViewBio"
+		tools:text="PROFILE" />
+
+	<androidx.cardview.widget.CardView
+		android:layout_width="70dp"
+		android:layout_height="70dp"
+		android:layout_marginTop="54dp"
+		android:layout_marginRight="24dp"
+		app:cardCornerRadius="35dp"
+		app:cardElevation="1dp"
+		app:layout_constraintRight_toRightOf="parent"
 		app:layout_constraintTop_toTopOf="parent">
 
 		<ImageView
@@ -24,13 +59,26 @@
 	</androidx.cardview.widget.CardView>
 
 	<TextView
+		android:id="@+id/textViewPinnedRepositoryLabel"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="PROFILE"
-		app:layout_constraintBottom_toBottomOf="parent"
+		android:layout_marginTop="42dp"
+		android:text="> Pinned Repositories 👇👇"
+		android:textColor="@color/black_02"
+		android:textSize="13dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="@+id/textViewName"
+		app:layout_constraintTop_toBottomOf="@+id/textViewStatus" />
+
+	<View
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginLeft="28dp"
+		android:layout_marginTop="8dp"
+		android:layout_marginRight="28dp"
+		android:background="@color/black_12"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toTopOf="parent"
-		tools:text="PROFILE" />
+		app:layout_constraintTop_toBottomOf="@+id/textViewPinnedRepositoryLabel" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

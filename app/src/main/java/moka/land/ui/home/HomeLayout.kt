@@ -5,26 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import moka.land.R
 import moka.land.databinding.LayoutHomeBinding
-import moka.land.imagehelper.picker.builder.ImagePicker
 
 class HomeLayout : Fragment() {
 
     private val _view by lazy { LayoutHomeBinding.inflate(layoutInflater) }
+    private val nav by lazy { findNavController() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        bindEvent()
         return _view.root
     }
 
-    fun aa() {
-        ImagePicker
-            .with(this)
-            .setConfig {
-                camera = true
+    private fun bindEvent() {
+        _view.textViewImagePicker.setOnClickListener {
+            if (nav.currentDestination?.label == "start") {
+                nav.navigate(R.id.goImagePickerSample)
             }
-            .showSingle { uri ->
+        }
 
+        _view.textViewImageViewer.setOnClickListener {
+            if (nav.currentDestination?.label == "start") {
+                nav.navigate(R.id.goImageViewerSample)
             }
+        }
     }
 
 }
