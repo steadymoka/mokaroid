@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.View
 import android.widget.FrameLayout
 
-class ImageViewer {
+class ImageViewer(block: (ImageViewer.() -> Unit)? = null) {
 
     companion object {
         internal var finish: (() -> Unit)? = null
@@ -19,6 +19,8 @@ class ImageViewer {
         addHeader = null
         addFooter = null
         onPageSelected = null
+
+        block?.invoke(this)
     }
 
     /*- -*/
@@ -49,8 +51,9 @@ class ImageViewer {
         finish?.invoke()
     }
 
-    fun addOnPageSelected(onPageSelected: ((position: Int) -> Unit)) {
+    fun addOnPageSelected(onPageSelected: ((position: Int) -> Unit)): ImageViewer {
         Companion.onPageSelected = onPageSelected
+        return this
     }
 
 }
