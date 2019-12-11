@@ -1,11 +1,10 @@
-apply plugin: "com.android.library"
-apply plugin: "com.github.dcendents.android-maven"
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-kapt"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
-
 
 group = 'com.github.moka-a'
 

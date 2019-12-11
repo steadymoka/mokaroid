@@ -1,10 +1,10 @@
-apply plugin: "com.android.library"
-apply plugin: "com.github.dcendents.android-maven"
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
-group = "com.github.moka-a"
+group = 'com.github.moka-a'
 
 android {
     compileSdkVersion 29
@@ -17,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false

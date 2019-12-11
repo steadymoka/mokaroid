@@ -55,7 +55,7 @@ class ProfileLayout : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (AuthManager.apiKey.isEmpty()) {
+        if (AuthManager.apiKey.isEmpty() || AuthManager.apiKey == "NOPE") {
             AlertDialog.Builder(context)
                 .setMessage("GitHub API KEY 를 apikey.properties 파일을 만들어 넣어주세요")
                 .setPositiveButton("확인", null)

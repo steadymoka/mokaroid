@@ -7,9 +7,16 @@ apply plugin: 'com.apollographql.android'
 final BUILD_DATE = new Date().format('yyyy_MM_dd')
 final APP_NAME = 'stdAndroid'
 
-def apikeyPropertiesFile = rootProject.file("app/apikey.properties");
-def apikeyProperties = new Properties()
-apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
+def apiKeyProperties = new Properties()
+try {
+    def apiKeyPropertiesFile = rootProject.file("app/apikey.properties")
+    apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+}
+catch (e) {
+    def apiKeyPropertiesFile = rootProject.file("app/apikey.properties.sample")
+    apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+    e.printStackTrace()
+}
 
 android {
     compileSdkVersion 29
@@ -27,7 +34,7 @@ android {
         versionName '1.0'
 
         setProperty("archivesBaseName", APP_NAME + "_v" + versionCode + "(" + versionName + ")_" + BUILD_DATE)
-        buildConfigField("String", "apikey", apikeyProperties['apikey'])
+        buildConfigField("String", "apikey", apiKeyProperties['apikey'])
     }
     viewBinding {
         enabled = true
