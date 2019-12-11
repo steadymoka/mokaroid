@@ -11,7 +11,7 @@ This library is currently in Developer Preview. The API surface is not yet final
 
 ```gradle
 dependencies {
-    implementation "com.github.moka-a.mokaastd:imagehelper:x.y.z"
+    implementation "com.github.moka-a.std-android:imagehelper:x.y.z"
 }
 
 ```
