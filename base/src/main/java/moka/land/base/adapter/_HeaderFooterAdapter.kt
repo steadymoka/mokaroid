@@ -7,6 +7,10 @@ import java.lang.Exception
 
 abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
 
+    var onClickHeader: (() -> Unit)? = null
+
+    var onClickFooter: (() -> Unit)? = null
+
     open fun hasHeader(): Boolean = true
 
     open fun hasFooter(): Boolean = false
@@ -24,7 +28,9 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
             Type.HEADER -> {
                 val headerView = onCreateHeaderView(parent)
                     ?: throw Exception("You must override onCreateHeaderView(parent: ViewGroup)")
-                object : RecyclerView.ViewHolder(headerView) {}
+                object : RecyclerView.ViewHolder(headerView) {}.apply {
+                    itemView.setOnClickListener { onClickHeader?.invoke() }
+                }
             }
             Type.ITEM -> {
                 super.onCreateViewHolder(parent, viewType)
@@ -32,7 +38,9 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
             Type.FOOTER -> {
                 val headerView = onCreateFooterView(parent)
                     ?: throw Exception("You must override onCreateFooterView(parent: ViewGroup)")
-                object : RecyclerView.ViewHolder(headerView) {}
+                object : RecyclerView.ViewHolder(headerView) {}.apply {
+                    itemView.setOnClickListener { onClickFooter?.invoke() }
+                }
             }
         }
     }
