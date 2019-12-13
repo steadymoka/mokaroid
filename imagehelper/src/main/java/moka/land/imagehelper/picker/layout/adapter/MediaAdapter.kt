@@ -25,8 +25,6 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
     /**
      */
 
-    var onClickHeader: (() -> Unit)? = null
-
     private lateinit var option: Option
     internal val selectedDataList = mutableListOf<Data>()
 
@@ -38,9 +36,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
     override fun hasHeader(): Boolean = option.camera
 
     override fun onCreateHeaderView(parent: ViewGroup): View? {
-        return LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_media_header, parent, false).apply {
-            setOnClickListener { onClickHeader?.invoke() }
-        }
+        return LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_media_header, parent, false)
     }
 
     override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
