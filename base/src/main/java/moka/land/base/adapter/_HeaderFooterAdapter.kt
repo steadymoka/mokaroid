@@ -104,6 +104,42 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
         }
     }
 
+    fun notifyContentItemInserted(contentPosition: Int) {
+        if (hasHeader()) {
+            notifyItemInserted(contentPosition + 1)
+        }
+        else {
+            notifyItemInserted(contentPosition)
+        }
+    }
+
+    fun notifyContentItemInserted(data: DATA) {
+        if (hasHeader()) {
+            notifyItemInserted(items.indexOf(data) + 1)
+        }
+        else {
+            notifyItemInserted(items.indexOf(data))
+        }
+    }
+
+    fun notifyContentItemRemoved(contentPosition: Int) {
+        if (hasHeader()) {
+            notifyItemRemoved(contentPosition + 1)
+        }
+        else {
+            notifyItemRemoved(contentPosition)
+        }
+    }
+
+    fun notifyContentItemRemoved(data: DATA) {
+        if (hasHeader()) {
+            notifyItemRemoved(items.indexOf(data) + 1)
+        }
+        else {
+            notifyItemRemoved(items.indexOf(data))
+        }
+    }
+
     fun notifyContentItemChanged(contentPosition: Int) {
         if (hasHeader()) {
             notifyItemChanged(contentPosition + 1)
