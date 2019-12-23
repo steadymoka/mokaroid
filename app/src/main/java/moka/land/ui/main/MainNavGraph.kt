@@ -17,7 +17,7 @@ class MainNavGraph : AppCompatActivity() {
     private val navController by lazy { host.navController }
 
     private val viewModel by lazy { getViewModel() as MainViewModel }
-    private val adapter by lazy { MainPagerAdapter(supportFragmentManager) }
+    private val adapter by lazy { MainPagerAdapter(this) }
 
     private val homeLayout by lazy { HomeLayout() }
     private val profileLayout by lazy { ProfileLayout() }
@@ -35,6 +35,7 @@ class MainNavGraph : AppCompatActivity() {
         _view.viewPager.run {
             adapter = this@MainNavGraph.adapter
             offscreenPageLimit = 1
+            isUserInputEnabled = false
         }
 
         _view.bottomNavigation.setOnNavigationItemSelectedListener {
