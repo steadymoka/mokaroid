@@ -39,7 +39,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
         return LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_media_header, parent, false)
     }
 
-    override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
         return ItemView(parent)
     }
 

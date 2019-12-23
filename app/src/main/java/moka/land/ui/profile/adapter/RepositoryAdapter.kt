@@ -29,7 +29,7 @@ class RepositoryAdapter : _HeaderFooterAdapter<RepositoryAdapter.Data, _Recycler
 
     override fun hasFooter(): Boolean = showLoading
 
-    override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
         return ItemView(parent)
     }
 

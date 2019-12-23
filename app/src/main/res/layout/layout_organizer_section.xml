@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	android:id="@+id/constraintLayout"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginTop="42dp"
+	android:background="?attr/selectableItemBackground"
+	android:paddingBottom="6dp">
+
+	<TextView
+		android:id="@+id/textViewPinnedRepositoryLabel"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="16dp"
+		android:layout_marginBottom="12dp"
+		android:text="🎈 Organizations 🎈"
+		android:textColor="@color/black_02"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<View
+		android:layout_width="0dp"
+		android:layout_height="1dp"
+		android:layout_marginLeft="6dp"
+		android:layout_marginRight="6dp"
+		android:background="@color/black_12"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="@+id/textViewPinnedRepositoryLabel"
+		app:layout_constraintRight_toRightOf="@+id/textViewPinnedRepositoryLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

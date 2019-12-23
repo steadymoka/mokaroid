@@ -32,10 +32,10 @@ abstract class _BaseAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : 
 
     override fun getItemCount(): Int = items.size
 
-    abstract fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): VIEW
+    abstract fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): VIEW
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return getViewToCreateItemViewHolder(parent, viewType).apply {
+        return onCreateItemViewHolder(parent, viewType).apply {
             itemView.setOnClickListener {
                 onClickItem()
                 onClickItem?.invoke(data)

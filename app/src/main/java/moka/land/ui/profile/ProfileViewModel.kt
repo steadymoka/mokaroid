@@ -14,6 +14,7 @@ import moka.land.util.NotNullMutableLiveData
 
 typealias Profile = AboutMokaQuery.AsUser
 typealias Pinned = AboutMokaQuery.AsRepository
+typealias Organizer = AboutMokaQuery.Node2
 typealias Repository = MyRepositoriesQuery.Node1
 
 enum class Error {
@@ -29,9 +30,11 @@ class ProfileViewModel(
 
     var profile = MutableLiveData<Profile>()
 
-    var pinnedRepository = MutableLiveData<List<Pinned>>()
+    var pinnedList = MutableLiveData<List<Pinned>>()
 
-    var myRepository = NotNullMutableLiveData(arrayListOf<Repository>())
+    var organizerList = MutableLiveData<List<Organizer>>()
+
+    var myRepositoryList = NotNullMutableLiveData(arrayListOf<Repository>())
 
     var selectedTab = NotNullMutableLiveData(Tab.Overview)
 
@@ -53,7 +56,7 @@ class ProfileViewModel(
                 ?.getOrNull(0)
                 ?.node() as? Profile ?: return
 
-            pinnedRepository.value = (apolloClient.query(query).awaitEnqueue()
+            pinnedList.value = (apolloClient.query(query).awaitEnqueue()
                 .search()
                 .edges()
                 ?.getOrNull(0)
@@ -61,6 +64,15 @@ class ProfileViewModel(
                 .pinnedItems()
                 .edges()
                 ?.map { it.node() as Pinned }
+
+            organizerList.value = (apolloClient.query(query).awaitEnqueue()
+                .search()
+                .edges()
+                ?.getOrNull(0)
+                ?.node() as Profile)
+                .organizations()
+                .nodes()
+                ?.map { it }
 
             error.value = Error.NOPE
         }
@@ -96,12 +108,12 @@ class ProfileViewModel(
                 }
 
             val loadedRepositories = arrayListOf<Repository>()
-            loadedRepositories.addAll(myRepository.value)
+            loadedRepositories.addAll(myRepositoryList.value)
 
             if (null != repositories) {
                 loadedRepositories.addAll(repositories)
             }
-            myRepository.value = loadedRepositories
+            myRepositoryList.value = loadedRepositories
             error.value = Error.NOPE
         }
         catch (e: ApolloNetworkException) {
@@ -117,7 +129,7 @@ class ProfileViewModel(
 
     suspend fun reloadRepositories() {
         endCursorOfMyRepositories = null
-        myRepository.value.clear()
+        myRepositoryList.value.clear()
         loadRepositories()
     }
 

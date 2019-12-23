@@ -17,7 +17,7 @@ class AlbumAdapter : _BaseAdapter<AlbumAdapter.Data, _RecyclerItemView<AlbumAdap
 
     var selectedData: Data? = null
 
-    override fun getViewToCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
+    override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
         return ItemView(parent)
     }
 

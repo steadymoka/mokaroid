@@ -3,7 +3,7 @@ package moka.land.base.adapter
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import java.lang.Exception
+import moka.land.base.log
 
 abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
 
@@ -32,15 +32,15 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
                     itemView.setOnClickListener { onClickHeader?.invoke() }
                 }
             }
-            Type.ITEM -> {
-                super.onCreateViewHolder(parent, viewType)
-            }
             Type.FOOTER -> {
                 val headerView = onCreateFooterView(parent)
                     ?: throw Exception("You must override onCreateFooterView(parent: ViewGroup)")
                 object : RecyclerView.ViewHolder(headerView) {}.apply {
                     itemView.setOnClickListener { onClickFooter?.invoke() }
                 }
+            }
+            else -> {
+                super.onCreateViewHolder(parent, viewType)
             }
         }
     }
@@ -49,7 +49,7 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
         when (Type.get(getItemViewType(position))) {
             Type.HEADER -> Unit
             Type.FOOTER -> Unit
-            Type.ITEM -> {
+            else -> {
                 if (hasHeader()) {
                     super.onBindViewHolder(holder, position - 1)
                 }
@@ -81,27 +81,31 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
         return when {
             hasHeader() && hasFooter() -> {
                 when (position) {
-                    0 -> Type.HEADER.ordinal
-                    itemCount - 1 -> Type.FOOTER.ordinal
-                    else -> Type.ITEM.ordinal
+                    0 -> Type.HEADER.index
+                    itemCount - 1 -> Type.FOOTER.index
+                    else -> getViewType(position - 1)
                 }
             }
             hasHeader() && !hasFooter() -> {
                 when (position) {
-                    0 -> Type.HEADER.ordinal
-                    else -> Type.ITEM.ordinal
+                    0 -> Type.HEADER.index
+                    else -> getViewType(position - 1)
                 }
             }
             !hasHeader() && hasFooter() -> {
                 when (position) {
-                    itemCount - 1 -> Type.FOOTER.ordinal
-                    else -> Type.ITEM.ordinal
+                    itemCount - 1 -> Type.FOOTER.index
+                    else -> getViewType(position)
                 }
             }
             else -> {
-                Type.ITEM.ordinal
+                getViewType(position)
             }
         }
+    }
+
+    open fun getViewType(position: Int): Int {
+        return Type.ITEM.index
     }
 
     fun notifyContentItemInserted(contentPosition: Int) {
@@ -158,11 +162,11 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
         }
     }
 
-    enum class Type {
-        HEADER, FOOTER, ITEM;
+    enum class Type(var index: Int) {
+        HEADER(100401), FOOTER(100402), ITEM(100403);
 
         companion object {
-            fun get(ordinal: Int) = values().filter { it.ordinal == ordinal }[0]
+            fun get(index: Int) = values().filter { it.index == index }.getOrNull(0)
         }
     }
 

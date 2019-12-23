@@ -21,6 +21,15 @@ query AboutMoka {
                             }
                         }
                     }
+                    organizations(first: 10) {
+                        nodes {
+                            ... on Organization {
+                                description
+                                avatarUrl
+                                name
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -19,8 +19,9 @@ import moka.land.base.*
 import moka.land.component.AuthManager
 import moka.land.component.widget.EndlessRecyclerViewScrollListener
 import moka.land.databinding.LayoutProfileBinding
-import moka.land.ui.profile.adapter.PinnedAdapter
+import moka.land.ui.profile.adapter.OverviewAdapter
 import moka.land.ui.profile.adapter.RepositoryAdapter
+import moka.land.util.combineWith
 import moka.land.util.load
 import org.koin.android.ext.android.inject
 
@@ -37,7 +38,7 @@ class ProfileLayout : Fragment() {
     private val _view by lazy { LayoutProfileBinding.inflate(layoutInflater) }
 
     private val viewModel by inject<ProfileViewModel>()
-    private val overviewAdapter by lazy { PinnedAdapter() }
+    private val overviewAdapter by lazy { OverviewAdapter() }
     private val repositoryAdapter by lazy { RepositoryAdapter() }
 
     private var loadMore: EndlessRecyclerViewScrollListener? = null
@@ -104,7 +105,9 @@ class ProfileLayout : Fragment() {
         _view.recyclerViewRepositories.addOnScrollListener(loadMore!!)
 
         overviewAdapter.onClickItem = {
-            findNavController().navigate(R.id.goRepository)
+            if (it.type == OverviewAdapter.Type.PINNED) {
+                findNavController().navigate(R.id.goRepository)
+            }
         }
 
         repositoryAdapter.onClickItem = {
@@ -137,12 +140,29 @@ class ProfileLayout : Fragment() {
             }
         })
 
-        viewModel.pinnedRepository.observe(viewLifecycleOwner, Observer {
-            overviewAdapter.setItems(it.map { PinnedAdapter.Data(it) })
-        })
+        viewModel.pinnedList.combineWith(viewModel.organizerList) { pinnedList, organizerList ->
+            if (null == pinnedList || null == organizerList) {
+                return@combineWith
+            }
 
-        viewModel.myRepository.observe(viewLifecycleOwner, Observer {
-            repositoryAdapter.setItems(it.map { RepositoryAdapter.Data(it) })
+            val items = pinnedList
+                .asSequence()
+                .map { OverviewAdapter.Data(type = OverviewAdapter.Type.PINNED, repository = it) }
+                .plus(
+                    listOf(OverviewAdapter.Data(type = OverviewAdapter.Type.ORGANIZER_SECTION))
+                )
+                .plus(
+                    organizerList
+                        .map { OverviewAdapter.Data(type = OverviewAdapter.Type.ORGANIZER, organizer = it) }
+                        .toList()
+                )
+                .toList()
+
+            overviewAdapter.setItems(items)
+        }.observe(viewLifecycleOwner, Observer { })
+
+        viewModel.myRepositoryList.observe(viewLifecycleOwner, Observer { repoList ->
+            repositoryAdapter.setItems(repoList.map { RepositoryAdapter.Data(it) })
         })
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {

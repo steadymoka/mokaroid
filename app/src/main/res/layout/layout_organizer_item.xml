@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/constraintLayout"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:layout_marginLeft="22dp"
+	android:layout_marginTop="16dp"
+	android:layout_marginRight="22dp">
+
+	<ImageView
+		android:id="@+id/imageViewThumb"
+		android:layout_width="40dp"
+		android:layout_height="40dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<TextView
+		android:id="@+id/textViewTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:layout_marginTop="12dp"
+		android:textColor="#4a87db"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
+		app:layout_constraintLeft_toRightOf="@+id/imageViewThumb"
+		app:layout_constraintTop_toTopOf="@+id/imageViewThumb"
+		app:layout_constraintVertical_chainStyle="packed"
+		tools:text="📓 Dynamom" />
+
+	<TextView
+		android:id="@+id/textViewDescription"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="4dp"
+		android:layout_marginBottom="12dp"
+		android:textColor="@color/black_08"
+		android:textSize="12dp"
+		app:layout_constraintBottom_toBottomOf="@+id/imageViewThumb"
+		app:layout_constraintHorizontal_bias="0"
+		app:layout_constraintLeft_toLeftOf="@+id/textViewTitle"
+		app:layout_constraintRight_toRightOf="@+id/textViewTitle"
+		app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+		app:layout_constraintVertical_chainStyle="packed"
+		tools:text="Dynamo DB multi tables ORM for Javascript(Typescript)." />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
