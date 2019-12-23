@@ -4,6 +4,7 @@
 - [permissionmanager](../../../tree/master/permissionmanager/) : Permission check
 - [adhelper](../../../tree/master/adhelper/) : Google Admob, Facebook AudienceNetwork
 
+<br>
 
 # Sample of architecture
 
