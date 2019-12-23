@@ -15,6 +15,7 @@ query AboutMoka {
                         edges {
                             node {
                                 ... on Repository {
+                                    id
                                     name
                                     description
                                 }

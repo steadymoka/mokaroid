@@ -1,0 +1,14 @@
+query GetRepository($name: String!) {
+    search(first: 1, query: "moka-a", type: USER) {
+        edges {
+            node {
+                ... on User {
+                    repository(name: $name) {
+                        name
+                        description
+                    }
+                }
+            }
+        }
+    }
+}

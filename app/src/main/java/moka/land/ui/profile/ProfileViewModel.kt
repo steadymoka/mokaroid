@@ -46,7 +46,7 @@ class ProfileViewModel(
         try {
             loading.value = true
 
-            delay(1000) // todo place holder check
+            delay(1000) // fixme : for place holder check
 
             val query = AboutMokaQuery()
 

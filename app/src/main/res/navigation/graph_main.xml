@@ -53,6 +53,11 @@
 		android:name="moka.land.ui.repository.RepositoryLayout"
 		android:label="repository">
 
+		<argument
+			android:name="name"
+			app:argType="string"
+			app:nullable="false" />
+
 	</fragment>
 
 </navigation>

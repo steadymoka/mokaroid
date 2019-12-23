@@ -5,18 +5,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import moka.land.databinding.LayoutImagePickerSampleBinding
 import moka.land.databinding.LayoutRepositoryBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.util.load
+import org.koin.android.ext.android.inject
 
 class RepositoryLayout : Fragment() {
 
     private val _view by lazy { LayoutRepositoryBinding.inflate(layoutInflater) }
+    private val viewModel by inject<RepositoryViewModel>()
+    private val args: RepositoryLayoutArgs by navArgs()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         bindEvent()
+        bindViewModel()
+
+        lifecycleScope.launch {
+            viewModel.loadRepository(args.name)
+        }
         return _view.root
     }
 
@@ -24,6 +36,13 @@ class RepositoryLayout : Fragment() {
         _view.imageViewBack.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    private fun bindViewModel() {
+        viewModel.repository.observe(viewLifecycleOwner, Observer { repo ->
+            _view.textViewName.text = "\uD83D\uDCD3 ${repo.name()}"
+            _view.textViewDescription.text = repo.description()
+        })
     }
 
 }

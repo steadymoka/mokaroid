@@ -19,6 +19,7 @@ import moka.land.base.*
 import moka.land.component.AuthManager
 import moka.land.component.widget.EndlessRecyclerViewScrollListener
 import moka.land.databinding.LayoutProfileBinding
+import moka.land.ui.main._BlankFragmentDirections
 import moka.land.ui.profile.adapter.OverviewAdapter
 import moka.land.ui.profile.adapter.RepositoryAdapter
 import moka.land.util.combineWith
@@ -105,13 +106,15 @@ class ProfileLayout : Fragment() {
         _view.recyclerViewRepositories.addOnScrollListener(loadMore!!)
 
         overviewAdapter.onClickItem = {
-            if (it.type == OverviewAdapter.Type.PINNED) {
-                findNavController().navigate(R.id.goRepository)
+            if (it.type == OverviewAdapter.Type.PINNED && null != it.repository) {
+                val direction = _BlankFragmentDirections.goRepository(it.repository!!.name())
+                findNavController().navigate(direction)
             }
         }
 
         repositoryAdapter.onClickItem = {
-            findNavController().navigate(R.id.goRepository)
+            val direction = _BlankFragmentDirections.goRepository(it.repository.name())
+            findNavController().navigate(direction)
         }
     }
 
@@ -157,9 +160,8 @@ class ProfileLayout : Fragment() {
                         .toList()
                 )
                 .toList()
-
             overviewAdapter.setItems(items)
-        }.observe(viewLifecycleOwner, Observer { })
+        }.observe(viewLifecycleOwner, Observer {})
 
         viewModel.myRepositoryList.observe(viewLifecycleOwner, Observer { repoList ->
             repositoryAdapter.setItems(repoList.map { RepositoryAdapter.Data(it) })
