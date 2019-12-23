@@ -7,7 +7,7 @@ This library is currently in Developer Preview. The API surface is not yet final
 <br>
 
 ## Installation - Gradle
-[![Release](https://jitpack.io/v/moka-a/std-android.svg)](https://jitpack.io/moka-a/std-android)
+[![Release](https://jitpack.io/v/moka-a/mokaroid.svg)](https://jitpack.io/moka-a/mokaroid)
 
 ```gradle
 dependencies {

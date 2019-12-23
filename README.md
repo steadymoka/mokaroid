@@ -16,6 +16,8 @@ Get my profile information from github api (graphQL). (You should Github API key
 
 ## **Libraries**
 
+[![Release](https://jitpack.io/v/moka-a/mokaroid.svg)](https://jitpack.io/moka-a/mokaroid)
+
 ### Projects
 - [base](base/) : resource / recyclerView adapter / extention functions
 - [imagehelper](imagehelper/) : ImagePicker / ImageViewer
