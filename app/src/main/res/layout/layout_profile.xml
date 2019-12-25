@@ -188,7 +188,7 @@
 		android:id="@+id/textViewError"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="112dp"
+		android:layout_marginTop="132dp"
 		android:gravity="center"
 		android:text=""
 		android:textColor="@color/black_08"

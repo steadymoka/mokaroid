@@ -196,12 +196,16 @@ class ProfileLayout : Fragment() {
         viewModel.error.observe(viewLifecycleOwner, Observer {
             when (it) {
                 Error.CONNECTION -> {
+                    _view.recyclerViewOverview.hidePlaceHolder(200)
+
                     _view.textViewError.visible()
                     _view.textViewError.text = "인터넷 연결을 확인해주세요 :D"
                 }
                 Error.SERVER -> {
+                    _view.recyclerViewOverview.hidePlaceHolder(200)
+
                     _view.textViewError.visible()
-                    _view.textViewError.text = "예상치 못한 에러입니다 :D"
+                    _view.textViewError.text = "예상치 못한 에러입니다 :(\n\napikey.properties 파일의 GitHub api key 를 확인해주세요"
                 }
                 Error.NOPE -> {
                     _view.textViewError.gone()

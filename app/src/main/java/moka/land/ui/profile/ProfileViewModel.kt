@@ -115,9 +115,11 @@ class ProfileViewModel(
             error.value = Error.NOPE
         }
         catch (e: ApolloNetworkException) {
+            loading.value = false
             error.value = Error.CONNECTION
         }
         catch (e: ApolloHttpException) {
+            loading.value = false
             error.value = Error.SERVER
         }
     }
