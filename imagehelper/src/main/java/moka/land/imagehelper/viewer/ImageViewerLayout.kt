@@ -1,5 +1,6 @@
 package moka.land.imagehelper.viewer
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -34,8 +35,8 @@ class ImageViewerLayout : AppCompatActivity() {
             }
         })
 
-        val items = intent.getStringArrayListExtra(KEY_DATAS)
-        imageAdapter.items = items.map { Data(it) } as ArrayList<Data>
+        val items = intent.getParcelableArrayListExtra<Uri>(KEY_DATAS)
+        imageAdapter.items = items?.map { Data(it) } as ArrayList<Data>
 
         val selectedPosition = intent.getIntExtra(KEY_SELECTED_POSITION, 0)
         viewPager.setCurrentItem(selectedPosition, false)

@@ -1,5 +1,6 @@
 package moka.land.imagehelper.viewer
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,10 +40,10 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
         fun refresh(data: Data?) {
             Glide
                 .with(view.context)
-                .load(data!!.path)
+                .load(data!!.uri)
                 .into(view.photoView)
         }
     }
 }
 
-data class Data(var path: String)
+data class Data(var uri: Uri)

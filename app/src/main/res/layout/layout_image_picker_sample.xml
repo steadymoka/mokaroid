@@ -46,7 +46,7 @@
 		android:paddingTop="16dp"
 		android:paddingRight="24dp"
 		android:paddingBottom="16dp"
-		android:text="Test Button"
+		android:text="Image Picker"
 		android:textColor="@color/black_04"
 		android:textSize="14dp"
 		android:textStyle="bold"

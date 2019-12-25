@@ -2,33 +2,41 @@ package moka.land.imagehelper.viewer
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
+import java.lang.ref.WeakReference
 
-class ImageViewer(block: (ImageViewer.() -> Unit)? = null) {
+interface Runnable {
 
-    companion object {
-        internal var finish: (() -> Unit)? = null
-        internal var addHeader: ((parent: FrameLayout) -> Unit)? = null
-        internal var addFooter: ((parent: FrameLayout) -> Unit)? = null
-        internal var onPageSelected: ((position: Int) -> Unit)? = null
-    }
+    fun show(uris: ArrayList<Uri>, selectedPosition: Int = 0)
+}
+
+class ImageViewer(
+    private var context: WeakReference<Context>) : Runnable {
+    private var block: (ImageViewer.() -> Unit)? = null
 
     init {
         finish = null
         addHeader = null
         addFooter = null
         onPageSelected = null
-
-        block?.invoke(this)
     }
 
     /*- -*/
 
-    fun show(context: Context, paths: ArrayList<String>, selectedPosition: Int = 0) {
-        context.startActivity(Intent(context, ImageViewerLayout::class.java)
+    fun setConfig(block: (ImageViewer.() -> Unit)? = null): Runnable {
+        this.block = block
+        return this
+    }
+
+    override fun show(uris: ArrayList<Uri>, selectedPosition: Int) {
+        block?.invoke(this)
+
+        context.get()?.startActivity(Intent(context.get(), ImageViewerLayout::class.java)
             .apply {
-                putStringArrayListExtra(ImageViewerLayout.KEY_DATAS, paths)
+                putParcelableArrayListExtra(ImageViewerLayout.KEY_DATAS, uris)
                 putExtra(ImageViewerLayout.KEY_SELECTED_POSITION, selectedPosition)
             })
     }
@@ -54,6 +62,17 @@ class ImageViewer(block: (ImageViewer.() -> Unit)? = null) {
     fun addOnPageSelected(onPageSelected: ((position: Int) -> Unit)): ImageViewer {
         Companion.onPageSelected = onPageSelected
         return this
+    }
+
+    companion object {
+        fun with(context: Context): ImageViewer {
+            return ImageViewer(WeakReference(context))
+        }
+
+        internal var finish: (() -> Unit)? = null
+        internal var addHeader: ((parent: FrameLayout) -> Unit)? = null
+        internal var addFooter: ((parent: FrameLayout) -> Unit)? = null
+        internal var onPageSelected: ((position: Int) -> Unit)? = null
     }
 
 }
