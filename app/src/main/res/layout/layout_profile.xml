@@ -18,7 +18,6 @@
 		<androidx.core.widget.NestedScrollView
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:paddingBottom="28dp"
 			app:layout_scrollFlags="scroll">
 
 			<androidx.constraintlayout.widget.ConstraintLayout
@@ -163,14 +162,13 @@
 
 	</com.google.android.material.appbar.AppBarLayout>
 
-	<androidx.recyclerview.widget.RecyclerView
+	<moka.land.base.adapter._RecyclerView
 		android:id="@+id/recyclerViewOverview"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:background="@color/white_01"
 		android:clipToPadding="false"
 		android:paddingTop="16dp"
-		android:paddingBottom="36dp"
 		app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 		app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

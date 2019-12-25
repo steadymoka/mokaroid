@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -26,6 +25,7 @@ import moka.land.util.combineWith
 import moka.land.util.load
 import org.koin.android.ext.android.inject
 
+
 enum class Tab {
     Overview, Repositories;
 
@@ -41,8 +41,6 @@ class ProfileLayout : Fragment() {
     private val viewModel by inject<ProfileViewModel>()
     private val overviewAdapter by lazy { OverviewAdapter() }
     private val repositoryAdapter by lazy { RepositoryAdapter() }
-
-    private var loadMore: EndlessRecyclerViewScrollListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         init()
@@ -68,6 +66,7 @@ class ProfileLayout : Fragment() {
     private fun init() {
         viewModel.selectedTab.value = Tab.Overview
 
+        _view.recyclerViewOverview.showPlaceHolder(R.layout.view_overview_placeholder)
         _view.recyclerViewOverview.adapter = overviewAdapter
         _view.recyclerViewRepositories.adapter = repositoryAdapter
     }
@@ -85,10 +84,10 @@ class ProfileLayout : Fragment() {
                     }
                     Tab.Repositories -> {
                         lifecycleScope.launch {
-                            viewModel.selectedTab.value = Tab.Repositories
-
                             _view.recyclerViewRepositories.scrollToPosition(0)
-                            loadMore?.resetState()
+
+                            viewModel.selectedTab.value = Tab.Repositories
+                            viewModel.myRepositoryList.value = arrayListOf()
                             viewModel.reloadRepositories()
                         }
                     }
@@ -96,14 +95,20 @@ class ProfileLayout : Fragment() {
             }
         })
 
-        loadMore = object : EndlessRecyclerViewScrollListener(_view.recyclerViewRepositories.layoutManager as LinearLayoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                lifecycleScope.launch {
-                    viewModel.loadRepositories()
+        _view.recyclerViewRepositories.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val linearLayoutManager = recyclerView.layoutManager as LinearLayoutManager
+
+                if (!viewModel.loading.value) {
+                    if (linearLayoutManager.findLastCompletelyVisibleItemPosition() >= repositoryAdapter.itemCount - 2) {
+                        lifecycleScope.launch {
+                            viewModel.loadRepositories()
+                        }
+                    }
                 }
             }
-        }
-        _view.recyclerViewRepositories.addOnScrollListener(loadMore!!)
+        })
 
         overviewAdapter.onClickItem = {
             if (it.type == OverviewAdapter.Type.PINNED && null != it.repository) {
@@ -143,10 +148,11 @@ class ProfileLayout : Fragment() {
             }
         })
 
-        viewModel.pinnedList.combineWith(viewModel.organizerList) { pinnedList, organizerList ->
+        combineWith(viewModel.pinnedList, viewModel.organizerList) { pinnedList, organizerList ->
             if (null == pinnedList || null == organizerList) {
                 return@combineWith
             }
+            _view.recyclerViewOverview.hidePlaceHolder(200)
 
             val items = pinnedList
                 .asSequence()
@@ -164,16 +170,25 @@ class ProfileLayout : Fragment() {
         }.observe(viewLifecycleOwner, Observer {})
 
         viewModel.myRepositoryList.observe(viewLifecycleOwner, Observer { repoList ->
-            repositoryAdapter.setItems(repoList.map { RepositoryAdapter.Data(it) })
+            if (repoList.isEmpty()) {
+                repositoryAdapter.items.clear()
+                repositoryAdapter.notifyDataSetChanged()
+                return@Observer
+            }
+            repositoryAdapter.replaceItems(repoList.map { RepositoryAdapter.Data(it) })
         })
 
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             when (viewModel.selectedTab.value) {
                 Tab.Overview -> {
-                    overviewAdapter.showLoading = it
                 }
                 Tab.Repositories -> {
-                    repositoryAdapter.showLoading = it
+                    if (it) {
+                        repositoryAdapter.showFooterLoading()
+                    }
+                    else {
+                        repositoryAdapter.hideFooterLoading()
+                    }
                 }
             }
         })

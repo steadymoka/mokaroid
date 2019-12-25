@@ -3,7 +3,7 @@ query MyRepositories($endCurcor: String) {
         edges {
             node {
                 ... on User {
-                    repositories(first: 10, after: $endCurcor) {
+                    repositories(first: 10, after: $endCurcor, isFork: false) {
                         pageInfo {
                             endCursor
                             hasNextPage

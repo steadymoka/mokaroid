@@ -10,7 +10,7 @@ Android Architecture and Libraries
 Get my profile information from github api (graphQL). (You should Github API key to `/apikey.properties` file)
 
 ### Projects
--  [app](app/) : Library Samples / Android Architecture
+-  [app](app/) : Android Architecture / Library Samples 
 
 <br>
 

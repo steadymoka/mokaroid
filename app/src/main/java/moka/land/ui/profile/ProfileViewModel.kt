@@ -9,8 +9,11 @@ import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
 import kotlinx.coroutines.delay
+import moka.land.base.log
 import moka.land.modules.awaitEnqueue
 import moka.land.util.NotNullMutableLiveData
+import moka.land.util.addValues
+
 
 typealias Profile = AboutMokaQuery.AsUser
 typealias Pinned = AboutMokaQuery.AsRepository
@@ -44,10 +47,7 @@ class ProfileViewModel(
 
     suspend fun loadProfileData() {
         try {
-            loading.value = true
-
             delay(1000) // fixme : for place holder check
-
             val query = AboutMokaQuery()
 
             profile.value = apolloClient.query(query).awaitEnqueue()
@@ -89,8 +89,11 @@ class ProfileViewModel(
 
     suspend fun loadRepositories() {
         try {
-            loading.value = true
+            if (endCursorOfMyRepositories == "LAST") {
+                return
+            }
 
+            loading.value = true
             val query = MyRepositoriesQuery(Input.optional(endCursorOfMyRepositories))
 
             val repositories = (apolloClient.query(query).awaitEnqueue()
@@ -100,20 +103,15 @@ class ProfileViewModel(
                 ?.node() as MyRepositoriesQuery.AsUser)
                 .repositories()
                 .apply {
-                    endCursorOfMyRepositories = pageInfo().endCursor()
+                    endCursorOfMyRepositories = pageInfo().endCursor() ?: "LAST"
                 }
                 .edges()
                 ?.map {
                     it.node() as Repository
                 }
 
-            val loadedRepositories = arrayListOf<Repository>()
-            loadedRepositories.addAll(myRepositoryList.value)
-
-            if (null != repositories) {
-                loadedRepositories.addAll(repositories)
-            }
-            myRepositoryList.value = loadedRepositories
+            loading.value = false
+            myRepositoryList.addValues(repositories as ArrayList<Repository>)
             error.value = Error.NOPE
         }
         catch (e: ApolloNetworkException) {
@@ -122,14 +120,10 @@ class ProfileViewModel(
         catch (e: ApolloHttpException) {
             error.value = Error.SERVER
         }
-        finally {
-            loading.value = false
-        }
     }
 
     suspend fun reloadRepositories() {
         endCursorOfMyRepositories = null
-        myRepositoryList.value.clear()
         loadRepositories()
     }
 

@@ -10,6 +10,7 @@ import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
 import kotlinx.coroutines.delay
+import moka.land.base.log
 import moka.land.modules.awaitEnqueue
 import moka.land.util.NotNullMutableLiveData
 
@@ -35,6 +36,7 @@ class RepositoryViewModel(
         try {
             loading.value = true
 
+            log("name: ${name}")
             val query = GetRepositoryQuery(name)
             repository.value = (apolloClient.query(query).awaitEnqueue()
                 .search()

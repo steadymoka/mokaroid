@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
+import moka.land.base.log
 import moka.land.databinding.LayoutImagePickerSampleBinding
 import moka.land.databinding.LayoutRepositoryBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
@@ -40,8 +41,14 @@ class RepositoryLayout : Fragment() {
 
     private fun bindViewModel() {
         viewModel.repository.observe(viewLifecycleOwner, Observer { repo ->
-            _view.textViewName.text = "\uD83D\uDCD3 ${repo.name()}"
-            _view.textViewDescription.text = repo.description()
+            if (null != repo) {
+                _view.textViewName.text = "\uD83D\uDCD3 ${repo.name()}"
+                _view.textViewDescription.text = repo.description()
+            }
+            else {
+                _view.textViewName.text = "삭제된 저장소입니다."
+                _view.textViewDescription.text = "-"
+            }
         })
     }
 

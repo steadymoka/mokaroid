@@ -7,39 +7,27 @@ import moka.land.R
 import moka.land.base.adapter._HeaderFooterAdapter
 import moka.land.base.adapter._ItemData
 import moka.land.base.adapter._RecyclerItemView
-import moka.land.databinding.LayoutOrganizerItemBinding
-import moka.land.databinding.LayoutRepositoryItemBinding
+import moka.land.base.dip
+import moka.land.databinding.ViewOrganizerItemBinding
+import moka.land.databinding.ViewRepositoryItemBinding
 import moka.land.ui.profile.Organizer
 import moka.land.ui.profile.Pinned
 import moka.land.util.load
 
 class OverviewAdapter : _HeaderFooterAdapter<OverviewAdapter.Data, _RecyclerItemView<OverviewAdapter.Data>>() {
 
-    var showLoading: Boolean = true
-        set(value) {
-            if (field != value) {
-                field = value
-                if (field) {
-                    notifyItemInserted(itemCount - 1)
-                }
-                else {
-                    notifyItemRemoved(itemCount - 1)
-                }
-            }
-        }
-
-    override fun hasFooter(): Boolean = showLoading
+    override fun hasFooter(): Boolean = true
 
     override fun getViewType(position: Int): Int {
         return items[position].type.ordinal
     }
 
     override fun onCreateHeaderView(parent: ViewGroup): View {
-        return LayoutInflater.from(parent.context).inflate(R.layout.layout_pinned_repository_header, parent, false)
+        return LayoutInflater.from(parent.context).inflate(R.layout.view_pinned_header, parent, false)
     }
 
     override fun onCreateFooterView(parent: ViewGroup): View? {
-        return LayoutInflater.from(parent.context).inflate(R.layout.layout_repository_footer, parent, false)
+        return View(parent.context).apply { layoutParams = ViewGroup.LayoutParams(-1, dip(30)) }
     }
 
     override fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): _RecyclerItemView<Data> {
@@ -54,9 +42,9 @@ class OverviewAdapter : _HeaderFooterAdapter<OverviewAdapter.Data, _RecyclerItem
      * ItemView & Data
      */
 
-    inner class PinnedItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.layout_repository_item) {
+    inner class PinnedItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.view_repository_item) {
 
-        private val _view = LayoutRepositoryItemBinding.bind(itemView)
+        private val _view = ViewRepositoryItemBinding.bind(itemView)
 
         override fun refreshView() {
             _view.textViewTitle.text = "\uD83D\uDCD3 ${data.repository?.name() ?: ""}"
@@ -65,9 +53,9 @@ class OverviewAdapter : _HeaderFooterAdapter<OverviewAdapter.Data, _RecyclerItem
 
     }
 
-    inner class OrganizerItemView(var parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.layout_organizer_item) {
+    inner class OrganizerItemView(var parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.view_organizer_item) {
 
-        private val _view = LayoutOrganizerItemBinding.bind(itemView)
+        private val _view = ViewOrganizerItemBinding.bind(itemView)
 
         override fun refreshView() {
             _view.imageViewThumb.load(parent.context, data.organizer!!.avatarUrl() as String)
@@ -77,7 +65,7 @@ class OverviewAdapter : _HeaderFooterAdapter<OverviewAdapter.Data, _RecyclerItem
 
     }
 
-    inner class OrganizerSectionView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.layout_organizer_section)
+    inner class OrganizerSectionView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.view_organizer_header)
 
     enum class Type {
         PINNED, ORGANIZER, ORGANIZER_SECTION;

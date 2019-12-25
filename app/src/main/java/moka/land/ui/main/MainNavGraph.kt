@@ -30,7 +30,7 @@ class MainNavGraph : AppCompatActivity() {
     }
 
     private fun initView() {
-        adapter.addItems(homeLayout, profileLayout)
+        adapter.addItems(profileLayout, homeLayout)
 
         _view.viewPager.run {
             adapter = this@MainNavGraph.adapter

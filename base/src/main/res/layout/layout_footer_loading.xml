@@ -9,7 +9,7 @@
 	<ProgressBar
 		android:layout_width="18dp"
 		android:layout_height="18dp"
-		android:layout_marginTop="16dp"
+		android:layout_marginTop="24dp"
 		android:layout_marginBottom="28dp"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintLeft_toLeftOf="parent"

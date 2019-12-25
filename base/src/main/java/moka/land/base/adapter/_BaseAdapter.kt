@@ -26,6 +26,14 @@ abstract class _BaseAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : 
         result.dispatchUpdatesTo(this)
     }
 
+    fun addItems(items: List<DATA>) {
+        val startIndex = this.items.size
+        val offsetIndex = items.size
+
+        this.items.addAll(items)
+        this.notifyItemRangeInserted(startIndex, offsetIndex)
+    }
+
     open fun getDiffCallback(items: List<DATA>): DiffUtil.Callback {
         return _DiffUtilCallback(this.items, items)
     }

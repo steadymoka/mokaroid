@@ -1,15 +1,45 @@
 package moka.land.base.adapter
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import moka.land.base.R
 import moka.land.base.log
+
+enum class Footer {
+    NONE, VIEW, LOADING;
+}
 
 abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<DATA>> : _BaseAdapter<DATA, VIEW>() {
 
     var onClickHeader: (() -> Unit)? = null
 
     var onClickFooter: (() -> Unit)? = null
+
+    private var hasFooter: Footer = Footer.NONE
+        get() {
+            return if (hasFooter()) {
+                Footer.VIEW
+            }
+            else {
+                field
+            }
+        }
+
+    fun showFooterLoading() {
+        if (!hasFooter()) {
+            hasFooter = Footer.LOADING
+            notifyItemInserted(itemCount - 1)
+        }
+    }
+
+    fun hideFooterLoading() {
+        if (!hasFooter()) {
+            hasFooter = Footer.NONE
+            notifyItemRemoved(itemCount)
+        }
+    }
 
     open fun hasHeader(): Boolean = true
 
@@ -23,6 +53,10 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
         return null
     }
 
+    open fun onCreateFooterLoadingView(parent: ViewGroup): View {
+        return LayoutInflater.from(parent.context).inflate(R.layout.layout_footer_loading, parent, false)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (Type.get(viewType)) {
             Type.HEADER -> {
@@ -33,10 +67,20 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
                 }
             }
             Type.FOOTER -> {
-                val headerView = onCreateFooterView(parent)
-                    ?: throw Exception("You must override onCreateFooterView(parent: ViewGroup)")
-                object : RecyclerView.ViewHolder(headerView) {}.apply {
-                    itemView.setOnClickListener { onClickFooter?.invoke() }
+                when (hasFooter) {
+                    Footer.LOADING -> {
+                        val footerView = onCreateFooterLoadingView(parent)
+                        object : RecyclerView.ViewHolder(footerView) {}.apply {
+                            itemView.setOnClickListener { onClickFooter?.invoke() }
+                        }
+                    }
+                    else -> {
+                        val footerView = onCreateFooterView(parent)
+                            ?: throw Exception("You must override onCreateFooterView(parent: ViewGroup)")
+                        object : RecyclerView.ViewHolder(footerView) {}.apply {
+                            itemView.setOnClickListener { onClickFooter?.invoke() }
+                        }
+                    }
                 }
             }
             else -> {
@@ -62,13 +106,13 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
 
     override fun getItemCount(): Int {
         return when {
-            hasHeader() && hasFooter() -> {
+            hasHeader() && hasFooter != Footer.NONE -> {
                 items.size + 2
             }
-            hasHeader() && !hasFooter() -> {
+            hasHeader() && hasFooter == Footer.NONE -> {
                 items.size + 1
             }
-            !hasHeader() && hasFooter() -> {
+            !hasHeader() && hasFooter != Footer.NONE -> {
                 items.size + 1
             }
             else -> {
@@ -79,20 +123,20 @@ abstract class _HeaderFooterAdapter<DATA : _ItemData, VIEW : _RecyclerItemView<D
 
     override fun getItemViewType(position: Int): Int {
         return when {
-            hasHeader() && hasFooter() -> {
+            hasHeader() && hasFooter != Footer.NONE -> {
                 when (position) {
                     0 -> Type.HEADER.index
                     itemCount - 1 -> Type.FOOTER.index
                     else -> getViewType(position - 1)
                 }
             }
-            hasHeader() && !hasFooter() -> {
+            hasHeader() && hasFooter == Footer.NONE -> {
                 when (position) {
                     0 -> Type.HEADER.index
                     else -> getViewType(position - 1)
                 }
             }
-            !hasHeader() && hasFooter() -> {
+            !hasHeader() && hasFooter != Footer.NONE -> {
                 when (position) {
                     itemCount - 1 -> Type.FOOTER.index
                     else -> getViewType(position)
