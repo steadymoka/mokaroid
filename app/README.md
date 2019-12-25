@@ -1,6 +1,9 @@
 # Sample of architecture
 
-This app is get my profile(moka-a) from github api (graphQL). So, you should Github API key to `/apikey.properties` file
+This app is get my profile(moka-a) from github api (graphQL). 
+
+You should Github API key to `/apikey.properties` file. 
+`https://github.com/settings/tokens > Personal access tokens > Generate new token > check [read:org]`
 
 If you want to know more information of Github GraphQL Api v4, check [https://developer.github.com/v4/guides/using-the-explorer/](https://developer.github.com/v4/guides/using-the-explorer/)
 

@@ -55,9 +55,9 @@ class ProfileLayout : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (AuthManager.apiKey.isEmpty() || AuthManager.apiKey == "NOPE") {
+        if (AuthManager.apiKey.isEmpty() || AuthManager.apiKey == "https://github.com/settings/tokens > Personal access tokens > Generate new token") {
             AlertDialog.Builder(context)
-                .setMessage("GitHub API KEY 를 apikey.properties 파일을 만들어 넣어주세요")
+                .setMessage("GitHub API KEY 를 apikey.properties 파일을 만들어 넣어주세요\nread:org 권한을 포함 시켜주세요 :)")
                 .setPositiveButton("확인", null)
                 .show()
         }
@@ -205,7 +205,7 @@ class ProfileLayout : Fragment() {
                     _view.recyclerViewOverview.hidePlaceHolder(200)
 
                     _view.textViewError.visible()
-                    _view.textViewError.text = "예상치 못한 에러입니다 :(\n\napikey.properties 파일의 GitHub api key 를 확인해주세요"
+                    _view.textViewError.text = "예상치 못한 에러입니다 :(\n\napikey.properties 파일의 GitHub api key 를 확인해주세요\nread:org 권한을 포함 하여야 합니다."
                 }
                 Error.NOPE -> {
                     _view.textViewError.gone()

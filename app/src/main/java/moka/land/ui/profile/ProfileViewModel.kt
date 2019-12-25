@@ -6,6 +6,7 @@ import com.apollographql.apollo.AboutMokaQuery
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.MyRepositoriesQuery
 import com.apollographql.apollo.api.Input
+import com.apollographql.apollo.exception.ApolloException
 import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
 import kotlinx.coroutines.delay
@@ -79,7 +80,7 @@ class ProfileViewModel(
         catch (e: ApolloNetworkException) {
             error.value = Error.CONNECTION
         }
-        catch (e: ApolloHttpException) {
+        catch (e: ApolloException) {
             error.value = Error.SERVER
         }
         finally {
@@ -118,7 +119,7 @@ class ProfileViewModel(
             loading.value = false
             error.value = Error.CONNECTION
         }
-        catch (e: ApolloHttpException) {
+        catch (e: ApolloException) {
             loading.value = false
             error.value = Error.SERVER
         }
