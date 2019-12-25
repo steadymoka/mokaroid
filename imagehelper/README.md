@@ -24,7 +24,7 @@ dependencies {
 
 ```kotlin
 ImagePicker
-    .with(this)
+    .with(context) // context
     .setConfig {
         // ... set your configuration
     }
@@ -39,10 +39,11 @@ ImagePicker
 ### ImageViewer
 
 ```kotlin
-ImageViewer()
-    .apply {
-        // Add Header
-        val header = OverlayView(activity!!, R.layout.layout_your_header)
+ImageViewer
+    .with(context)
+    .setConfig {
+        // Add Header (OverlayView or View)
+        val header = OverlayView(context, R.layout.layout_your_header)
         header.getTextView(R.id.title)!!.text = "Title"
 
         addHeader(header)
@@ -52,5 +53,5 @@ ImageViewer()
             header.getTextView(R.id.title)!!.text = "Title ${position}"
         }
     }
-    .show(activity!!, imageList, selectedPosition)
+    .show(imageList, selectedPosition)
 ```
