@@ -17,9 +17,13 @@ In this app you'll find:
 - **Apollo GraphQL Client** to call Githubapi.
 - **Koin** : dependency injection.
 
-<p align="center">
-  <img src="./screen-shots/device-2019-12-27-234349.png" alt="ScreenShot"/>
-  <img src="./screen-shots/device-2019-12-27-234431.png" alt="ScreenShot"/>
+<br>
+
+## ScreenShot
+<p align="left">
+  <img src="./screen-shots/device-2019-12-27-234349.png" alt="ScreenShot" width="200"/>
+  <img src="./screen-shots/device-2019-12-27-235143.png" alt="ScreenShot" width="200"/>
+  <img src="./screen-shots/device-2019-12-27-234431.png" alt="ScreenShot" width="200"/>
 </p>
 
 
