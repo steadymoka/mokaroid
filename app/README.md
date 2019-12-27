@@ -21,9 +21,9 @@ In this app you'll find:
 
 ## ScreenShot
 <p align="left">
-  <img src="./screen-shots/device-2019-12-27-234349.png" alt="ScreenShot" width="200"/>
-  <img src="./screen-shots/device-2019-12-27-235143.png" alt="ScreenShot" width="200"/>
-  <img src="./screen-shots/device-2019-12-27-234431.png" alt="ScreenShot" width="200"/>
+  <img src="./screen-shots/device-2019-12-27-234349.png" alt="ScreenShot" width="220"/>
+  <img src="./screen-shots/device-2019-12-27-235143.png" alt="ScreenShot" width="220"/>
+  <img src="./screen-shots/device-2019-12-27-234431.png" alt="ScreenShot" width="220"/>
 </p>
 
 
