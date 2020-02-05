@@ -5,7 +5,7 @@ apply plugin: 'androidx.navigation.safeargs.kotlin'
 apply plugin: 'com.apollographql.android'
 
 final BUILD_DATE = new Date().format('yyyy_MM_dd')
-final APP_NAME = 'stdAndroid'
+final APP_NAME = 'mokaroid'
 
 def apiKeyProperties = new Properties()
 try {

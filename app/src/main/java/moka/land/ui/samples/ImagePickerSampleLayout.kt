@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import moka.land.R
 import moka.land.databinding.LayoutImagePickerSampleBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.util.load
@@ -27,7 +28,7 @@ class ImagePickerSampleLayout : Fragment() {
         _view.textViewTestButton.setOnClickListener {
             ImagePicker.with(this)
                 .setConfig {
-
+                    indicatorColorRes = R.color.black_01
                 }
                 .showSingle { uri ->
                     _view.imageViewTarget.load(this.activity!!, uri)

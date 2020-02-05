@@ -3,6 +3,7 @@ package moka.land.imagehelper.picker.layout.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import moka.land.base.adapter._HeaderFooterAdapter
@@ -20,6 +21,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
     inner class Option {
         var selectType: SelectType = SelectType.SINGLE
         var camera: Boolean = true
+        var indicatorColorRes: Int? = null
     }
 
     /**
@@ -61,6 +63,9 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
             if (selectedDataList.contains(data)) {
                 _view.viewClicked.visible()
                 _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_red_red)
+                if (null != option.indicatorColorRes) {
+                    _view.textViewCheck.backgroundTintList = ContextCompat.getColorStateList(itemView.context, option.indicatorColorRes!!)
+                }
 
                 when (option.selectType) {
                     SelectType.SINGLE -> {
@@ -77,6 +82,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
                 _view.imageViewCheck.gone()
                 _view.viewClicked.gone()
                 _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_white_tr)
+                _view.textViewCheck.backgroundTintList = ContextCompat.getColorStateList(itemView.context, R.color.white_01)
                 _view.textViewCheck.text = ""
             }
         }

@@ -7,6 +7,8 @@ class ImagePickerConfig : Serializable {
 
     internal var selectType: SelectType = SelectType.SINGLE
 
+    var indicatorColorRes: Int? = null
+
     var camera: Boolean = true
 
 }

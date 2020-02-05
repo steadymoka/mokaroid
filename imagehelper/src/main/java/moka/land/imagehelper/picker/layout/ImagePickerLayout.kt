@@ -79,6 +79,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         mediaAdapter.setOption {
             this.selectType = config.selectType
             this.camera = config.camera
+            this.indicatorColorRes = config.indicatorColorRes
         }
         _view.recyclerViewMedia.adapter = mediaAdapter
         _view.recyclerViewMedia.itemAnimator = null
