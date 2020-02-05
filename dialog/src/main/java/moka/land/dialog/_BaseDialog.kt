@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.layout_base_dialog.*
+import moka.land.base.visibleOrGone
 import moka.moka.dialog.R
 
 abstract class _BaseDialog : AppCompatDialogFragment() {
@@ -49,6 +50,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
 
     private fun _init() {
         content.addView(getContentView())
+        constraintLayoutButton.visibleOrGone(!isNoButton())
         buttonPositive.visibility = if (getPositiveText().isNotEmpty()) View.VISIBLE else View.GONE
         buttonNegative.visibility = if (getNegativeText().isNotEmpty()) View.VISIBLE else View.GONE
         buttonNeutral.visibility = if (getNeutralText().isNotEmpty()) View.VISIBLE else View.GONE
@@ -77,6 +79,8 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
     open fun getWidthRatio(): Float? = null
 
     open fun getCancelable(): Boolean? = null
+
+    open fun isNoButton(): Boolean = false
 
     // -
 

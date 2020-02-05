@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import moka.land.R
 import moka.land.databinding.LayoutHomeBinding
+import moka.land.ui.dialogs.TestDialog
 
 class HomeLayout : Fragment() {
 
@@ -30,6 +31,11 @@ class HomeLayout : Fragment() {
             if (nav.currentDestination?.label == "start") {
                 nav.navigate(R.id.goImageViewerSample)
             }
+        }
+
+        _view.textViewDialogs.setOnClickListener {
+            TestDialog()
+                .showDialog(activity!!.supportFragmentManager) {}
         }
     }
 

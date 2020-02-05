@@ -35,8 +35,7 @@
 		android:textStyle="bold"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
-		tools:text="Libraries Samples" />
+		app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
 
 	<TextView
 		android:id="@+id/textViewImageViewer"
@@ -52,7 +51,22 @@
 		android:textStyle="bold"
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent"
-		app:layout_constraintTop_toBottomOf="@+id/textViewImagePicker"
-		tools:text="Libraries Samples" />
+		app:layout_constraintTop_toBottomOf="@+id/textViewImagePicker" />
+
+	<TextView
+		android:id="@+id/textViewDialogs"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="?attr/selectableItemBackground"
+		android:paddingLeft="24dp"
+		android:paddingTop="16dp"
+		android:paddingBottom="16dp"
+		android:text="📌  BaseDialog"
+		android:textColor="@color/black_04"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewImageViewer" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
