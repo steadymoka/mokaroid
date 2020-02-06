@@ -5,9 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import moka.land.R
 import moka.land.databinding.LayoutHomeBinding
+import moka.land.dialog.LoadingDialog
 import moka.land.ui.dialogs.TestDialog
 
 class HomeLayout : Fragment() {
@@ -34,8 +38,12 @@ class HomeLayout : Fragment() {
         }
 
         _view.textViewDialogs.setOnClickListener {
-            TestDialog()
-                .showDialog(activity!!.supportFragmentManager) {}
+            lifecycleScope.launch {
+                val dialog = LoadingDialog(false)
+                dialog.show(activity!!.supportFragmentManager)
+                delay(2000)
+                dialog.dismiss()
+            }
         }
     }
 
