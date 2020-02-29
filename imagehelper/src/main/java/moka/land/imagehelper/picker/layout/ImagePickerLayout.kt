@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.view.animation.DecelerateInterpolator
@@ -20,12 +21,14 @@ import moka.land.dialog.LoadingDialog
 import moka.land.imagehelper.databinding.MkLayoutImagePickerBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.imagehelper.picker.builder.ImagePickerConfig
-import moka.land.imagehelper.picker.type.MediaType
-import moka.land.imagehelper.picker.type.SelectType
 import moka.land.imagehelper.picker.layout.adapter.AlbumAdapter
 import moka.land.imagehelper.picker.layout.adapter.MediaAdapter
+import moka.land.imagehelper.picker.type.MediaType
+import moka.land.imagehelper.picker.type.SelectType
 import moka.land.imagehelper.picker.util.CameraUtil
+import moka.land.imagehelper.viewer.ImageViewer
 import java.io.File
+
 
 internal class ImagePickerLayout : AppCompatActivity() {
 
@@ -47,7 +50,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         bindViewModel()
 
         lifecycleScope.launch {
-            viewModel.loadAlbumList(this@ImagePickerLayout)
+            viewModel.loadAlbumList(this@ImagePickerLayout, config.mediaType)
         }
     }
 
@@ -63,7 +66,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         lifecycleScope.launch {
             loadingDialog.show(this@ImagePickerLayout.supportFragmentManager)
             CameraUtil.save(this@ImagePickerLayout, fileToSave!!)
-            viewModel.loadAlbumList(this@ImagePickerLayout)
+            viewModel.loadAlbumList(this@ImagePickerLayout, config.mediaType)
             viewModel.mediaList.value = viewModel.albumList.value?.get(0)?.album?.mediaUris?.map { MediaAdapter.Data(media = it) }
             _view.recyclerViewMedia.scrollToPosition(0)
             loadingDialog.dismiss()
@@ -76,11 +79,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         _view.recyclerViewAlbum.adapter = albumAdapter
         _view.recyclerViewAlbum.itemAnimator = null
 
-        mediaAdapter.setOption {
-            this.selectType = config.selectType
-            this.camera = config.camera
-            this.indicatorColorRes = config.indicatorColorRes
-        }
+        mediaAdapter.setConfig(config)
         _view.recyclerViewMedia.adapter = mediaAdapter
         _view.recyclerViewMedia.itemAnimator = null
         _view.recyclerViewMedia.addItemDecoration(GridSpacingItemDecoration(3, dip(2)))
@@ -116,8 +115,24 @@ internal class ImagePickerLayout : AppCompatActivity() {
             }
         }
 
-        mediaAdapter.onClickItem = { data ->
-            // todo 사진 크게보기
+        mediaAdapter.onClickToShowImage = on@{ data ->
+            if (null == viewModel.mediaList.value)
+                return@on
+
+            val allList = viewModel.mediaList.value!!.filter { it.media.type.contains("image") }
+            val selectedIndex = allList.indexOf(data)
+
+            ImageViewer
+                .with(this)
+                .setConfig {
+                }
+                .show(allList.map { it.media.uri } as ArrayList<Uri>, selectedIndex)
+        }
+
+        mediaAdapter.onClickToPlayVideo = { data ->
+            val intent = Intent(Intent.ACTION_VIEW, data.media.uri)
+            intent.setDataAndType(data.media.uri, data.media.type)
+            startActivity(intent)
         }
     }
 
@@ -155,7 +170,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         })
 
         viewModel.mediaList.observe(this, Observer {
-            mediaAdapter.replaceItems(it)
+            mediaAdapter.setItems(it)
         })
 
         viewModel.openAlbumList.observe(this, Observer {

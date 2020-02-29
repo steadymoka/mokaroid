@@ -14,6 +14,7 @@
 		android:id="@+id/imageViewThumbnail"
 		android:layout_width="0dp"
 		android:layout_height="0dp"
+		android:background="@color/black_10"
 		app:layout_constraintBottom_toBottomOf="parent"
 		app:layout_constraintDimensionRatio="1:1"
 		app:layout_constraintLeft_toLeftOf="parent"
@@ -57,5 +58,56 @@
 		app:layout_constraintRight_toRightOf="@+id/textViewCheck"
 		app:layout_constraintTop_toTopOf="@+id/textViewCheck"
 		app:srcCompat="@drawable/mk_vc_check" />
+
+	<FrameLayout
+		android:id="@+id/frameLayoutFullScreen"
+		android:layout_width="52dp"
+		android:layout_height="52dp"
+		app:layout_constraintLeft_toLeftOf="@+id/imageViewThumbnail"
+		app:layout_constraintTop_toTopOf="@+id/imageViewThumbnail"
+		app:srcCompat="@drawable/mk_vc_full_screen">
+
+		<ImageView
+			android:layout_width="46dp"
+			android:layout_height="46dp"
+			android:padding="11dp"
+			android:tint="@color/white_01"
+			app:layout_constraintLeft_toLeftOf="@+id/imageViewThumbnail"
+			app:layout_constraintTop_toTopOf="@+id/imageViewThumbnail"
+			app:srcCompat="@drawable/mk_rc_full_screen" />
+
+		<ImageView
+			android:id="@+id/imageViewFullScreen"
+			android:layout_width="46dp"
+			android:layout_height="46dp"
+			android:padding="14dp"
+			android:tint="@color/white_01"
+			app:layout_constraintLeft_toLeftOf="@+id/imageViewThumbnail"
+			app:layout_constraintTop_toTopOf="@+id/imageViewThumbnail"
+			app:srcCompat="@drawable/mk_vc_full_screen" />
+
+	</FrameLayout>
+
+	<TextView
+		android:id="@+id/textViewPlayVideo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="8dp"
+		android:layout_marginBottom="8dp"
+		android:background="@drawable/mk_rc_full_screen"
+		android:drawableLeft="@drawable/mk_vc_play_video"
+		android:drawablePadding="4dp"
+		android:gravity="center"
+		android:paddingLeft="6dp"
+		android:paddingTop="1dp"
+		android:paddingRight="6dp"
+		android:paddingBottom="1dp"
+		android:textColor="@color/white_01"
+		android:textSize="12dp"
+		android:tint="@color/white_01"
+		app:layout_constraintBottom_toBottomOf="@+id/imageViewThumbnail"
+		app:layout_constraintLeft_toLeftOf="@+id/imageViewThumbnail"
+		app:srcCompat="@drawable/mk_vc_play_video"
+		tools:text="01:03:49" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

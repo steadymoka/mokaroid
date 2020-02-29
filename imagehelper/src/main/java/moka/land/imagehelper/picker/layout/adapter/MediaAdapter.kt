@@ -11,31 +11,29 @@ import moka.land.base.adapter._ItemData
 import moka.land.base.adapter._RecyclerItemView
 import moka.land.base.gone
 import moka.land.base.visible
+import moka.land.base.visibleOrGone
 import moka.land.imagehelper.R
 import moka.land.imagehelper.databinding.MkLayoutMediaItemBinding
-import moka.land.imagehelper.picker.type.SelectType
+import moka.land.imagehelper.picker.builder.ImagePickerConfig
 import moka.land.imagehelper.picker.model.Media
+import moka.land.imagehelper.picker.type.SelectType
 
 class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<MediaAdapter.Data>>() {
-
-    inner class Option {
-        var selectType: SelectType = SelectType.SINGLE
-        var camera: Boolean = true
-        var indicatorColorRes: Int? = null
-    }
 
     /**
      */
 
-    private lateinit var option: Option
+    var onClickToShowImage: ((Data) -> Unit)? = null
+    var onClickToPlayVideo: ((Data) -> Unit)? = null
+
+    private lateinit var config: ImagePickerConfig
     internal val selectedDataList = mutableListOf<Data>()
 
-    fun setOption(set: Option.() -> Unit) {
-        this.option = Option()
-        this.option.set()
+    fun setConfig(config: ImagePickerConfig) {
+        this.config = config
     }
 
-    override fun hasHeader(): Boolean = option.camera
+    override fun hasHeader(): Boolean = config.camera
 
     override fun onCreateHeaderView(parent: ViewGroup): View? {
         return LayoutInflater.from(parent.context).inflate(R.layout.mk_layout_media_header, parent, false)
@@ -49,25 +47,45 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
      * ItemView & Data & Type
      */
 
-    inner class ItemView(parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_item) {
+    inner class ItemView(var parent: ViewGroup) : _RecyclerItemView<Data>(parent, R.layout.mk_layout_media_item) {
 
         private val _view = MkLayoutMediaItemBinding.bind(itemView)
 
+        init {
+            _view.frameLayoutFullScreen.setOnClickListener { onClickToShowImage?.invoke(data) }
+            _view.textViewPlayVideo.setOnClickListener { onClickToPlayVideo?.invoke(data) }
+        }
+
         override fun refreshView() {
+            if (data.media.type.contains("video")) {
+                _view.textViewPlayVideo.visible()
+                _view.frameLayoutFullScreen.gone()
+
+                _view.textViewPlayVideo.text = data.media.getDurationString()
+            }
+            else {
+                _view.textViewPlayVideo.gone()
+                _view.frameLayoutFullScreen.visibleOrGone(config.showFullscreenButton)
+
+                _view.textViewPlayVideo.text = ""
+            }
+
             Glide.with(itemView)
                 .load(data.media.uri)
                 .thumbnail(0.66f)
                 .transform(CenterCrop())
+                .error(R.drawable.mk_vc_error)
                 .into(_view.imageViewThumbnail)
 
             if (selectedDataList.contains(data)) {
                 _view.viewClicked.visible()
+                _view.textViewCheck.visible()
                 _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_red_red)
-                if (null != option.indicatorColorRes) {
-                    _view.textViewCheck.backgroundTintList = ContextCompat.getColorStateList(itemView.context, option.indicatorColorRes!!)
+                if (null != config.indicatorColorRes) {
+                    _view.textViewCheck.backgroundTintList = ContextCompat.getColorStateList(itemView.context, config.indicatorColorRes!!)
                 }
 
-                when (option.selectType) {
+                when (config.selectType) {
                     SelectType.SINGLE -> {
                         _view.textViewCheck.text = ""
                         _view.imageViewCheck.visible()
@@ -81,6 +99,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
             else {
                 _view.imageViewCheck.gone()
                 _view.viewClicked.gone()
+                _view.textViewCheck.gone() // todo, config 에 따라서 GONE / VISIBLE
                 _view.textViewCheck.setBackgroundResource(R.drawable.mk_cc_white_tr)
                 _view.textViewCheck.backgroundTintList = ContextCompat.getColorStateList(itemView.context, R.color.white_01)
                 _view.textViewCheck.text = ""
@@ -92,7 +111,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
         }
 
         override fun onClickItem() {
-            when (option.selectType) {
+            when (config.selectType) {
                 SelectType.SINGLE -> {
                     if (selectedDataList.isNotEmpty()) {
                         notifyContentItemChanged(items.indexOf(selectedDataList[0]))
@@ -125,6 +144,8 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
 
     }
 
-    data class Data(var media: Media) : _ItemData
+    data class Data(
+        var media: Media
+    ) : _ItemData
 
 }

@@ -34,4 +34,14 @@
 		app:layout_constraintLeft_toLeftOf="parent"
 		app:layout_constraintRight_toRightOf="parent" />
 
+	<ImageView
+		android:id="@+id/imageViewBackButton"
+		android:layout_width="?attr/actionBarSize"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:padding="22dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/mk_vc_x" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

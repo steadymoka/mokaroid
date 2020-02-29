@@ -7,8 +7,7 @@ import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
 import moka.land.imagehelper.R
 import kotlinx.android.synthetic.main.mk_layout_image_viewer.*
-import moka.land.base.goneFadeOut
-import moka.land.base.visibleFadeIn
+import moka.land.base.*
 
 class ImageViewerLayout : AppCompatActivity() {
 
@@ -22,6 +21,10 @@ class ImageViewerLayout : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mk_layout_image_viewer)
+
+        imageViewBackButton.topMargin(statusBarSize)
+        imageViewBackButton.visibleOrGone(null == ImageViewer.addHeader)
+        imageViewBackButton.setOnClickListener { onBackPressed() }
 
         ImageViewer.finish = { finish() }
         ImageViewer.addHeader?.invoke(header)

@@ -21,6 +21,7 @@ import moka.land.base.dip
 import moka.land.databinding.LayoutImageViewerSampleBinding
 import moka.land.databinding.ViewImageItemBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
+import moka.land.imagehelper.picker.type.MediaType
 import moka.land.imagehelper.viewer.ImageViewer
 import moka.land.util.load
 
@@ -47,7 +48,11 @@ class ImageViewerSampleLayout : Fragment() {
         _view.textViewTestButton.setOnClickListener {
             ImagePicker
                 .with(this)
-                .setConfig {}
+                .setConfig {
+                    indicatorColorRes = R.color.colorAccent
+                    mediaType = MediaType.IMAGE_VIDEO
+                    showFullscreenButton = false
+                }
                 .showMulti { uris ->
                     adapter.setItems(uris.map { ImageAdapter.Data(it) }.toMutableList())
                 }

@@ -22,46 +22,70 @@ object MediaLoader {
 
     private const val INDEX_MEDIA_ID = MediaStore.MediaColumns._ID
     private const val INDEX_DATE_ADDED_SECOND = MediaStore.MediaColumns.DATE_ADDED
-    private const val INDEX_ALBUM_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+
+    private const val INDEX_IMAGE_ALBUM_NAME = MediaStore.Images.Media.BUCKET_DISPLAY_NAME
+    private const val INDEX_VIDEO_ALBUM_NAME = MediaStore.Video.Media.BUCKET_DISPLAY_NAME
+
+    private const val INDEX_IMAGE_MIME_TYPE = MediaStore.Images.Media.MIME_TYPE
+    private const val INDEX_VIDEO_MIME_TYPE = MediaStore.Video.Media.MIME_TYPE
+
+    private const val INDEX_VIDEO_DURATION = MediaStore.Video.Media.DURATION
 
     @SuppressLint("Recycle")
     internal suspend fun load(context: Context, mediaType: MediaType): List<Album> {
         return withContext<List<Album>>(Dispatchers.IO) {
-            val uri = when (mediaType) {
-                MediaType.IMAGE_ONLY -> {
-                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-                }
-                MediaType.VIDEO_ONLY -> {
-                    MediaStore.Video.Media.EXTERNAL_CONTENT_URI
-                }
-                else -> {
-                    Uri.EMPTY
-                }
-            }
-            val projection = arrayOf(INDEX_MEDIA_ID, INDEX_ALBUM_NAME, INDEX_DATE_ADDED_SECOND)
-            val selection = MediaStore.Images.Media.SIZE + " > 0"
+            val imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            val videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+
+            val imageProjection = arrayOf(INDEX_MEDIA_ID, INDEX_IMAGE_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_IMAGE_MIME_TYPE)
+            val videoProjection = arrayOf(INDEX_MEDIA_ID, INDEX_VIDEO_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_VIDEO_MIME_TYPE, INDEX_VIDEO_DURATION)
+
+            val imageSelection = MediaStore.Images.Media.SIZE + " > 0"
+            val videoSelection = MediaStore.Video.Media.SIZE + " > 0"
             val order = "$INDEX_DATE_ADDED_SECOND DESC"
 
-            val cursor = context.contentResolver.query(uri, projection, selection, null, order)
-                ?: return@withContext emptyList()
+            val imageCursor = context.contentResolver.query(imageUri, imageProjection, imageSelection, null, order)
+            val videoCursor = context.contentResolver.query(videoUri, videoProjection, videoSelection, null, order)
 
-            val mediaList = generateSequence { if (cursor.moveToNext()) cursor else null }
+            val imageList = generateSequence { if (imageCursor?.moveToNext() == true) imageCursor else null }
                 .map { getImage(it) }
                 .filterNotNull()
                 .toList()
 
+            val videoList = generateSequence { if (videoCursor?.moveToNext() == true) videoCursor else null }
+                .map { getVideo(it) }
+                .filterNotNull()
+                .toList()
+
+            val mediaList = when (mediaType) {
+                MediaType.IMAGE_ONLY -> {
+                    imageList
+                }
+                MediaType.VIDEO_ONLY -> {
+                    videoList
+                }
+                MediaType.IMAGE_VIDEO -> {
+                    imageList + videoList
+                }
+            }
+
             val albumList = mediaList
-                .groupBy { it.album }
+                .asSequence()
+                .groupBy {
+                    it.album
+                }
                 .map { getAlbum(it) }
                 .toList()
 
-            cursor.close()
+            imageCursor?.close()
+            videoCursor?.close()
+
             return@withContext albumList.toMutableList().apply {
                 add(index = 0,
                     element = Album(
                         name = "전체사진",
-                        thumbnailUri = Media(Uri.EMPTY, "전체사진", 0).uri,
-                        mediaUris = mediaList))
+                        thumbnailUri = Media(Uri.EMPTY, "전체사진", 0, "").uri,
+                        mediaUris = mediaList.sortedByDescending { it.datedAddedSecond }))
             }
         }
     }
@@ -75,8 +99,21 @@ object MediaLoader {
         val mediaId = getLong(indexId)
         return Media(
             uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
-            album = getString(getColumnIndex(INDEX_ALBUM_NAME)),
-            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND))
+            album = getString(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)),
+            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
+            type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
+        )
+    }
+
+    private fun getVideo(cursor: Cursor): Media? = cursor.run {
+        val indexId = getColumnIndex(INDEX_MEDIA_ID)
+        val mediaId = getLong(indexId)
+        return Media(
+            uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
+            album = getString(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)),
+            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
+            type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
+            duration = getLong(getColumnIndex(INDEX_VIDEO_DURATION))
         )
     }
 
