@@ -3,6 +3,7 @@ package moka.land.imagehelper.picker.layout.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -133,8 +134,14 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
                         notifyContentItemChanged(items.indexOf(data))
                     }
                     else {
-                        selectedDataList.add(data)
+                        if (config.maxCount <= selectedDataList.size) {
+                            Toast.makeText(parent.context, "${config.maxCount} 보다 많이 선택할 수 없습니다", Toast.LENGTH_SHORT).show()
+                        }
+                        else {
+                            selectedDataList.add(data)
+                        }
                     }
+
                     selectedDataList.forEach {
                         notifyContentItemChanged(items.indexOf(it))
                     }

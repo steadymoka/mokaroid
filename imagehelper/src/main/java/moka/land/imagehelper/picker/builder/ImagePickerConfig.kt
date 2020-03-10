@@ -16,4 +16,6 @@ class ImagePickerConfig : Serializable {
 
     var showFullscreenButton: Boolean = true
 
+    var maxCount: Int = 10
+
 }
