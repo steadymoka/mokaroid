@@ -94,7 +94,7 @@ object MediaLoader {
     fun getMedia(context: Context, uri: Uri): Media {
         val type = context.contentResolver.getType(uri)
             ?: return if (uri.toString().contains(Regex(".mp4|.mp3|.avi|.mpeg|.mov"))) {
-                Media(uri = uri, type = "video/mov")
+                Media(uri = uri, type = "video/mp4")
             }
             else {
                 Media(uri = uri, type = "image/jpg")

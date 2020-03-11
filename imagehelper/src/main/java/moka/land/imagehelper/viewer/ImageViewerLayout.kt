@@ -1,8 +1,10 @@
 package moka.land.imagehelper.viewer
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.viewpager2.widget.ViewPager2
@@ -61,9 +63,14 @@ class ImageViewerLayout : AppCompatActivity() {
             }
         }
         imageAdapter.onClickToPlayVideo = {
-            val intent = Intent(Intent.ACTION_VIEW, it.media.uri)
-            intent.setDataAndType(it.media.uri, it.media.type)
-            startActivity(intent)
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, it.media.uri)
+                intent.setDataAndType(it.media.uri, it.media.type)
+                startActivity(intent)
+            }
+            catch (e: ActivityNotFoundException) {
+                Toast.makeText(this, "재생할 수 없습니다", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
