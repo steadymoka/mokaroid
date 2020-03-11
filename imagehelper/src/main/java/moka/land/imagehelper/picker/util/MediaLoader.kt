@@ -14,6 +14,7 @@ import moka.land.imagehelper.picker.model.Album
 import moka.land.imagehelper.picker.model.Media
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import moka.land.base.log
 import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -87,6 +88,34 @@ object MediaLoader {
                         thumbnailUri = Media(Uri.EMPTY, "전체사진", 0, "").uri,
                         mediaUris = mediaList.sortedByDescending { it.datedAddedSecond }))
             }
+        }
+    }
+
+    fun getMedia(context: Context, uri: Uri): Media {
+        val type = context.contentResolver.getType(uri)!!
+        if (type.contains(Regex("video"))) {
+            val projection = arrayOf(INDEX_MEDIA_ID, INDEX_VIDEO_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_VIDEO_MIME_TYPE, INDEX_VIDEO_DURATION)
+            val cursor = context.contentResolver.query(uri, projection, null, null, null)
+
+            val media = generateSequence { if (cursor?.moveToNext() == true) cursor else null }
+                .map { getVideo(it) }
+                .filterNotNull()
+                .first()
+
+            cursor?.close()
+            return media
+        }
+        else {
+            val projection = arrayOf(INDEX_MEDIA_ID, INDEX_IMAGE_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_IMAGE_MIME_TYPE)
+            val cursor = context.contentResolver.query(uri, projection, null, null, null)
+
+            val media = generateSequence { if (cursor?.moveToNext() == true) cursor else null }
+                .map { getImage(it) }
+                .filterNotNull()
+                .first()
+
+            cursor?.close()
+            return media
         }
     }
 

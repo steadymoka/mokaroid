@@ -1,5 +1,6 @@
 package moka.land.imagehelper.viewer
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +9,8 @@ import androidx.viewpager2.widget.ViewPager2
 import moka.land.imagehelper.R
 import kotlinx.android.synthetic.main.mk_layout_image_viewer.*
 import moka.land.base.*
+import moka.land.imagehelper.picker.model.Media
+import moka.land.imagehelper.picker.util.MediaLoader
 
 class ImageViewerLayout : AppCompatActivity() {
 
@@ -39,7 +42,10 @@ class ImageViewerLayout : AppCompatActivity() {
         })
 
         val items = intent.getParcelableArrayListExtra<Uri>(KEY_DATAS)
-        imageAdapter.items = items?.map { Data(it) } as ArrayList<Data>
+
+        imageAdapter.items = items?.map {
+            Data(MediaLoader.getMedia(this, it))
+        } as ArrayList<Data>
 
         val selectedPosition = intent.getIntExtra(KEY_SELECTED_POSITION, 0)
         viewPager.setCurrentItem(selectedPosition, false)
@@ -53,6 +59,11 @@ class ImageViewerLayout : AppCompatActivity() {
                 header.visibleFadeIn(100)
                 footer.visibleFadeIn(100)
             }
+        }
+        imageAdapter.onClickToPlayVideo = {
+            val intent = Intent(Intent.ACTION_VIEW, it.media.uri)
+            intent.setDataAndType(it.media.uri, it.media.type)
+            startActivity(intent)
         }
     }
 

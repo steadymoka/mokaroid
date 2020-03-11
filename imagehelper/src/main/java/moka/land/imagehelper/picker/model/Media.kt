@@ -4,8 +4,8 @@ import android.net.Uri
 
 data class Media(
     var uri: Uri,
-    val album: String,
-    var datedAddedSecond: Long,
+    val album: String = "",
+    var datedAddedSecond: Long = 0,
     var type: String,
     var duration: Long = 0
 ) {

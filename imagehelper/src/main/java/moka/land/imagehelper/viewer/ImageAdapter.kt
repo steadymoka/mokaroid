@@ -1,17 +1,20 @@
 package moka.land.imagehelper.viewer
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import moka.land.imagehelper.R
 import kotlinx.android.synthetic.main.mk_layout_viewer_item.view.*
+import moka.land.base.log
+import moka.land.base.visibleOrGone
+import moka.land.imagehelper.R
+import moka.land.imagehelper.picker.model.Media
 
 class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
 
-    var onClickItem: ((position: Int) -> Unit)? = null
+    var onClickItem: (() -> Unit)? = null
+    var onClickToPlayVideo: ((Data) -> Unit)? = null
 
     var items = arrayListOf<Data>()
         set(value) {
@@ -31,19 +34,26 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
 
     /*- -*/
 
-    inner class BaseItemView(var view: View) : RecyclerView.ViewHolder(view) {
+    inner class BaseItemView(var _view: View) : RecyclerView.ViewHolder(_view) {
+
+        lateinit var data: Data
 
         init {
-            view.photoView.setOnPhotoTapListener { view, x, y -> onClickItem?.invoke(adapterPosition) }
+            _view.photoView.setOnPhotoTapListener { view, x, y -> onClickItem?.invoke() }
+            _view.imageViewPlayVideo.setOnClickListener { onClickToPlayVideo?.invoke(data) }
         }
 
         fun refresh(data: Data?) {
+            this.data = data!!
+
             Glide
-                .with(view.context)
-                .load(data!!.uri)
-                .into(view.photoView)
+                .with(_view.context)
+                .load(data.media.uri)
+                .into(_view.photoView)
+
+            _view.imageViewPlayVideo.visibleOrGone(data.media.type.contains(Regex("video")))
         }
     }
 }
 
-data class Data(var uri: Uri)
+data class Data(var media: Media)
