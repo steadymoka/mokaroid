@@ -92,7 +92,14 @@ object MediaLoader {
     }
 
     fun getMedia(context: Context, uri: Uri): Media {
-        val type = context.contentResolver.getType(uri)!!
+        val type = context.contentResolver.getType(uri)
+            ?: return if (uri.toString().contains(Regex(".mp4|.mp3|.avi|.mpeg|.mov"))) {
+                Media(uri = uri, type = "image/mov")
+            }
+            else {
+                Media(uri = uri, type = "video/jpg")
+            }
+
         if (type.contains(Regex("video"))) {
             val projection = arrayOf(INDEX_MEDIA_ID, INDEX_VIDEO_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_VIDEO_MIME_TYPE, INDEX_VIDEO_DURATION)
             val cursor = context.contentResolver.query(uri, projection, null, null, null)
