@@ -148,21 +148,11 @@ class RewardedAdHelper private constructor() {
         }
 
         private fun loadAdmob() {
-            if (AdHelper.ADMOB_TEST_DEVICE.isEmpty()) {
-                mAd_admob!!.loadAd(admobKey,
-                    AdRequest
-                        .Builder()
-                        .build()
-                )
-            }
-            else {
-                mAd_admob!!.loadAd(admobKey,
-                    AdRequest
-                        .Builder()
-                        .addTestDevice(AdHelper.ADMOB_TEST_DEVICE)
-                        .build()
-                )
-            }
+            mAd_admob!!.loadAd(admobKey,
+                AdRequest
+                    .Builder()
+                    .build()
+            )
         }
 
         private fun loadRewardedVideoAd_audience(callback: (isSuccessLoad: Boolean) -> Unit) {

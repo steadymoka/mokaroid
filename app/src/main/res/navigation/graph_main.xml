@@ -30,6 +30,13 @@
 			app:launchSingleTop="true"
 			app:popExitAnim="@animator/slide_out_right" />
 
+		<action
+			android:id="@+id/goAdHelperSample"
+			app:destination="@id/adHelperSample"
+			app:enterAnim="@anim/slide_in_right"
+			app:launchSingleTop="true"
+			app:popExitAnim="@animator/slide_out_right" />
+
 	</fragment>
 
 	<!--	-->
@@ -45,6 +52,13 @@
 		android:id="@+id/imageViewerSample"
 		android:name="moka.land.ui.samples.ImageViewerSampleLayout"
 		android:label="imageViewerSample">
+
+	</fragment>
+
+	<fragment
+		android:id="@+id/adHelperSample"
+		android:name="moka.land.ui.samples.AdHelperSampleLayout"
+		android:label="AdHelperSample">
 
 	</fragment>
 

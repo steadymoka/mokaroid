@@ -140,6 +140,7 @@
 					app:tabIndicatorColor="@color/black_06"
 					app:tabIndicatorFullWidth="false"
 					app:tabPadding="10dp"
+					app:tabIndicatorHeight="0.9dp"
 					app:tabRippleColor="@color/transparency"
 					app:tabSelectedTextColor="@color/black_02"
 					app:tabTextColor="@color/black_10">

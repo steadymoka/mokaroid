@@ -24,7 +24,9 @@ class _Application : Application() {
         DEBUG = BuildConfig.DEBUG
 
         AdHelper.initialize(this)
-        AdHelper.ADMOB_TEST_DEVICE = "1EBE23DC3B505A08F0AE45822B6B28D1"
+        AdHelper.setTestDevice {
+            ADMOB = "1EBE23DC3B505A08F0AE45822B6B28D1"
+        }
 
         /* Koin */
         startKoin(

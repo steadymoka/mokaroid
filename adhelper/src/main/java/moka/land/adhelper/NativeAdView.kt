@@ -200,9 +200,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
                 populateUnifiedNativeAdView(unifiedNativeAd, admobNativeAdView!!)
             }
             .withNativeAdOptions(
-                NativeAdOptions.Builder()
-                    .setAdChoicesPlacement(ADCHOICES_BOTTOM_LEFT)
-                    .build()
+                NativeAdOptions.Builder().build()
             )
             .withAdListener(object : AdListener() {
 
@@ -214,8 +212,8 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             })
             .build()
             .loadAd(
-                AdRequest.Builder()
-                    .apply { if (BuildConfig.DEBUG) addTestDevice(AdHelper.ADMOB_TEST_DEVICE) }
+                AdRequest
+                    .Builder()
                     .build()
             )
     }

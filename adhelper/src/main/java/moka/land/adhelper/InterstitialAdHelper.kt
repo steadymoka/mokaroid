@@ -58,7 +58,6 @@ class InterstitialAdHelper private constructor(
         mInterstitialAd.loadAd(
             AdRequest
                 .Builder()
-                .apply { if (DEBUG) addTestDevice(AdHelper.ADMOB_TEST_DEVICE) }
                 .build())
     }
 

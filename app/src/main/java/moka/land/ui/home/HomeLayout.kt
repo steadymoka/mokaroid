@@ -45,6 +45,12 @@ class HomeLayout : Fragment() {
                 dialog.dismiss()
             }
         }
+
+        _view.textViewAdHelper.setOnClickListener {
+            if (nav.currentDestination?.label == "start") {
+                nav.navigate(R.id.goAdHelperSample)
+            }
+        }
     }
 
 }
