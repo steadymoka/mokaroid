@@ -29,8 +29,8 @@ class AdDialogFragment : _BaseDialog() {
 
         mokaAdView
             .setOption {
-                admobKey = "ca-app-pub-3940256099942544/2247696110"
-                fbAudienceKey = ""
+                admobKey = "ca-app-pub-7847386025632674/8475821127"
+                fbAudienceKey = "2003520433203987_2003525736536790"
                 period = Period.ADMOB_FACEBOOK
                 nativeLayoutResId = R.layout.view_custom_ad_native
             }

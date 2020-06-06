@@ -151,6 +151,7 @@ class RewardedAdHelper private constructor() {
             mAd_admob!!.loadAd(admobKey,
                 AdRequest
                     .Builder()
+                    .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
                     .build()
             )
         }

@@ -5,10 +5,13 @@ import com.facebook.ads.*
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import moka.land.base.BuildConfig.DEBUG
+import moka.land.base.log
 import java.util.*
 
 
 object AdHelper {
+
+    var testDevice: TestDevice? = null
 
     fun initialize(context: Context) {
         MobileAds.initialize(context)
@@ -28,15 +31,15 @@ object AdHelper {
     )
 
     fun setTestDevice(setTestDevice: TestDevice.() -> Unit) {
-        val testDevice = TestDevice().apply(setTestDevice)
+        testDevice = TestDevice().apply(setTestDevice)
 
         val configuration = RequestConfiguration
             .Builder()
-            .setTestDeviceIds(listOf(testDevice.ADMOB ?: ""))
+            .setTestDeviceIds(listOf(testDevice?.ADMOB ?: ""))
             .build()
         MobileAds.setRequestConfiguration(configuration)
 
-        AdSettings.addTestDevice(testDevice.AUDIENCE ?: "")
+        AdSettings.addTestDevice(testDevice?.AUDIENCE ?: "")
     }
 
 }

@@ -135,6 +135,7 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         admobBannerAdView?.loadAd(
             AdRequest
                 .Builder()
+                .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
                 .build()
         )
     }

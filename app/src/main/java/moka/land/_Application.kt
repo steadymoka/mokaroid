@@ -26,6 +26,7 @@ class _Application : Application() {
         AdHelper.initialize(this)
         AdHelper.setTestDevice {
             ADMOB = "1EBE23DC3B505A08F0AE45822B6B28D1"
+            AUDIENCE = "7e79f087-78e2-4aeb-a70a-d0299c9cad33"
         }
 
         /* Koin */

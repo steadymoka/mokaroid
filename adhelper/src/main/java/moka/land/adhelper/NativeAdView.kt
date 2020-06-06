@@ -16,11 +16,9 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.formats.MediaView
 import com.google.android.gms.ads.formats.NativeAdOptions
-import com.google.android.gms.ads.formats.NativeAdOptions.ADCHOICES_BOTTOM_LEFT
 import com.google.android.gms.ads.formats.UnifiedNativeAd
 import com.google.android.gms.ads.formats.UnifiedNativeAdView
 import moka.land.base.*
-import moka.land.base.BuildConfig
 
 
 interface Runnable {
@@ -204,6 +202,12 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             )
             .withAdListener(object : AdListener() {
 
+                override fun onAdLoaded() {
+                    super.onAdLoaded()
+                    log("=== Admob's ad is loaded")
+                    callback?.invoke(true)
+                }
+
                 override fun onAdFailedToLoad(fail: Int) {
                     super.onAdFailedToLoad(fail)
                     log("=== Admob's ad failed to load / ${fail}")
@@ -214,6 +218,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             .loadAd(
                 AdRequest
                     .Builder()
+                    .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
                     .build()
             )
     }
