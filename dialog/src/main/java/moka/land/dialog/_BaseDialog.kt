@@ -103,6 +103,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
             val animation = AlphaAnimation(0.3f, 1f)
             animation.duration = 500
             buttonNegative.startAnimation(animation)
+            buttonNegative.alpha = 1f
         }
     }
 
@@ -115,6 +116,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
             val animation = AlphaAnimation(0.3f, 1f)
             animation.duration = 500
             buttonNeutral.startAnimation(animation)
+            buttonNeutral.alpha = 1f
         }
     }
 
