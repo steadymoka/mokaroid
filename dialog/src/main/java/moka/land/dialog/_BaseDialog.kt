@@ -4,9 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.FragmentManager
 import kotlinx.android.synthetic.main.layout_base_dialog.*
+import moka.land.base.log
 import moka.land.base.visibleOrGone
 import moka.moka.dialog.R
 
@@ -65,9 +70,68 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
     }
 
     private fun _bindView() {
-        buttonPositive.setOnClickListener { onClickPositive?.invoke(); dismiss() }
-        buttonNegative.setOnClickListener { onClickNegative?.invoke(); dismiss() }
-        buttonNeutral.setOnClickListener { onClickNeutral?.invoke(); dismiss() }
+        buttonPositive.setOnClickListener { onClickButton(); onClickPositive?.invoke() }
+        buttonNegative.setOnClickListener { onClickButton(); onClickNegative?.invoke() }
+        buttonNeutral.setOnClickListener { onClickButton(); onClickNeutral?.invoke() }
+    }
+
+    private fun onClickButton() {
+        if (hideOnClick()) {
+            dismiss()
+        }
+    }
+
+    fun setPositiveEnabled(isEnabled: Boolean) {
+        buttonPositive.isEnabled = isEnabled
+        if (!isEnabled) {
+            buttonPositive.alpha = 0.3f
+        }
+        else {
+            val animation = AlphaAnimation(0.3f, 1f)
+            animation.duration = 500
+            buttonPositive.startAnimation(animation)
+            buttonPositive.alpha = 1f
+        }
+    }
+
+    fun setNegativeEnabled(isEnabled: Boolean) {
+        buttonNegative.isEnabled = isEnabled
+        if (!isEnabled) {
+            buttonNegative.alpha = 0.3f
+        }
+        else {
+            val animation = AlphaAnimation(0.3f, 1f)
+            animation.duration = 500
+            buttonNegative.startAnimation(animation)
+        }
+    }
+
+    fun setNeutralEnabled(isEnabled: Boolean) {
+        buttonNeutral.isEnabled = isEnabled
+        if (!isEnabled) {
+            buttonNeutral.alpha = 0.3f
+        }
+        else {
+            val animation = AlphaAnimation(0.3f, 1f)
+            animation.duration = 500
+            buttonNeutral.startAnimation(animation)
+        }
+    }
+
+    fun show(fragmentManager: FragmentManager, onClickPositive: (() -> Unit)? = null) {
+        if (this.isAdded) {
+            return
+        }
+
+        this.onClickPositive = onClickPositive
+        fragmentManager
+            .beginTransaction()
+            .add(this, this::class.java.simpleName)
+            .commitAllowingStateLoss()
+    }
+
+    open fun hideOnClick(): Boolean {
+        return true
     }
 
     open fun getPositiveText(): CharSequence = ""

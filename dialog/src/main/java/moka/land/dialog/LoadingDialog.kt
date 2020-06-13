@@ -24,7 +24,7 @@ class LoadingDialog(var dim: Boolean = true) : AppCompatDialogFragment() {
     }
 
     fun show(manager: FragmentManager) {
-        show(manager, "")
+        show(manager, this::class.java.simpleName)
     }
 
 }
