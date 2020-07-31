@@ -6,16 +6,19 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface
 import android.media.MediaScannerConnection
 import android.net.Uri
+import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import moka.land.base.log
 import moka.land.imagehelper.picker.type.MediaType
 import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.util.*
@@ -88,45 +91,81 @@ object CameraUtil {
             val fileName = "IMG_${Date().time}"
             val directoryName = Environment.DIRECTORY_PICTURES
 
-            val contentValues = ContentValues().apply {
-                put(MediaStore.Images.ImageColumns.DISPLAY_NAME, fileName)
-                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-                put(MediaStore.Images.ImageColumns.RELATIVE_PATH, directoryName)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                saveImageInQ(context, bitmap, fileName, directoryName, degree)
+            }
+            else {
+                saveImageNotQ(context, bitmap, fileName, directoryName, degree)
+            }
+        }
+    }
+
+    private suspend fun saveImageNotQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float) {
+        val directoryName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + File.separator
+        val file = File(directoryName)
+        if (!file.exists()) {
+            file.mkdir()
+        }
+        val image = File(directoryName, "$fileName.jpg")
+        val stream = FileOutputStream(image)
+
+        try {
+            val matrix = Matrix()
+            matrix.setRotate(degree)
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            if (!rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)) {
+                throw IOException("Failed to save bitmap.")
+            }
+            rotatedBitmap.recycle()
+        }
+        finally {
+            bitmap.recycle()
+            stream.close()
+            scanMedia(context, Uri.fromFile(image))
+        }
+    }
+
+    private suspend fun saveImageInQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float) {
+        val contentValues = ContentValues().apply {
+            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+            put(MediaStore.Images.ImageColumns.DISPLAY_NAME, fileName)
+            put(MediaStore.Images.ImageColumns.RELATIVE_PATH, directoryName)
+        }
+
+        val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        var stream: OutputStream? = null
+        var uri: Uri? = null
+
+        try {
+            uri = context.contentResolver.insert(contentUri, contentValues)
+            if (uri == null) {
+                throw IOException("Failed to create new MediaStore record.")
             }
 
-            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            var stream: OutputStream? = null
-            var uri: Uri? = null
-
-            try {
-                uri = context.contentResolver.insert(contentUri, contentValues)
-                if (uri == null) {
-                    throw IOException("Failed to create new MediaStore record.")
-                }
-
-                stream = context.contentResolver.openOutputStream(uri)
-                if (stream == null) {
-                    throw IOException("Failed to get output stream.")
-                }
-
-                val matrix = Matrix()
-                matrix.setRotate(degree)
-                val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-                if (!rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
-                    throw IOException("Failed to save bitmap.")
-                }
-                rotatedBitmap.recycle()
+            stream = context.contentResolver.openOutputStream(uri)
+            if (stream == null) {
+                throw IOException("Failed to get output stream.")
             }
-            catch (e: IOException) {
-                if (uri != null) {
-                    context.contentResolver.delete(uri, null, null)
-                }
-                throw IOException(e)
+
+            val matrix = Matrix()
+            matrix.setRotate(degree)
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            if (!rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
+                throw IOException("Failed to save bitmap.")
             }
-            finally {
-                bitmap.recycle()
-                stream?.close()
-                scanMedia(context, uri!!)
+            rotatedBitmap.recycle()
+        }
+        catch (e: IOException) {
+            if (uri != null) {
+                context.contentResolver.delete(uri, null, null)
+            }
+            throw e
+        }
+        finally {
+            bitmap.recycle()
+            stream?.close()
+            if (null != uri) {
+                scanMedia(context, uri)
             }
         }
     }

@@ -84,10 +84,10 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha01'
+    implementation 'androidx.recyclerview:recyclerview:1.2.0-alpha05'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta3'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta8'
+    implementation 'com.google.android.material:material:1.1.0'
     implementation 'androidx.coordinatorlayout:coordinatorlayout:1.1.0'
 
     implementation 'androidx.work:work-runtime-ktx:2.2.0'
@@ -101,9 +101,9 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.10.0"
 
     /* Room */
-    implementation 'androidx.room:room-ktx:2.2.2'
-    implementation 'androidx.room:room-runtime:2.2.2'
-    kapt 'androidx.room:room-compiler:2.2.2'
+    implementation 'androidx.room:room-ktx:2.2.5'
+    implementation 'androidx.room:room-runtime:2.2.5'
+    kapt 'androidx.room:room-compiler:2.2.5'
 
     /* Network */
     implementation "com.apollographql.apollo:apollo-runtime:1.2.2"
