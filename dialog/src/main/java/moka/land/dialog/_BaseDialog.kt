@@ -125,7 +125,9 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
             return
         }
 
-        this.onClickPositive = onClickPositive
+        if (null != onClickPositive) {
+            this.onClickPositive = onClickPositive
+        }
         fragmentManager
             .beginTransaction()
             .add(this, this::class.java.simpleName)

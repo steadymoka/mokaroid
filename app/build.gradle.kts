@@ -16,7 +16,6 @@ plugins {
 
 val BUILD_DATE = LocalDateTime.now().format(ofPattern("yyyy_MM_dd"))
 val APP_NAME = "mokaroid"
-
 val apiKeyProperties = Properties()
 try {
     val apiKeyPropertiesFile = rootProject.file("app/apikey.properties")
