@@ -39,13 +39,9 @@ class HomeLayout : Fragment() {
 
         _view.textViewDialogs.setOnClickListener {
             lifecycleScope.launch {
-                TestDialog()
-                    .show(activity!!.supportFragmentManager)
-
-//                val dialog = LoadingDialog(false)
-//                dialog.show(activity!!.supportFragmentManager)
-//                delay(2000)
-//                dialog.dismiss()
+                if (nav.currentDestination?.label == "start") {
+                    nav.navigate(R.id.goDialogsSample)
+                }
             }
         }
 

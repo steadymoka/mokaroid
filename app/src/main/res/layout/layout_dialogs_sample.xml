@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/white_01">
+
+	<ImageView
+		android:id="@+id/imageViewBack"
+		android:layout_width="?attr/actionBarSize"
+		android:layout_height="?attr/actionBarSize"
+		android:background="?attr/selectableItemBackgroundBorderless"
+		android:padding="18dp"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		app:srcCompat="@drawable/mk_vc_left_arrow" />
+
+	<TextView
+		android:id="@+id/textViewTitle"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="60dp"
+		android:text="Dialog &amp; Dialog"
+		android:textColor="@color/black_02"
+		android:textSize="28dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintTop_toTopOf="parent"
+		tools:text="Libraries Samples" />
+
+	<TextView
+		android:id="@+id/textViewTestButton"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="22dp"
+		android:layout_marginRight="24dp"
+		android:background="@color/white_02"
+		android:elevation="2dp"
+		android:foreground="?attr/selectableItemBackground"
+		android:gravity="center"
+		android:paddingLeft="24dp"
+		android:paddingTop="16dp"
+		android:paddingRight="24dp"
+		android:paddingBottom="16dp"
+		android:text="Enabled Disabled Dialog Test"
+		android:textColor="@color/black_04"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+		tools:text="Libraries Samples" />
+
+	<TextView
+		android:id="@+id/textViewTestButton2"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="22dp"
+		android:layout_marginRight="24dp"
+		android:background="@color/white_02"
+		android:elevation="2dp"
+		android:foreground="?attr/selectableItemBackground"
+		android:gravity="center"
+		android:paddingLeft="24dp"
+		android:paddingTop="16dp"
+		android:paddingRight="24dp"
+		android:paddingBottom="16dp"
+		android:text="Loading dialog test"
+		android:textColor="@color/black_04"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewTestButton"
+		tools:text="Libraries Samples" />
+
+	<TextView
+		android:id="@+id/textViewTestButton3"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="24dp"
+		android:layout_marginTop="22dp"
+		android:layout_marginRight="24dp"
+		android:background="@color/white_02"
+		android:elevation="2dp"
+		android:foreground="?attr/selectableItemBackground"
+		android:gravity="center"
+		android:paddingLeft="24dp"
+		android:paddingTop="16dp"
+		android:paddingRight="24dp"
+		android:paddingBottom="16dp"
+		android:text="button view group test"
+		android:textColor="@color/black_04"
+		android:textSize="14dp"
+		android:textStyle="bold"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		app:layout_constraintTop_toBottomOf="@+id/textViewTestButton2"
+		tools:text="Libraries Samples" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
