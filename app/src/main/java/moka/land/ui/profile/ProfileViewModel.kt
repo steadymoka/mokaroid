@@ -7,10 +7,8 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.MyRepositoriesQuery
 import com.apollographql.apollo.api.Input
 import com.apollographql.apollo.exception.ApolloException
-import com.apollographql.apollo.exception.ApolloHttpException
 import com.apollographql.apollo.exception.ApolloNetworkException
 import kotlinx.coroutines.delay
-import moka.land.base.log
 import moka.land.modules.awaitEnqueue
 import moka.land.util.NotNullMutableLiveData
 import moka.land.util.addValues
@@ -50,14 +48,15 @@ class ProfileViewModel(
         try {
             delay(1000) // fixme : for place holder check
             val query = AboutMokaQuery()
+            val res = apolloClient.query(query).awaitEnqueue()
 
-            profile.value = apolloClient.query(query).awaitEnqueue()
+            profile.value = res
                 .search()
                 .edges()
                 ?.getOrNull(0)
                 ?.node() as? Profile ?: return
 
-            pinnedList.value = (apolloClient.query(query).awaitEnqueue()
+            pinnedList.value = (res
                 .search()
                 .edges()
                 ?.getOrNull(0)
@@ -66,7 +65,7 @@ class ProfileViewModel(
                 .edges()
                 ?.map { it.node() as Pinned }
 
-            organizerList.value = (apolloClient.query(query).awaitEnqueue()
+            organizerList.value = (res
                 .search()
                 .edges()
                 ?.getOrNull(0)

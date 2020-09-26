@@ -8,8 +8,6 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy.NETWORK_ONLY
 import com.apollographql.apollo.exception.ApolloException
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import moka.land.BuildConfig
 import moka.land.component.AuthManager
 import moka.land.network.ServerInfo
@@ -89,8 +87,8 @@ suspend fun <T> ApolloQueryCall<T>.awaitEnqueue(): T {
                 }
 
                 override fun onResponse(response: Response<T>) {
-                    if (response.errors().isEmpty()) {
-                        response.data()
+                    if (response.errors?.isEmpty() != false) {
+                        response.data
                             ?.run {
                                 continuation.resume(this)
                             }
@@ -101,7 +99,7 @@ suspend fun <T> ApolloQueryCall<T>.awaitEnqueue(): T {
                     else {
                         continuation.resumeWithException(
                             ApolloException(
-                                response.errors()[0].message() ?: "something wrong"
+                                response.errors?.getOrNull(0)?.message ?: "something wrong"
                             )
                         )
                     }
@@ -120,8 +118,8 @@ suspend fun <T> ApolloMutationCall<T>.awaitEnqueue(): T {
                 }
 
                 override fun onResponse(response: Response<T>) {
-                    if (response.errors().isEmpty()) {
-                        response.data()
+                    if (response.errors?.isEmpty() != false) {
+                        response.data
                             ?.run {
                                 continuation.resume(this)
                             }
@@ -132,7 +130,7 @@ suspend fun <T> ApolloMutationCall<T>.awaitEnqueue(): T {
                     else {
                         continuation.resumeWithException(
                             ApolloException(
-                                response.errors()[0].message() ?: "something wrong"
+                                response.errors?.getOrNull(0)?.message ?: "something wrong"
                             )
                         )
                     }

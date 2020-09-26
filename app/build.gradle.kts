@@ -11,7 +11,7 @@ plugins {
     id("kotlin-android")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs.kotlin")
-    id("com.apollographql.android")
+    id("com.apollographql.apollo") version "2.3.1"
 }
 
 val BUILD_DATE = LocalDateTime.now().format(ofPattern("yyyy_MM_dd"))
@@ -113,7 +113,7 @@ dependencies {
     kapt("androidx.room:room-compiler:2.2.5")
 
     /* Network */
-    implementation("com.apollographql.apollo:apollo-runtime:1.2.2")
+    implementation("com.apollographql.apollo:apollo-runtime:2.3.1")
     implementation("com.squareup.okhttp3:logging-interceptor:4.0.0")
 
     implementation("com.facebook.stetho:stetho:1.5.1")
