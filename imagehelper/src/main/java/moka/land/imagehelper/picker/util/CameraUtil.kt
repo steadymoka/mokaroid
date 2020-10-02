@@ -79,7 +79,7 @@ object CameraUtil {
                 else -> 0f
             }
             val options = BitmapFactory.Options()
-            options.inSampleSize = 2
+            options.inSampleSize = 3
             saveBitmap(context, BitmapFactory.decodeFile(file.path, options), degree)
             file.delete()
             Unit
@@ -93,8 +93,7 @@ object CameraUtil {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 saveImageInQ(context, bitmap, fileName, directoryName, degree)
-            }
-            else {
+            } else {
                 saveImageNotQ(context, bitmap, fileName, directoryName, degree)
             }
         }
@@ -150,7 +149,7 @@ object CameraUtil {
             val matrix = Matrix()
             matrix.setRotate(degree)
             val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
-            if (!rotatedBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)) {
+            if (!rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)) {
                 throw IOException("Failed to save bitmap.")
             }
             rotatedBitmap.recycle()
@@ -171,8 +170,10 @@ object CameraUtil {
     }
 
     private suspend fun scanMedia(context: Context, uri: Uri) {
+        log("before uri: ${uri.path}")
         suspendCoroutine<Unit> { continuation ->
-            MediaScannerConnection.scanFile(context, arrayOf(uri.path), null) { _, _ ->
+            MediaScannerConnection.scanFile(context, arrayOf(uri.path), null) { path, uri ->
+                log("after path: ${path}, uri: ${uri}")
                 continuation.resume(Unit)
             }
         }

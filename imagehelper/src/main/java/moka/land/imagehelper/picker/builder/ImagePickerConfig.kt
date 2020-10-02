@@ -18,4 +18,6 @@ class ImagePickerConfig : Serializable {
 
     var maxCount: Int = 10
 
+    var showCamera: Boolean = false
+
 }

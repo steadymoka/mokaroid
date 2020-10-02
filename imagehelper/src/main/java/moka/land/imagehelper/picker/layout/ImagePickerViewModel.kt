@@ -11,6 +11,7 @@ import moka.land.imagehelper.picker.util.MediaLoader
 
 class ImagePickerViewModel {
 
+    var currentDirectory = MutableLiveData<String>()
     var albumList = MutableLiveData<List<AlbumAdapter.Data>>()
     var mediaList = MutableLiveData<List<MediaAdapter.Data>>()
     var openAlbumList = MutableLiveData<Boolean>()

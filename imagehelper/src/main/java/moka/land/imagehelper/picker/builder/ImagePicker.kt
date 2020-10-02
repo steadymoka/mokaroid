@@ -16,6 +16,8 @@ interface Runnable {
     fun showSingle(onSingleSelected: ((uri: Uri) -> Unit))
 
     fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit))
+
+    fun showCamera(onCamera: ((uri: Uri) -> Unit))
 }
 
 /**
@@ -48,13 +50,21 @@ class ImagePicker private constructor(
         show()
     }
 
+    override fun showCamera(onCamera: (uri: Uri) -> Unit) {
+        if (null == context.get()) {
+            return
+        }
+        this.config.showCamera = true
+        ImagePicker.onCamera = onCamera
+        show()
+    }
+
     private fun show() {
         checkPermission { isGranted ->
             if (isGranted) {
                 val intent = ImagePickerLayout.getIntent(context.get()!!, this@ImagePicker.config)
                 context.get()!!.startActivity(intent)
-            }
-            else {
+            } else {
                 Toast.makeText(context.get(), "권한을 확인해주세요", Toast.LENGTH_SHORT).show()
             }
         }
@@ -79,6 +89,7 @@ class ImagePicker private constructor(
     companion object {
         var onSingleSelected: ((uri: Uri) -> Unit)? = null
         var onMultiSelected: ((uriList: List<Uri>) -> Unit)? = null
+        var onCamera: ((uri: Uri) -> Unit)? = null
 
         fun with(activity: FragmentActivity): ImagePicker {
             return ImagePicker(WeakReference(activity), ImagePickerConfig())

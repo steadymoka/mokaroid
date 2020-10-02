@@ -34,6 +34,14 @@ class ImagePickerSampleLayout : Fragment() {
                     _view.imageViewTarget.load(this.activity!!, uri)
                 }
         }
+
+        _view.textViewTestButtonCamera.setOnClickListener {
+            ImagePicker
+                .with(this)
+                .showCamera { uri ->
+                    _view.imageViewTarget.load(this.activity!!, uri)
+                }
+        }
     }
 
 }

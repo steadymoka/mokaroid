@@ -42,15 +42,26 @@ internal class ImagePickerLayout : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _view = MkLayoutImagePickerBinding.inflate(layoutInflater)
+        _view.viewToolbar.topMargin(statusBarSize)
+
         config = intent.getSerializableExtra(KEY_BUILDER_EXTRA) as ImagePickerConfig
         setContentView(_view.root)
 
-        initViews()
-        bindEvents()
-        bindViewModel()
+        if (config.showCamera) {
+            listOf(_view.imageViewClose, _view.viewToolbar, _view.textViewDirectory).forEach { it.gone() }
+            lifecycleScope.launch {
+                fileToSave = CameraUtil.getFileToSave(this@ImagePickerLayout, MediaType.IMAGE_ONLY)
+                val intent = CameraUtil.getCameraIntent(this@ImagePickerLayout, MediaType.IMAGE_ONLY, fileToSave!!)
+                startActivityForResult(intent, 1004)
+            }
+        } else {
+            initViews()
+            bindEvents()
+            bindViewModel()
 
-        lifecycleScope.launch {
-            viewModel.loadAlbumList(this@ImagePickerLayout, config.mediaType)
+            lifecycleScope.launch {
+                viewModel.loadAlbumList(this@ImagePickerLayout, config.mediaType)
+            }
         }
     }
 
@@ -62,20 +73,31 @@ internal class ImagePickerLayout : AppCompatActivity() {
             return
         }
 
+        _view.viewDim.visibleFadeIn(200)
         val loadingDialog = LoadingDialog()
+
         lifecycleScope.launch {
             loadingDialog.show(this@ImagePickerLayout.supportFragmentManager)
             CameraUtil.save(this@ImagePickerLayout, fileToSave!!)
+
+            this@ImagePickerLayout.albumAdapter.items.clear()
             viewModel.loadAlbumList(this@ImagePickerLayout, config.mediaType)
-            viewModel.mediaList.value = viewModel.albumList.value?.get(0)?.album?.mediaUris?.map { MediaAdapter.Data(media = it) }
             _view.recyclerViewMedia.scrollToPosition(0)
+
             loadingDialog.dismiss()
+            _view.viewDim.goneFadeOut(200)
+
+            if (config.showCamera) {
+                val uri = viewModel.albumList.value?.first()?.album?.mediaUris?.first()?.uri
+                if (null != uri) {
+                    ImagePicker.onCamera?.invoke(uri)
+                }
+                finish()
+            }
         }
     }
 
     private fun initViews() {
-        _view.viewToolbar.topMargin(statusBarSize)
-
         _view.recyclerViewAlbum.adapter = albumAdapter
         _view.recyclerViewAlbum.itemAnimator = null
 
@@ -101,8 +123,9 @@ internal class ImagePickerLayout : AppCompatActivity() {
         }
 
         albumAdapter.onClickItem = { data ->
-            _view.textViewDirectory.text = data.album.name
             _view.recyclerViewMedia.scrollToPosition(0)
+
+            viewModel.currentDirectory.value = data.album.name
             viewModel.openAlbumList.value = false
             viewModel.mediaList.value = data.album.mediaUris.map { MediaAdapter.Data(media = it) }
         }
@@ -142,8 +165,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
                 if (mediaAdapter.selectedDataList.isNotEmpty()) {
                     ImagePicker.onSingleSelected?.invoke(mediaAdapter.selectedDataList[0].media.uri)
                     finish()
-                }
-                else {
+                } else {
                     Toast.makeText(this, "선택 해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -151,8 +173,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
                 if (mediaAdapter.selectedDataList.isNotEmpty()) {
                     ImagePicker.onMultiSelected?.invoke(mediaAdapter.selectedDataList.map { it.media.uri })
                     finish()
-                }
-                else {
+                } else {
                     Toast.makeText(this, "선택 해주세요", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -160,11 +181,16 @@ internal class ImagePickerLayout : AppCompatActivity() {
     }
 
     private fun bindViewModel() {
+        viewModel.currentDirectory.observe(this, Observer {
+            _view.textViewDirectory.text = it
+        })
+
         viewModel.albumList.observe(this, Observer {
             if (albumAdapter.items.isEmpty()) {
                 val initData = it.first()
                 albumAdapter.selectedData = initData
                 viewModel.mediaList.value = initData.album.mediaUris.map { MediaAdapter.Data(media = it) }
+                viewModel.currentDirectory.value = initData.album.name
             }
             albumAdapter.replaceItems(it)
         })
@@ -194,8 +220,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         val startValue = if (null != expandAnimator) {
             expandAnimator!!.cancel()
             expandAnimator!!.animatedValue as Float
-        }
-        else {
+        } else {
             start
         }
         collapseAnimator = ValueAnimator.ofFloat(startValue, target)
@@ -215,8 +240,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
         val startValue = if (null != collapseAnimator) {
             collapseAnimator!!.cancel()
             collapseAnimator!!.animatedValue as Float
-        }
-        else {
+        } else {
             start
         }
         expandAnimator = ValueAnimator.ofFloat(startValue, target)
