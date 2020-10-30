@@ -130,24 +130,34 @@ object MediaLoader {
     private fun getImage(cursor: Cursor): Media? = cursor.run {
         val indexId = getColumnIndex(INDEX_MEDIA_ID)
         val mediaId = getLong(indexId)
-        return Media(
-            uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
-            album = getStringOrNull(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)) ?: "기타",
-            datedAddedSecond = getLongOrNull(getColumnIndex(INDEX_DATE_ADDED_SECOND)) ?: 0,
-            type = getStringOrNull(getColumnIndex(INDEX_IMAGE_MIME_TYPE)) ?: "image/jpg"
-        )
+        return try {
+            Media(
+                uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
+                album = getStringOrNull(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)) ?: "기타",
+                datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
+                type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
+            )
+        }
+        catch (e: Exception) {
+            null
+        }
     }
 
     private fun getVideo(cursor: Cursor): Media? = cursor.run {
         val indexId = getColumnIndex(INDEX_MEDIA_ID)
         val mediaId = getLong(indexId)
-        return Media(
-            uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
-            album = getStringOrNull(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)) ?: "기타",
-            datedAddedSecond = getLongOrNull(getColumnIndex(INDEX_DATE_ADDED_SECOND)) ?: 0,
-            type = getStringOrNull(getColumnIndex(INDEX_IMAGE_MIME_TYPE)) ?: "image/jpg",
-            duration = getLongOrNull(getColumnIndex(INDEX_VIDEO_DURATION)) ?: 0
-        )
+        return try {
+            Media(
+                uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
+                album = getStringOrNull(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)) ?: "기타",
+                datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
+                type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
+                duration = getLongOrNull(getColumnIndex(INDEX_VIDEO_DURATION)) ?: 0
+            )
+        }
+        catch (e: Exception) {
+            null
+        }
     }
 
     /**
