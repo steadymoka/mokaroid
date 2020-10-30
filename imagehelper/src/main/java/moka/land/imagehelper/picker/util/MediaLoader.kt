@@ -6,6 +6,8 @@ import android.database.Cursor
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.provider.MediaStore
+import androidx.core.database.getLongOrNull
+import androidx.core.database.getStringOrNull
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -71,10 +73,7 @@ object MediaLoader {
             }
 
             val albumList = mediaList
-                .asSequence()
-                .groupBy {
-                    it.album
-                }
+                .groupBy { it.album }
                 .map { getAlbum(it) }
                 .toList()
 
@@ -95,8 +94,7 @@ object MediaLoader {
         val type = context.contentResolver.getType(uri)
             ?: return if (uri.toString().contains(Regex(".mp4|.mp3|.avi|.mpeg|.mov"))) {
                 Media(uri = uri, type = "video/mp4")
-            }
-            else {
+            } else {
                 Media(uri = uri, type = "image/jpg")
             }
 
@@ -111,8 +109,7 @@ object MediaLoader {
 
             cursor?.close()
             return media
-        }
-        else {
+        } else {
             val projection = arrayOf(INDEX_MEDIA_ID, INDEX_IMAGE_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_IMAGE_MIME_TYPE)
             val cursor = context.contentResolver.query(uri, projection, null, null, null)
 
@@ -135,9 +132,9 @@ object MediaLoader {
         val mediaId = getLong(indexId)
         return Media(
             uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
-            album = getString(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)),
-            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
-            type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
+            album = getStringOrNull(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)) ?: "기타",
+            datedAddedSecond = getLongOrNull(getColumnIndex(INDEX_DATE_ADDED_SECOND)) ?: 0,
+            type = getStringOrNull(getColumnIndex(INDEX_IMAGE_MIME_TYPE)) ?: "image/jpg"
         )
     }
 
@@ -146,10 +143,10 @@ object MediaLoader {
         val mediaId = getLong(indexId)
         return Media(
             uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
-            album = getString(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)),
-            datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
-            type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
-            duration = getLong(getColumnIndex(INDEX_VIDEO_DURATION))
+            album = getStringOrNull(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)) ?: "기타",
+            datedAddedSecond = getLongOrNull(getColumnIndex(INDEX_DATE_ADDED_SECOND)) ?: 0,
+            type = getStringOrNull(getColumnIndex(INDEX_IMAGE_MIME_TYPE)) ?: "image/jpg",
+            duration = getLongOrNull(getColumnIndex(INDEX_VIDEO_DURATION)) ?: 0
         )
     }
 

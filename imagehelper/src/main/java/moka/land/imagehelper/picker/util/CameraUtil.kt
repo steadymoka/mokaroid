@@ -11,16 +11,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import moka.land.base.log
 import moka.land.imagehelper.picker.type.MediaType
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.OutputStream
+import java.io.*
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -170,10 +167,8 @@ object CameraUtil {
     }
 
     private suspend fun scanMedia(context: Context, uri: Uri) {
-        log("before uri: ${uri.path}")
         suspendCoroutine<Unit> { continuation ->
             MediaScannerConnection.scanFile(context, arrayOf(uri.path), null) { path, uri ->
-                log("after path: ${path}, uri: ${uri}")
                 continuation.resume(Unit)
             }
         }
