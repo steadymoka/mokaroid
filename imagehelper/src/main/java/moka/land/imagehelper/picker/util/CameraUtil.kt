@@ -16,6 +16,9 @@ import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import moka.land.base.deviceHeightPixel
+import moka.land.base.deviceWidthPixel
+import moka.land.base.log
 import moka.land.imagehelper.picker.type.MediaType
 import java.io.*
 import java.util.*
@@ -55,7 +58,6 @@ object CameraUtil {
             if (!directory.exists()) {
                 directory.mkdir()
             }
-
             val fileSuffix = when (mediaType) {
                 MediaType.IMAGE_ONLY -> ".jpg"
                 MediaType.VIDEO_ONLY -> ".mp4"
@@ -75,12 +77,37 @@ object CameraUtil {
                 (orientation == ExifInterface.ORIENTATION_ROTATE_270) -> 270f
                 else -> 0f
             }
-            val options = BitmapFactory.Options()
-            options.inSampleSize = 3
-            saveBitmap(context, BitmapFactory.decodeFile(file.path, options), degree)
+
+            val bitmap = BitmapFactory.Options().run {
+                inJustDecodeBounds = true
+                BitmapFactory.decodeFile(file.path, this)
+                inSampleSize = calculateInSampleSize(this, (deviceWidthPixel * 0.8f).toInt(), (deviceHeightPixel * 0.8f).toInt())
+
+                inJustDecodeBounds = false
+                BitmapFactory.decodeFile(file.path, this)
+            }
+            saveBitmap(context, bitmap, degree)
             file.delete()
             Unit
         }
+    }
+
+    private fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
     }
 
     internal suspend fun saveBitmap(context: Context, bitmap: Bitmap, degree: Float) {
@@ -113,8 +140,7 @@ object CameraUtil {
                 throw IOException("Failed to save bitmap.")
             }
             rotatedBitmap.recycle()
-        }
-        finally {
+        } finally {
             bitmap.recycle()
             stream.close()
             scanMedia(context, Uri.fromFile(image))
@@ -150,14 +176,12 @@ object CameraUtil {
                 throw IOException("Failed to save bitmap.")
             }
             rotatedBitmap.recycle()
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             if (uri != null) {
                 context.contentResolver.delete(uri, null, null)
             }
             throw e
-        }
-        finally {
+        } finally {
             bitmap.recycle()
             stream?.close()
             if (null != uri) {

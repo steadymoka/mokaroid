@@ -165,7 +165,7 @@ object MediaLoader {
      */
 
     suspend fun Context.getFile(uri: Uri): File {
-        return MediaLoader.getFile(this, uri)
+        return getFile(this, uri)
     }
 
     @JvmName("getFileFromUri")
