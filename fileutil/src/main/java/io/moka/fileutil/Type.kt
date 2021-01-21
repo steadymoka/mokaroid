@@ -1,4 +1,4 @@
-package io.moka.mediautil
+package io.moka.fileutil
 
 import java.io.Serializable
 

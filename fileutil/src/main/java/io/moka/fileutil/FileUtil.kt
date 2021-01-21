@@ -1,4 +1,4 @@
-package io.moka.mediautil
+package io.moka.fileutil
 
 import android.content.ContentValues
 import android.content.Context
@@ -25,7 +25,7 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 
-object MediaUtil {
+object FileUtil {
 
     fun getCameraIntent(context: Context, mediaType: MediaType, fileToSave: File): Intent? {
         val intent = when (mediaType) {

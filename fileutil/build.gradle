@@ -3,7 +3,6 @@ apply plugin: 'com.github.dcendents.android-maven'
 
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
 
 group = 'com.github.moka-a'
 
@@ -18,16 +17,9 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    androidExtensions {
-        experimental = true
-    }
-    viewBinding {
-        enabled = true
-    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
