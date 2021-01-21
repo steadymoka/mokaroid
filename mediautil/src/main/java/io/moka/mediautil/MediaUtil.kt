@@ -14,6 +14,8 @@ import android.provider.MediaStore
 import androidx.core.content.FileProvider
 import androidx.exifinterface.media.ExifInterface
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import moka.land.base.deviceHeightPixel
 import moka.land.base.deviceWidthPixel
@@ -61,6 +63,13 @@ object MediaUtil {
                 else -> ".jpg"
             }
             File.createTempFile(fileName, fileSuffix, directory)
+        }
+    }
+
+    fun save(context: Context, file: File, callback: () -> Unit) {
+        GlobalScope.launch {
+            save(context, file)
+            callback()
         }
     }
 
