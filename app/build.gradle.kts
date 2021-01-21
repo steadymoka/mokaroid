@@ -73,6 +73,7 @@ dependencies {
     implementation(project(":dialog"))
     implementation(project(":webview"))
     implementation(project(":imagehelper"))
+    implementation(project(":mediautil"))
     implementation(project(":permissionmanager"))
     implementation(project(":adhelper"))
 
