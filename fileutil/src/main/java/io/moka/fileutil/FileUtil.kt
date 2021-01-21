@@ -66,14 +66,14 @@ object FileUtil {
         }
     }
 
-    fun save(context: Context, file: File, callback: () -> Unit) {
+    fun save(context: Context, file: File, callback: (Uri) -> Unit) {
         GlobalScope.launch {
-            save(context, file)
-            callback()
+            val uri = save(context, file)
+            callback(uri)
         }
     }
 
-    suspend fun save(context: Context, file: File) {
+    suspend fun save(context: Context, file: File): Uri {
         return withContext(Dispatchers.IO) {
             val exif = ExifInterface(file)
             val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
@@ -92,9 +92,9 @@ object FileUtil {
                 inJustDecodeBounds = false
                 BitmapFactory.decodeFile(file.path, this)
             }
-            saveBitmap(context, bitmap, degree)
+            val uri = saveBitmap(context, bitmap, degree)
             file.delete()
-            Unit
+            uri
         }
     }
 
@@ -116,20 +116,18 @@ object FileUtil {
         return inSampleSize
     }
 
-    suspend fun saveBitmap(context: Context, bitmap: Bitmap, degree: Float) {
-        return withContext(Dispatchers.IO) {
-            val fileName = "IMG_${Date().time}"
-            val directoryName = Environment.DIRECTORY_PICTURES
+    suspend fun saveBitmap(context: Context, bitmap: Bitmap, degree: Float): Uri {
+        val fileName = "IMG_${Date().time}"
+        val directoryName = Environment.DIRECTORY_PICTURES
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                saveImageInQ(context, bitmap, fileName, directoryName, degree)
-            } else {
-                saveImageNotQ(context, bitmap, fileName, directoryName, degree)
-            }
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            saveImageInQ(context, bitmap, fileName, directoryName, degree)
+        } else {
+            saveImageNotQ(context, bitmap, fileName, directoryName, degree)
         }
     }
 
-    private suspend fun saveImageNotQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float) {
+    private suspend fun saveImageNotQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float): Uri {
         val directoryName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + File.separator
         val file = File(directoryName)
         if (!file.exists()) {
@@ -151,9 +149,10 @@ object FileUtil {
             stream.close()
             scanMedia(context, Uri.fromFile(image))
         }
+        return Uri.fromFile(image)
     }
 
-    private suspend fun saveImageInQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float) {
+    private suspend fun saveImageInQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float): Uri {
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
             put(MediaStore.Images.ImageColumns.DISPLAY_NAME, fileName)
@@ -194,6 +193,7 @@ object FileUtil {
                 scanMedia(context, uri)
             }
         }
+        return uri ?: Uri.EMPTY
     }
 
     private suspend fun scanMedia(context: Context, uri: Uri) {
