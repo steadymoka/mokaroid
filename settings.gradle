@@ -1,5 +1,4 @@
-include ':mediautil'
-rootProject.name='MokaAStd'
+rootProject.name='Mokaroid'
 
 include ':app'
 include ':base'
@@ -8,3 +7,4 @@ include ':webview'
 include ':imagehelper'
 include ':permissionmanager'
 include ':adhelper'
+include ':mediautil'
