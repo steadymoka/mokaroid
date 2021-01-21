@@ -67,7 +67,7 @@ object CameraUtil {
         }
     }
 
-    internal suspend fun save(context: Context, file: File) {
+    suspend fun save(context: Context, file: File) {
         return withContext(Dispatchers.IO) {
             val exif = ExifInterface(file)
             val orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
