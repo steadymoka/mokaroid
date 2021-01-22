@@ -72,7 +72,9 @@ object FileUtil {
     fun save(context: Context, file: File, callback: (Uri) -> Unit) {
         GlobalScope.launch {
             val uri = save(context, file)
-            callback(uri)
+            withContext(Dispatchers.Main) {
+                callback(uri)
+            }
         }
     }
 
