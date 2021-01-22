@@ -6,6 +6,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import android.media.ExifInterface.TAG_APERTURE
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -19,7 +20,12 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import moka.land.base.deviceHeightPixel
 import moka.land.base.deviceWidthPixel
-import java.io.*
+import moka.land.base.log
+import moka.land.imagehelper.picker.util.MediaLoader
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -93,6 +99,35 @@ object FileUtil {
                 BitmapFactory.decodeFile(file.path, this)
             }
             val uri = saveBitmap(context, bitmap, degree)
+
+            val attributes = arrayOf(
+                ExifInterface.TAG_DATETIME,
+                ExifInterface.TAG_DATETIME_DIGITIZED,
+                ExifInterface.TAG_DATETIME_ORIGINAL,
+                ExifInterface.TAG_EXPOSURE_TIME,
+                ExifInterface.TAG_FLASH,
+                ExifInterface.TAG_FOCAL_LENGTH,
+                ExifInterface.TAG_GPS_ALTITUDE,
+                ExifInterface.TAG_GPS_ALTITUDE_REF,
+                ExifInterface.TAG_GPS_DATESTAMP,
+                ExifInterface.TAG_GPS_LATITUDE,
+                ExifInterface.TAG_GPS_LATITUDE_REF,
+                ExifInterface.TAG_GPS_LONGITUDE,
+                ExifInterface.TAG_GPS_LONGITUDE_REF,
+                ExifInterface.TAG_GPS_PROCESSING_METHOD,
+                ExifInterface.TAG_GPS_TIMESTAMP,
+                ExifInterface.TAG_MAKE,
+                ExifInterface.TAG_MODEL,
+                ExifInterface.TAG_ORIENTATION,
+                ExifInterface.TAG_SUBSEC_TIME,
+                ExifInterface.TAG_WHITE_BALANCE
+            )
+            val exifInterface = ExifInterface(MediaLoader.getFile(context, uri))
+            attributes.forEach {
+                exifInterface.setAttribute(it, exif.getAttribute(it))
+            }
+            exifInterface.saveAttributes()
+
             file.delete()
             uri
         }
@@ -128,7 +163,7 @@ object FileUtil {
     }
 
     private suspend fun saveImageNotQ(context: Context, bitmap: Bitmap, fileName: String, directoryName: String, degree: Float): Uri {
-        val directoryName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).toString() + File.separator
+        val directoryName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator
         val file = File(directoryName)
         if (!file.exists()) {
             file.mkdir()
