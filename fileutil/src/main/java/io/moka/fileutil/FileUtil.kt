@@ -6,7 +6,6 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import android.media.ExifInterface.TAG_APERTURE
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
@@ -20,8 +19,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import moka.land.base.deviceHeightPixel
 import moka.land.base.deviceWidthPixel
-import moka.land.base.log
-import moka.land.imagehelper.picker.util.MediaLoader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
