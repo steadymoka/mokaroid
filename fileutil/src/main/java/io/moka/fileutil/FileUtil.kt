@@ -115,7 +115,6 @@ object FileUtil {
                 ExifInterface.TAG_GPS_TIMESTAMP,
                 ExifInterface.TAG_MAKE,
                 ExifInterface.TAG_MODEL,
-                ExifInterface.TAG_ORIENTATION,
                 ExifInterface.TAG_SUBSEC_TIME,
                 ExifInterface.TAG_WHITE_BALANCE
             )
