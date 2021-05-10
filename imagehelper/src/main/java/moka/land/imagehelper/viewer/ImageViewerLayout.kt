@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import moka.land.imagehelper.R
 import kotlinx.android.synthetic.main.mk_layout_image_viewer.*
@@ -38,7 +39,6 @@ class ImageViewerLayout : AppCompatActivity() {
         viewPager.adapter = imageAdapter
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
                 ImageViewer.onPageSelected?.invoke(position)
             }
         })
@@ -56,8 +56,7 @@ class ImageViewerLayout : AppCompatActivity() {
             if (header.isVisible) {
                 header.goneFadeOut(100)
                 footer.goneFadeOut(100)
-            }
-            else {
+            } else {
                 header.visibleFadeIn(100)
                 footer.visibleFadeIn(100)
             }
@@ -67,8 +66,7 @@ class ImageViewerLayout : AppCompatActivity() {
                 val intent = Intent(Intent.ACTION_VIEW, it.media.uri)
                 intent.setDataAndType(it.media.uri, it.media.type)
                 startActivity(intent)
-            }
-            catch (e: ActivityNotFoundException) {
+            } catch (e: ActivityNotFoundException) {
                 Toast.makeText(this, "재생할 수 없습니다", Toast.LENGTH_SHORT).show()
             }
         }

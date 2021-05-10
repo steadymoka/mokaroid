@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
@@ -137,7 +138,11 @@ internal class ImagePickerLayout : AppCompatActivity() {
             lifecycleScope.launch {
                 fileToSave = CameraUtil.getFileToSave(this@ImagePickerLayout, MediaType.IMAGE_ONLY)
                 val intent = CameraUtil.getCameraIntent(this@ImagePickerLayout, MediaType.IMAGE_ONLY, fileToSave!!)
-                startActivityForResult(intent, 1004)
+                if (null != intent) {
+                    startActivityForResult(intent, 1004)
+                } else {
+                    Log.wtf("ImagePickerLayout", "getCameraIntent() is null")
+                }
             }
         }
 
