@@ -66,6 +66,11 @@ internal class ImagePickerLayout : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        ImagePicker.onCancel?.invoke()
+        super.onBackPressed()
+    }
+
     private var fileToSave: File? = null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -112,7 +117,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
     }
 
     private fun bindEvents() {
-        _view.imageViewClose.setOnClickListener { finish() }
+        _view.imageViewClose.setOnClickListener { onBackPressed() }
 
         _view.textViewDirectory.setOnClickListener {
             viewModel.openAlbumList.value = !(viewModel.openAlbumList.value ?: false)

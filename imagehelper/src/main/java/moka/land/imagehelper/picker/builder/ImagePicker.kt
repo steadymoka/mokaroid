@@ -13,6 +13,8 @@ import java.lang.ref.WeakReference
 
 interface Runnable {
 
+    fun setOnCancel(onCancel: () -> Unit): Runnable
+
     fun showSingle(onSingleSelected: ((uri: Uri) -> Unit))
 
     fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit))
@@ -29,6 +31,11 @@ class ImagePicker private constructor(
 
     fun setConfig(option: ImagePickerConfig.() -> Unit): Runnable {
         this.config.option()
+        return this
+    }
+
+    override fun setOnCancel(onCancel: () -> Unit): Runnable {
+        ImagePicker.onCancel = onCancel
         return this
     }
 
@@ -89,6 +96,7 @@ class ImagePicker private constructor(
     companion object {
         var onSingleSelected: ((uri: Uri) -> Unit)? = null
         var onMultiSelected: ((uriList: List<Uri>) -> Unit)? = null
+        var onCancel: (() -> Unit)? = null
         var onCamera: ((uri: Uri) -> Unit)? = null
 
         fun with(activity: FragmentActivity): ImagePicker {
