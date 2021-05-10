@@ -76,7 +76,7 @@ class ImagePicker private constructor(
         }
         PermissionManager
             .with(context.get()!!)
-            .setPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .setPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.ACCESS_MEDIA_LOCATION)
             .check { isGranted, _ ->
                 callback(isGranted)
             }
