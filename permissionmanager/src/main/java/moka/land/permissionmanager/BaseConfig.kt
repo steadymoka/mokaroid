@@ -2,7 +2,6 @@ package moka.land.permissionmanager
 
 import java.io.Serializable
 
-@kotlinx.serialization.Serializable
 open class BaseConfig<out T : Runnable> : Serializable {
 
     internal var permissions: Array<String>? = null
