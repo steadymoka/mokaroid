@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import moka.land.imagehelper.picker.layout.ImagePickerLayout
+import moka.land.imagehelper.picker.layout.ImplicitPickerLayout
 import moka.land.imagehelper.picker.type.SelectType
 import moka.land.permissionmanager.PermissionManager
 import java.lang.ref.WeakReference
@@ -27,7 +28,8 @@ interface Runnable {
  */
 class ImagePicker private constructor(
     private var context: WeakReference<Context>,
-    private var config: ImagePickerConfig) : Runnable {
+    private var config: ImagePickerConfig
+) : Runnable {
 
     fun setConfig(option: ImagePickerConfig.() -> Unit): Runnable {
         this.config.option()
@@ -43,18 +45,28 @@ class ImagePicker private constructor(
         if (null == context.get()) {
             return
         }
-        this.config.selectType = SelectType.SINGLE
         ImagePicker.onSingleSelected = onSingleSelected
-        show()
+        this.config.selectType = SelectType.SINGLE
+
+        if (!this.config.implicit) {
+            show()
+        } else {
+            showImplicit()
+        }
     }
 
     override fun showMulti(onMultiSelected: ((uriList: List<Uri>) -> Unit)) {
         if (null == context.get()) {
             return
         }
-        this.config.selectType = SelectType.MULTI
         ImagePicker.onMultiSelected = onMultiSelected
-        show()
+        this.config.selectType = SelectType.MULTI
+
+        if (!this.config.implicit) {
+            show()
+        } else {
+            showImplicit()
+        }
     }
 
     override fun showCamera(onCamera: (uri: Uri) -> Unit) {
@@ -71,6 +83,19 @@ class ImagePicker private constructor(
             if (isGranted) {
                 val intent = ImagePickerLayout.getIntent(context.get()!!, this@ImagePicker.config)
                 context.get()!!.startActivity(intent)
+            } else {
+                Toast.makeText(context.get(), "권한을 확인해주세요", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    private fun showImplicit() {
+        checkPermission { isGranted ->
+            if (isGranted) {
+                context.get()?.run {
+                    val intent = ImplicitPickerLayout.getIntent(this, this@ImagePicker.config)
+                    startActivity(intent)
+                }
             } else {
                 Toast.makeText(context.get(), "권한을 확인해주세요", Toast.LENGTH_SHORT).show()
             }

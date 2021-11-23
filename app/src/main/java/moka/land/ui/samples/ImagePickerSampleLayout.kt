@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import io.moka.fileutil.FileUtil
 import kotlinx.coroutines.launch
 import moka.land.R
+import moka.land.base.log
 import moka.land.databinding.LayoutImagePickerSampleBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
 import moka.land.imagehelper.picker.util.MediaLoader
@@ -33,14 +34,13 @@ class ImagePickerSampleLayout : Fragment() {
         }
 
         _view.textViewTestButton.setOnClickListener {
-            ImagePicker.with(this)
+            ImagePicker
+                .with(this)
                 .setConfig {
-                    indicatorColorRes = R.color.black_01
+                    implicit = true
                 }
                 .showSingle { uri ->
                     _view.imageViewTarget.load(this.activity!!, uri)
-
-
                 }
         }
 

@@ -18,6 +18,7 @@ import moka.land.base.adapter._BaseAdapter
 import moka.land.base.adapter._ItemData
 import moka.land.base.adapter._RecyclerItemView
 import moka.land.base.dip
+import moka.land.base.log
 import moka.land.databinding.LayoutImageViewerSampleBinding
 import moka.land.databinding.ViewImageItemBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
@@ -50,10 +51,12 @@ class ImageViewerSampleLayout : Fragment() {
                 .with(this)
                 .setConfig {
                     indicatorColorRes = R.color.colorAccent
-                    mediaType = MediaType.IMAGE_VIDEO
+                    mediaType = MediaType.IMAGE_ONLY
                     showFullscreenButton = false
+                    implicit = true
                 }
                 .showMulti { uris ->
+                    uris.forEach { log("uri: ${it}") }
                     adapter.setItems(uris.map { ImageAdapter.Data(it) }.toMutableList())
                 }
         }

@@ -41,7 +41,8 @@ object MediaLoader {
             val videoUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI
 
             val imageProjection = arrayOf(INDEX_MEDIA_ID, INDEX_IMAGE_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_IMAGE_MIME_TYPE)
-            val videoProjection = arrayOf(INDEX_MEDIA_ID, INDEX_VIDEO_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_VIDEO_MIME_TYPE, INDEX_VIDEO_DURATION)
+            val videoProjection =
+                arrayOf(INDEX_MEDIA_ID, INDEX_VIDEO_ALBUM_NAME, INDEX_DATE_ADDED_SECOND, INDEX_VIDEO_MIME_TYPE, INDEX_VIDEO_DURATION)
 
             val imageSelection = MediaStore.Images.Media.SIZE + " > 0"
             val videoSelection = MediaStore.Video.Media.SIZE + " > 0"
@@ -81,11 +82,13 @@ object MediaLoader {
             videoCursor?.close()
 
             return@withContext albumList.toMutableList().apply {
-                add(index = 0,
+                add(
+                    index = 0,
                     element = Album(
                         name = "전체사진",
                         thumbnailUri = Media(Uri.EMPTY, "전체사진", 0, "").uri,
-                        mediaUris = mediaList.sortedByDescending { it.datedAddedSecond }))
+                        mediaUris = mediaList.sortedByDescending { it.datedAddedSecond })
+                )
             }
         }
     }
@@ -137,8 +140,7 @@ object MediaLoader {
                 datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
                 type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
             )
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
@@ -154,8 +156,7 @@ object MediaLoader {
                 type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
                 duration = getLongOrNull(getColumnIndex(INDEX_VIDEO_DURATION)) ?: 0
             )
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
@@ -171,7 +172,8 @@ object MediaLoader {
     @JvmName("getFileFromUri")
     suspend fun getFile(context: Context, uri: Uri): File {
         return suspendCoroutine { continuation ->
-            Glide.with(context)
+            Glide
+                .with(context)
                 .asFile()
                 .load(uri)
                 .into(object : CustomTarget<File>() {

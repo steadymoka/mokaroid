@@ -20,4 +20,6 @@ class ImagePickerConfig : Serializable {
 
     var showCamera: Boolean = false
 
+    var implicit: Boolean = false
+
 }
