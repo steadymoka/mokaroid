@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.FragmentManager
-import moka.moka.dialog.R
 
 class LoadingDialog(var dim: Boolean = true) : AppCompatDialogFragment() {
 

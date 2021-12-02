@@ -58,7 +58,7 @@ class MediaAdapter : _HeaderFooterAdapter<MediaAdapter.Data, _RecyclerItemView<M
         }
 
         override fun refreshView() {
-            if (data.media.type.contains("video")) {
+            if (data.media.mimetype.contains("video")) {
                 _view.textViewPlayVideo.visible()
                 _view.frameLayoutFullScreen.gone()
 

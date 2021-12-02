@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.mk_layout_viewer_item.view.*
-import moka.land.base.log
 import moka.land.base.visibleOrGone
 import moka.land.imagehelper.R
 import moka.land.imagehelper.picker.model.Media
@@ -51,7 +50,7 @@ class ImageAdapter : RecyclerView.Adapter<ImageAdapter.BaseItemView>() {
                 .load(data.media.uri)
                 .into(_view.photoView)
 
-            _view.imageViewPlayVideo.visibleOrGone(data.media.type.contains(Regex("video")))
+            _view.imageViewPlayVideo.visibleOrGone(data.media.mimetype.contains(Regex("video")))
         }
     }
 }

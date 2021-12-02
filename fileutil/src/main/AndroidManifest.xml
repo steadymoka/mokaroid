@@ -1,6 +1,6 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="io.moka.fileutil">
+	package="moka.land.fileutil">
 
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 

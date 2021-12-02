@@ -76,6 +76,7 @@ dependencies {
     implementation(project(":fileutil"))
     implementation(project(":permissionmanager"))
     implementation(project(":adhelper"))
+    implementation(project(":transcoder"))
 
     /* Kotlin & Coroutine */
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version")
@@ -120,5 +121,4 @@ dependencies {
 
     implementation("com.facebook.stetho:stetho:1.5.1")
     implementation("com.facebook.stetho:stetho-okhttp3:1.5.1")
-
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	app:startDestination="@id/start">
 
@@ -37,6 +38,13 @@
 			app:popExitAnim="@animator/slide_out_right" />
 
 		<action
+			android:id="@+id/goEncodingSample"
+			app:destination="@id/encodingSample"
+			app:enterAnim="@anim/slide_in_right"
+			app:launchSingleTop="true"
+			app:popExitAnim="@animator/slide_out_right" />
+
+		<action
 			android:id="@+id/goRepository"
 			app:destination="@id/repository"
 			app:enterAnim="@anim/slide_in_right"
@@ -50,30 +58,27 @@
 	<fragment
 		android:id="@+id/imagePickerSample"
 		android:name="moka.land.ui.samples.ImagePickerSampleLayout"
-		android:label="imagePickerSample">
-
-	</fragment>
+		android:label="imagePickerSample"></fragment>
 
 	<fragment
 		android:id="@+id/imageViewerSample"
 		android:name="moka.land.ui.samples.ImageViewerSampleLayout"
-		android:label="imageViewerSample">
-
-	</fragment>
+		android:label="imageViewerSample"></fragment>
 
 	<fragment
 		android:id="@+id/dialogsSample"
 		android:name="moka.land.ui.samples.DialogsSampleLayout"
-		android:label="dialogsSample">
-
-	</fragment>
+		android:label="dialogsSample"></fragment>
 
 	<fragment
 		android:id="@+id/adHelperSample"
 		android:name="moka.land.ui.samples.AdHelperSampleLayout"
-		android:label="AdHelperSample">
+		android:label="AdHelperSample"></fragment>
 
-	</fragment>
+	<fragment
+		android:id="@+id/encodingSample"
+		android:name="moka.land.ui.samples.EncodingSampleLayout"
+		android:label="EncodingSample"></fragment>
 
 	<fragment
 		android:id="@+id/repository"

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import android.graphics.drawable.Drawable
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.core.database.getLongOrNull
@@ -16,7 +17,6 @@ import moka.land.imagehelper.picker.model.Album
 import moka.land.imagehelper.picker.model.Media
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import moka.land.base.log
 import java.io.File
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -96,9 +96,9 @@ object MediaLoader {
     fun getMedia(context: Context, uri: Uri): Media {
         val type = context.contentResolver.getType(uri)
             ?: return if (uri.toString().contains(Regex(".mp4|.mp3|.avi|.mpeg|.mov"))) {
-                Media(uri = uri, type = "video/mp4")
+                Media(uri = uri, mimetype = "video/mp4")
             } else {
-                Media(uri = uri, type = "image/jpg")
+                Media(uri = uri, mimetype = "image/jpg")
             }
 
         if (type.contains(Regex("video"))) {
@@ -138,7 +138,7 @@ object MediaLoader {
                 uri = Uri.withAppendedPath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
                 album = getStringOrNull(getColumnIndex(INDEX_IMAGE_ALBUM_NAME)) ?: "기타",
                 datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
-                type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
+                mimetype = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE))
             )
         } catch (e: Exception) {
             null
@@ -153,7 +153,7 @@ object MediaLoader {
                 uri = Uri.withAppendedPath(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, "" + mediaId),
                 album = getStringOrNull(getColumnIndex(INDEX_VIDEO_ALBUM_NAME)) ?: "기타",
                 datedAddedSecond = getLong(getColumnIndex(INDEX_DATE_ADDED_SECOND)),
-                type = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
+                mimetype = getString(getColumnIndex(INDEX_IMAGE_MIME_TYPE)),
                 duration = getLongOrNull(getColumnIndex(INDEX_VIDEO_DURATION)) ?: 0
             )
         } catch (e: Exception) {
@@ -184,6 +184,14 @@ object MediaLoader {
                         continuation.resume(resource)
                     }
                 })
+        }
+    }
+
+    suspend fun scanMedia(context: Context, uri: Uri): Uri {
+        return suspendCoroutine { continuation ->
+            MediaScannerConnection.scanFile(context, arrayOf(uri.path), null) { path, uri ->
+                continuation.resume(uri)
+            }
         }
     }
 

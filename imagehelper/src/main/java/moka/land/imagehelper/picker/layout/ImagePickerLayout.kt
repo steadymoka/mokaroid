@@ -155,7 +155,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
             if (null == viewModel.mediaList.value)
                 return@on
 
-            val allList = viewModel.mediaList.value!!.filter { it.media.type.contains("image") }
+            val allList = viewModel.mediaList.value!!.filter { it.media.mimetype.contains("image") }
             val selectedIndex = allList.indexOf(data)
 
             ImageViewer
@@ -167,7 +167,7 @@ internal class ImagePickerLayout : AppCompatActivity() {
 
         mediaAdapter.onClickToPlayVideo = { data ->
             val intent = Intent(Intent.ACTION_VIEW, data.media.uri)
-            intent.setDataAndType(data.media.uri, data.media.type)
+            intent.setDataAndType(data.media.uri, data.media.mimetype)
             startActivity(intent)
         }
     }

@@ -50,6 +50,12 @@ class HomeLayout : Fragment() {
                 nav.navigate(R.id.goAdHelperSample)
             }
         }
+
+        _view.textViewEncoding.setOnClickListener {
+            if (nav.currentDestination?.label == "start") {
+                nav.navigate(R.id.goEncodingSample)
+            }
+        }
     }
 
 }

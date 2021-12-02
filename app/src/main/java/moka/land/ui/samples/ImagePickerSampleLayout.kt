@@ -4,20 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toFile
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import io.moka.fileutil.FileUtil
 import kotlinx.coroutines.launch
-import moka.land.R
-import moka.land.base.log
 import moka.land.databinding.LayoutImagePickerSampleBinding
 import moka.land.imagehelper.picker.builder.ImagePicker
-import moka.land.imagehelper.picker.util.MediaLoader
-import moka.land.util.TakePictureUtil
 import moka.land.util.load
-import java.io.File
 
 class ImagePickerSampleLayout : Fragment() {
 
@@ -50,7 +43,7 @@ class ImagePickerSampleLayout : Fragment() {
                 .showCamera {
                     lifecycleScope.launch {
 //                        val uri = TakePictureUtil.save(this@ImagePickerSampleLayout.activity!!, it)
-                        FileUtil.save(this@ImagePickerSampleLayout.activity!!, MediaLoader.getFile(this@ImagePickerSampleLayout.activity!!, it))
+//                        FileUtil.save(this@ImagePickerSampleLayout.activity!!, MediaLoader.getFile(this@ImagePickerSampleLayout.activity!!, it))
 //                        _view.imageViewTarget.load(this@ImagePickerSampleLayout.activity!!, uri)
                     }
                 }

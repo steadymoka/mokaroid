@@ -6,7 +6,7 @@ data class Media(
     var uri: Uri,
     val album: String = "",
     var datedAddedSecond: Long = 0,
-    var type: String,
+    var mimetype: String,
     var duration: Long = 0
 ) {
 
@@ -18,8 +18,7 @@ data class Media(
 
         return if (hour > 0) {
             String.format("%02d:%02d:%02d", hour, minute, second)
-        }
-        else {
+        } else {
             String.format("%02d:%02d", minute, second)
         }
     }

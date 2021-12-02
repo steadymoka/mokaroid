@@ -51,12 +51,25 @@ class ImageViewerSampleLayout : Fragment() {
                 .with(this)
                 .setConfig {
                     indicatorColorRes = R.color.colorAccent
-                    mediaType = MediaType.IMAGE_ONLY
-                    showFullscreenButton = false
+                    mediaType = MediaType.VIDEO_ONLY
                     implicit = true
                 }
                 .showMulti { uris ->
-                    uris.forEach { log("uri: ${it}") }
+                    uris.forEach {
+                        log("uri: ${it}")
+                        log("it.host: ${it.host}")
+                        log("it.path: ${it.path}")
+                        log("it.authority: ${it.authority}")
+                        log("-- -- -- --")
+                    }
+                    /*
+                        uri: content://media/external/images/media/111
+                        uri: content://media/external/images/media/110
+                        uri: content://media/external/images/media/106
+
+                        uri: content://com.google.android.apps.photos.contentprovider/-1/2/content%3A%2F%2Fmedia%2Fexternal%2Fvideo%2Fmedia%2F115/ORIGINAL/NONE/video%2Fmp4/428788901
+                        uri: file:///storage/emulated/0/Android/data/moka.land/cache/tempFile_1638432658870.jpg
+                     */
                     adapter.setItems(uris.map { ImageAdapter.Data(it) }.toMutableList())
                 }
         }

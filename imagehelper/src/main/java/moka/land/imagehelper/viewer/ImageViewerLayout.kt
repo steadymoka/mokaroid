@@ -7,13 +7,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import moka.land.imagehelper.R
 import kotlinx.android.synthetic.main.mk_layout_image_viewer.*
 import moka.land.base.*
-import moka.land.imagehelper.picker.model.Media
+import moka.land.imagehelper.R
 import moka.land.imagehelper.picker.util.MediaLoader
+
 
 class ImageViewerLayout : AppCompatActivity() {
 
@@ -64,10 +63,12 @@ class ImageViewerLayout : AppCompatActivity() {
         imageAdapter.onClickToPlayVideo = {
             try {
                 val intent = Intent(Intent.ACTION_VIEW, it.media.uri)
-                intent.setDataAndType(it.media.uri, it.media.type)
+                intent.setDataAndType(it.media.uri, it.media.mimetype)
                 startActivity(intent)
             } catch (e: ActivityNotFoundException) {
                 Toast.makeText(this, "재생할 수 없습니다", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
         }
     }

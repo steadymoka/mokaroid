@@ -5,6 +5,7 @@
 	package="moka.land">
 
 	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-sdk tools:overrideLibrary="net.ypresto.androidtranscoder" />
 
 	<application
 		android:name="._Application"

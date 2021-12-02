@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentManager
 import moka.land.base.visibleOrGone
-import moka.moka.dialog.databinding.LayoutBaseDialogBinding
+import moka.land.dialog.databinding.LayoutBaseDialogBinding
 
 abstract class _BaseDialog : AppCompatDialogFragment() {
 
