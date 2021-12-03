@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
@@ -161,7 +160,7 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
             if (mediaId == 0L) {
                 showLoading()
 
-                val file = getTempImagePathFromInputStreamUri(uri)
+                val file = getTempImagePathFromInputStreamUri(uri, mimeType ?: "image/*")
                 cursor.close()
                 return Uri.fromFile(file)
             }
@@ -183,7 +182,7 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
         return convertedUri
     }
 
-    private suspend fun getTempImagePathFromInputStreamUri(uri: Uri): File? {
+    private suspend fun getTempImagePathFromInputStreamUri(uri: Uri, mimeType: String): File? {
         return suspendCoroutine {
             lifecycleScope.launch {
                 withContext(Dispatchers.IO) {
@@ -192,7 +191,7 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
                     if (uri.authority != null) {
                         try {
                             inputStream = contentResolver.openInputStream(uri) // context needed
-                            photoFile = createTemporalFileFrom(inputStream)
+                            photoFile = createTemporalFileFrom(inputStream, mimeType)
                         } catch (e: FileNotFoundException) {
                             it.resumeWithException(e)
                             // log
@@ -215,13 +214,18 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
         }
     }
 
-    private fun createTemporalFileFrom(inputStream: InputStream?): File? {
+    private fun createTemporalFileFrom(inputStream: InputStream?, mimeType: String): File? {
         var targetFile: File? = null
         if (inputStream != null) {
             var read: Int
             val buffer = ByteArray(8 * 1024)
-            targetFile = createTemporalFile()
-            val outputStream: OutputStream = FileOutputStream(targetFile)
+            targetFile = if (mimeType.startsWith("video/")) {
+                createTemporalVideoFile()
+            } else {
+                createTemporalImageFile()
+            }
+
+            val outputStream = FileOutputStream(targetFile)
             while (inputStream.read(buffer).also { read = it } != -1) {
                 outputStream.write(buffer, 0, read)
             }
@@ -235,8 +239,12 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
         return targetFile
     }
 
-    private fun createTemporalFile(): File {
+    private fun createTemporalImageFile(): File {
         return File(externalCacheDir, "tempFile_${Date().time}.jpg") // context needed
+    }
+
+    private fun createTemporalVideoFile(): File {
+        return File(externalCacheDir, "tempFile_${Date().time}.mp4") // context needed
     }
 
     // -- LoadingDialog

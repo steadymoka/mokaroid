@@ -2,6 +2,11 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="moka.land.fileutil">
 
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<application>
+		<provider
+			android:name="._FileUtil"
+			android:authorities="${applicationId}.fileutilprovider"
+			android:exported="false" />
+	</application>
 
 </manifest>

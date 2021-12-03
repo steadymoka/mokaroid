@@ -67,11 +67,10 @@ class EncodingSampleLayout : Fragment() {
             ImagePicker
                 .with(this)
                 .setConfig {
-                    mediaType = MediaType.VIDEO_ONLY
+                    mediaType = MediaType.IMAGE_ONLY
                     implicit = true
                 }
                 .showSingle { uri ->
-                    log("uri: ${uri}")
                     Thumbnail.createBase64Thumbnail(uri)
                     transcode(uri)
                 }
