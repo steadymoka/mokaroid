@@ -40,16 +40,21 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
      * https://developer.android.com/training/secure-file-sharing/request-file
      */
     private fun startPickerIntent() {
-        val intent = Intent(Intent.ACTION_PICK)
-        when (config.mediaType) {
+        val intent = when (config.mediaType) {
             MediaType.IMAGE_ONLY -> {
+                val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/*"
+                intent
             }
             MediaType.VIDEO_ONLY -> {
+                val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "video/*"
+                intent
             }
             else -> {
-                intent.type = "image/*,video/*"
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "*/*"
+                intent
             }
         }
         if (config.selectType == SelectType.MULTI) {

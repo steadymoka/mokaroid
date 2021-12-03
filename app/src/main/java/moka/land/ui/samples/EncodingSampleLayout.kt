@@ -67,12 +67,16 @@ class EncodingSampleLayout : Fragment() {
             ImagePicker
                 .with(this)
                 .setConfig {
-                    mediaType = MediaType.IMAGE_ONLY
+                    mediaType = MediaType.IMAGE_VIDEO
                     implicit = true
                 }
                 .showSingle { uri ->
-                    Thumbnail.createBase64Thumbnail(uri)
-                    transcode(uri)
+                    val bitmap = Thumbnail.createBitmapImageThumbnail(uri)
+                    val base64 = Thumbnail.bitmapToBase64(bitmap)
+                    log(base64)
+                    _view.imageViewTarget.setImageBitmap(bitmap)
+//                    Thumbnail.createBase64Thumbnail(uri)
+//                    transcode(uri)
                 }
         }
 
