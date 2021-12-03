@@ -255,6 +255,9 @@ internal class ImplicitPickerLayout : AppCompatActivity() {
         if (null == loadingDialog) {
             loadingDialog = LoadingDialog(false)
         }
+        if (loadingDialog!!.isAdded) {
+            return
+        }
         loadingDialog!!.show(supportFragmentManager)
     }
 

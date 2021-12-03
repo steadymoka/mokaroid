@@ -29,9 +29,9 @@ object Thumbnail {
         return bitmap!!
     }
 
-    fun bitmapToBase64(bitmap: Bitmap): String {
+    fun bitmapToBase64(bitmap: Bitmap, quality: Int = 100): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        bitmap.compress(Bitmap.CompressFormat.PNG, quality, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
