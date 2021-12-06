@@ -50,17 +50,21 @@ class EncodingSampleLayout : Fragment() {
             ImagePicker
                 .with(this)
                 .setConfig {
-                    mediaType = MediaType.VIDEO_ONLY
+                    mediaType = MediaType.IMAGE_ONLY
                     implicit = true
                 }
                 .showSingle { uri ->
-//                    val bitmap = Thumbnail.imageUriToBitmap(uri)
-//                    val base64 = Thumbnail.bitmapToBase64(bitmap)
-//                    _view.imageViewTarget.setImageBitmap(bitmap)
-
-                    val bit = Thumbnail.videoUriToBitmap(uri)
-                    _view.imageViewTarget.setImageBitmap(bit)
-                    transcode(uri)
+                    try {
+                        val bitmap = Thumbnail.imageUriToBitmap(uri)
+                        val base64 = Thumbnail.bitmapToBase64(bitmap)
+                        log("base64: ${base64}")
+                        _view.imageViewTarget.setImageBitmap(bitmap)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+//                    val bit = Thumbnail.videoUriToBitmap(uri)
+//                    _view.imageViewTarget.setImageBitmap(bit)
+//                    transcode(uri)
                 }
         }
 

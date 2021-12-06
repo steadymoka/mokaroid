@@ -17,12 +17,39 @@ import java.io.IOException
 
 object Thumbnail {
 
+    fun calculateInSampleSize(options: BitmapFactory.Options, reqWidth: Int, reqHeight: Int): Int {
+        // Raw height and width of image
+        val (height: Int, width: Int) = options.run { outHeight to outWidth }
+        var inSampleSize = 1
+
+        if (height > reqHeight || width > reqWidth) {
+
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (halfHeight / inSampleSize >= reqHeight && halfWidth / inSampleSize >= reqWidth) {
+                inSampleSize *= 2
+            }
+        }
+
+        return inSampleSize
+    }
+
     fun imageUriToBitmap(uri: Uri): Bitmap {
         var bitmap: Bitmap? = null
 
         try {
             bitmap = if (uri.scheme == "file") {
-                BitmapFactory.decodeFile(uri.path)
+                BitmapFactory.Options().run {
+                    inJustDecodeBounds = true
+                    BitmapFactory.decodeFile(uri.path, this)
+                    inSampleSize = calculateInSampleSize(this, 100, 100)
+                    inJustDecodeBounds = false
+
+                    BitmapFactory.decodeFile(uri.path, this)
+                }
             } else {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
