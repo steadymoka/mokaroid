@@ -64,7 +64,7 @@ class Android720pFormatStrategy implements MediaFormatStrategy {
             // https://github.com/ypresto/android-transcoder/issues/40
             throw new OutputFormatUnavailableException("This video is not 16:9, and is not able to transcode. (" + width + "x" + height + ")");
         }
-        if (shorter <= SHORTER_LENGTH) {
+        if (shorter <= SHORTER_LENGTH && false) {
             Log.d(TAG, "This video is less or equal to 720p, pass-through. (" + width + "x" + height + ")");
             return null;
         }
