@@ -58,9 +58,6 @@ class WebViewActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    /**
-     */
-
     private fun initView() {
         val title = intent.getStringExtra(KEY_TITLE) ?: ""
         setTitle(title)
@@ -94,7 +91,6 @@ class WebViewActivity : AppCompatActivity() {
         webSettings.domStorageEnabled = true
         webSettings.javaScriptEnabled = true
         webSettings.useWideViewPort = true
-        webSettings.setAppCacheEnabled(true)
 
         if (Build.VERSION_CODES.HONEYCOMB <= Build.VERSION.SDK_INT)
             webSettings.displayZoomControls = false

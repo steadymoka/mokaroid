@@ -9,7 +9,8 @@ import moka.land.base.DEBUG
 import moka.land.modules.networkModule
 import moka.land.modules.roomModule
 import moka.land.modules.viewModelModule
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
 
 @SuppressLint("StaticFieldLeak")
 class _Application : Application() {
@@ -30,14 +31,14 @@ class _Application : Application() {
         }
 
         /* Koin */
-        startKoin(
-            androidContext = this,
-            modules = listOf(
+        startKoin {
+            androidContext(this@_Application)
+            modules(
                 viewModelModule,
                 roomModule,
                 networkModule
             )
-        )
+        }
 
         /* Stetho */
         if (BuildConfig.DEBUG) {

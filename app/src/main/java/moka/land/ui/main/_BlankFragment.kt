@@ -12,7 +12,7 @@ class _BlankFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return FrameLayout(activity!!)
+        return FrameLayout(requireActivity())
     }
 
 }

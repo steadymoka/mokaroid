@@ -41,7 +41,6 @@ class RepositoryLayout : Fragment() {
 
     private fun bindViewModel() {
         viewModel.repository.observe(viewLifecycleOwner, Observer { repo ->
-            log("aaaaaa")
             if (null != repo) {
                 _view.textViewName.text = "\uD83D\uDCD3 ${repo.name()}"
                 _view.textViewDescription.text = repo.description()

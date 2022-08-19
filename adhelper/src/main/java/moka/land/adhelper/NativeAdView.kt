@@ -14,10 +14,10 @@ import com.facebook.ads.*
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.formats.MediaView
-import com.google.android.gms.ads.formats.NativeAdOptions
-import com.google.android.gms.ads.formats.UnifiedNativeAd
-import com.google.android.gms.ads.formats.UnifiedNativeAdView
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.nativead.MediaView
+import com.google.android.gms.ads.nativead.NativeAdOptions
+import com.google.android.gms.ads.nativead.NativeAdView
 import moka.land.base.*
 
 
@@ -41,7 +41,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
     private var callback: ((isSuccess: Boolean) -> Unit)? = null
 
     private var audienceNativeAd: NativeAd? = null
-    private var admobNativeAdView: UnifiedNativeAdView? = null
+    private var admobNativeAdView: NativeAdView? = null
 
     fun setOption(block: Option.() -> Unit): Runnable {
         val option = Option()
@@ -176,7 +176,8 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             relativeLayoutContainer,
             mediaView,
             findViewById<ImageView>(R.id.imageView_adIcon),
-            clickableViews)
+            clickableViews
+        )
     }
 
     private fun loadAdmobNativeAd(fail: () -> Unit) {
@@ -187,14 +188,14 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             return
         }
 
-        admobNativeAdView = UnifiedNativeAdView(context)
+        admobNativeAdView = NativeAdView(context)
         admobNativeAdView!!.addView(View.inflate(context, option.nativeLayoutResId, null))
         admobNativeAdView!!.findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
         addView(admobNativeAdView)
 
         AdLoader
-            .Builder(context, option.admobKey)
-            .forUnifiedNativeAd { unifiedNativeAd ->
+            .Builder(context, option.admobKey!!)
+            .forNativeAd { unifiedNativeAd ->
                 populateUnifiedNativeAdView(unifiedNativeAd, admobNativeAdView!!)
             }
             .withNativeAdOptions(
@@ -208,7 +209,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
                     callback?.invoke(true)
                 }
 
-                override fun onAdFailedToLoad(fail: Int) {
+                override fun onAdFailedToLoad(fail: LoadAdError) {
                     super.onAdFailedToLoad(fail)
                     log("=== Admob's ad failed to load / ${fail}")
                     fail()
@@ -218,27 +219,25 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
             .loadAd(
                 AdRequest
                     .Builder()
-                    .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
                     .build()
             )
     }
 
-    private fun populateUnifiedNativeAdView(adItem: UnifiedNativeAd, nativeAdView: UnifiedNativeAdView) {
+    private fun populateUnifiedNativeAdView(adItem: com.google.android.gms.ads.nativead.NativeAd, nativeAdView: NativeAdView) {
         nativeAdView.findViewById<ConstraintLayout>(R.id.constraintLayout_ad).visible()
 
         // Add the AdChoices icon
         if (null != adItem.adChoicesInfo) {
             val adChoiceImageView = nativeAdView.findViewById<ImageView>(R.id.imageView_adChoice)
-            adChoiceImageView.setImageDrawable(adItem.adChoicesInfo.images[0].drawable)
+            adChoiceImageView.setImageDrawable(adItem.adChoicesInfo!!.images[0].drawable)
         }
 
         // Ad thumbnail Icon
         if (null != adItem.icon) {
             val iconView = nativeAdView.findViewById<ImageView>(R.id.imageView_adIcon)
-            iconView.setImageDrawable(adItem.icon.drawable)
+            iconView.setImageDrawable(adItem.icon!!.drawable)
             nativeAdView.iconView = iconView
-        }
-        else {
+        } else {
             nativeAdView.findViewById<CardView>(R.id.cardView_adIcon).gone()
         }
 
@@ -262,7 +261,7 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         // media
         if (option.media) {
             val mediaView = MediaView(context).apply {
-                setMediaContent(adItem.mediaContent)
+                setMediaContent(adItem.mediaContent!!)
                 setImageScaleType(ImageView.ScaleType.CENTER_CROP)
                 nativeAdView.mediaView = this
             }

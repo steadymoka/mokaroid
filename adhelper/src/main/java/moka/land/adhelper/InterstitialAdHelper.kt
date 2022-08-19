@@ -1,17 +1,20 @@
 package moka.land.adhelper
 
-import android.content.Context
+import android.app.Activity
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
 import com.facebook.ads.InterstitialAd
 import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdRequest
-import moka.land.base.BuildConfig.DEBUG
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import moka.land.base.log
+import com.google.android.gms.ads.interstitial.InterstitialAd as AdmobInterstitialAd
 
 
 class InterstitialAdHelper private constructor(
-    var context: Context
+    var context: Activity
 ) {
 
     var onShow: (() -> Boolean)? = null
@@ -30,35 +33,31 @@ class InterstitialAdHelper private constructor(
     }
 
     fun showAdmob(key: String, success: () -> Unit, fail: () -> Unit) {
-        val mInterstitialAd = com.google.android.gms.ads.InterstitialAd(context)
-        mInterstitialAd.adUnitId = key
-        mInterstitialAd.adListener = object : com.google.android.gms.ads.AdListener() {
-            override fun onAdFailedToLoad(p0: Int) {
+        val request = AdRequest.Builder().build()
+        AdmobInterstitialAd.load(context, key, request, object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(p0: LoadAdError) {
                 super.onAdFailedToLoad(p0)
                 log("show_admob_InterstitialAd fail")
                 fail()
             }
 
-            override fun onAdLoaded() {
-                super.onAdLoaded()
+            override fun onAdLoaded(interstitialAd: AdmobInterstitialAd) {
+                super.onAdLoaded(interstitialAd)
                 log("Success admob ad")
+
+                interstitialAd.fullScreenContentCallback = object : FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        onClose?.invoke()
+                        log("show_admob_InterstitialAd adClosed")
+                    }
+                }
                 if (null == onShow || onShow?.invoke() == true) {
-                    mInterstitialAd.show()
+                    interstitialAd.show(context)
                 }
                 success()
             }
-
-            override fun onAdClosed() {
-                onClose?.invoke()
-                super.onAdClosed()
-                log("show_admob_InterstitialAd adClosed")
-            }
         }
-
-        mInterstitialAd.loadAd(
-            AdRequest
-                .Builder()
-                .build())
+        )
     }
 
     fun showAudience(key: String, success: () -> Unit, fail: () -> Unit) {
@@ -95,7 +94,7 @@ class InterstitialAdHelper private constructor(
     }
 
     companion object {
-        fun with(context: Context): InterstitialAdHelper {
+        fun with(context: Activity): InterstitialAdHelper {
             return InterstitialAdHelper(context)
         }
     }

@@ -24,3 +24,5 @@
 /fileutil/build/
 
 /app/apikey.properties
+
+buildSrc/build

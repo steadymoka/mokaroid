@@ -83,7 +83,7 @@
 	<fragment
 		android:id="@+id/repository"
 		android:name="moka.land.ui.repository.RepositoryLayout"
-		android:label="repository">
+		android:label="Repository">
 
 		<argument
 			android:name="name"

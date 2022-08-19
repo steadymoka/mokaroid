@@ -2,7 +2,6 @@ package moka.land.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
 import moka.land.R
 import moka.land.databinding.NavigationMainBinding
 import moka.land.ui.home.HomeLayout
@@ -13,8 +12,8 @@ class MainNavGraph : AppCompatActivity() {
 
     private val _view: NavigationMainBinding by lazy { NavigationMainBinding.inflate(layoutInflater) }
 
-    private val host by lazy { supportFragmentManager.findFragmentById(R.id.host) as NavHostFragment }
-    private val navController by lazy { host.navController }
+//    private val host by lazy { supportFragmentManager.findFragmentById(R.id.host) as NavHostFragment }
+//    private val navController by lazy { host.navController }
 
     private val viewModel by lazy { getViewModel() as MainViewModel }
     private val adapter by lazy { MainPagerAdapter(this) }

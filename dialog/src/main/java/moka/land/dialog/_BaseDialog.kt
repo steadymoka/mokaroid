@@ -42,12 +42,13 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
         if (null != getWidthRatio()) {
             if (getWidthRatio() == 1f) {
                 dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            } else {
+                dialog?.window?.setLayout(
+                    (requireContext().resources.displayMetrics.widthPixels * getWidthRatio()!!).toInt(),
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
-            else {
-                dialog?.window?.setLayout((context!!.resources.displayMetrics.widthPixels * getWidthRatio()!!).toInt(), ViewGroup.LayoutParams.WRAP_CONTENT)
-            }
-        }
-        else {
+        } else {
             __view.root.minWidth = (300 * resources.displayMetrics.density).toInt() // 200dp
         }
     }
@@ -87,8 +88,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
         __view.buttonPositive.isEnabled = isEnabled
         if (!isEnabled) {
             __view.buttonPositive.alpha = 0.3f
-        }
-        else {
+        } else {
             val animation = AlphaAnimation(0.3f, 1f)
             animation.duration = 500
             __view.buttonPositive.startAnimation(animation)
@@ -100,8 +100,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
         __view.buttonNegative.isEnabled = isEnabled
         if (!isEnabled) {
             __view.buttonNegative.alpha = 0.3f
-        }
-        else {
+        } else {
             val animation = AlphaAnimation(0.3f, 1f)
             animation.duration = 500
             __view.buttonNegative.startAnimation(animation)
@@ -113,8 +112,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
         __view.buttonNeutral.isEnabled = isEnabled
         if (!isEnabled) {
             __view.buttonNeutral.alpha = 0.3f
-        }
-        else {
+        } else {
             val animation = AlphaAnimation(0.3f, 1f)
             animation.duration = 500
             __view.buttonNeutral.startAnimation(animation)
@@ -155,9 +153,7 @@ abstract class _BaseDialog : AppCompatDialogFragment() {
 
     open fun isNoButton(): Boolean = false
 
-    // -
-
-    abstract fun init()
+    open fun init() {}
 
     abstract fun getContentView(): View
 

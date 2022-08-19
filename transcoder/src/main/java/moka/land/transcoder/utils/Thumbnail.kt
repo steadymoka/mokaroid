@@ -66,7 +66,7 @@ object Thumbnail {
         return retriever.getFrameAtTime(
             timeInSeconds * 1000000L,
             MediaMetadataRetriever.OPTION_CLOSEST_SYNC
-        )
+        )!!
     }
 
     fun videoUriToBase64(uri: Uri): String {

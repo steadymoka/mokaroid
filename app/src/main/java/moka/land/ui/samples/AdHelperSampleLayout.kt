@@ -17,7 +17,7 @@ class AdHelperSampleLayout : Fragment() {
 
     private val _view by lazy { LayoutAdHelperSampleBinding.inflate(layoutInflater) }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindEvent()
         return _view.root
     }
@@ -29,7 +29,7 @@ class AdHelperSampleLayout : Fragment() {
 
         _view.textViewTestButton.setOnClickListener {
             AdDialogFragment()
-                .showDialog(activity!!.supportFragmentManager) {
+                .showDialog(requireActivity().supportFragmentManager) {
                 }
         }
     }

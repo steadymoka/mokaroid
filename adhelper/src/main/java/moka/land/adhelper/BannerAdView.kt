@@ -3,6 +3,7 @@ package moka.land.adhelper
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import com.facebook.ads.Ad
@@ -11,8 +12,8 @@ import com.facebook.ads.AdListener
 import com.facebook.ads.AdSize
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
-import kotlinx.android.synthetic.main.view_moka_ad_banner.view.*
-import moka.land.base.BuildConfig.DEBUG
+import com.google.android.gms.ads.LoadAdError
+import moka.land.adhelper.databinding.ViewMokaAdBannerBinding
 
 interface Runner {
 
@@ -21,8 +22,10 @@ interface Runner {
 
 class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = null) : FrameLayout(context, attributeSet), Runner {
 
+    var _view: ViewMokaAdBannerBinding
+
     init {
-        View.inflate(context, R.layout.view_moka_ad_banner, this)
+        _view = ViewMokaAdBannerBinding.inflate(LayoutInflater.from(context))
     }
 
     inner class Option {
@@ -74,8 +77,8 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
     }
 
     fun showError() {
-        banner_container.visibility = View.GONE
-        textView_banner_noFill.visibility = View.VISIBLE
+        _view.bannerContainer.visibility = View.GONE
+        _view.textViewBannerNoFill.visibility = View.VISIBLE
     }
 
     private fun loadFacebookBannerAd(fail: () -> Unit) {
@@ -85,8 +88,8 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         }
 
         facebookBannerAd = com.facebook.ads.AdView(context, option.fbAudienceKey, AdSize.BANNER_HEIGHT_50)
-        banner_container.removeAllViews()
-        banner_container.addView(facebookBannerAd)
+        _view.bannerContainer.removeAllViews()
+        _view.bannerContainer.addView(facebookBannerAd)
 
         facebookBannerAd?.setAdListener(object : AdListener {
             override fun onAdLoaded(ad: Ad) {
@@ -94,7 +97,7 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
             }
 
             override fun onError(ad: Ad?, error: AdError?) {
-                banner_container.removeAllViews()
+                _view.bannerContainer.removeAllViews()
                 fail()
             }
 
@@ -114,11 +117,11 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         }
 
         admobBannerAdView = AdView(context).apply {
-            adSize = com.google.android.gms.ads.AdSize.SMART_BANNER
-            adUnitId = option.admobKey
+//            setAdSize(com.google.android.gms.ads.AdSize.BANNER)
+            adUnitId = option.admobKey!!
         }
-        banner_container.removeAllViews()
-        banner_container.addView(admobBannerAdView)
+        _view.bannerContainer.removeAllViews()
+        _view.bannerContainer.addView(admobBannerAdView)
 
         admobBannerAdView?.adListener = object : com.google.android.gms.ads.AdListener() {
 
@@ -127,15 +130,14 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
                 callback?.invoke(true)
             }
 
-            override fun onAdFailedToLoad(errorCode: Int) {
-                banner_container.removeAllViews()
+            override fun onAdFailedToLoad(errorCode: LoadAdError) {
+                _view.bannerContainer.removeAllViews()
                 fail()
             }
         }
         admobBannerAdView?.loadAd(
             AdRequest
                 .Builder()
-                .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
                 .build()
         )
     }

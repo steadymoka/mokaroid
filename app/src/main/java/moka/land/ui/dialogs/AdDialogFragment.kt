@@ -23,13 +23,13 @@ class AdDialogFragment : _BaseDialog() {
             return
         }
 
-        val mokaAdView = NativeAdView(activity!!)
+        val mokaAdView = NativeAdView(requireActivity())
         _view.mokaAdViewContainer.removeAllViews()
         _view.mokaAdViewContainer.addView(mokaAdView)
 
         mokaAdView
             .setOption {
-                admobKey = "ca-app-pub-7847386025632674/8475821127"
+                admobKey = "ca-app-pub-3940256099942544/2247696110" // "ca-app-pub-7847386025632674/8475821127"
                 fbAudienceKey = "2003520433203987_2003525736536790"
                 period = Period.ADMOB_FACEBOOK
                 nativeLayoutResId = R.layout.view_custom_ad_native
@@ -47,9 +47,9 @@ class AdDialogFragment : _BaseDialog() {
 
     override fun getNegativeText(): CharSequence = "취소"
 
-    override fun getWidthRatio(): Float? = 1.0f
+    override fun getWidthRatio(): Float = 1.0f
 
-    override fun getCancelable(): Boolean? = false
+    override fun getCancelable(): Boolean = false
 
     override fun init() {
         onClickPositive = { onPositive?.invoke() }

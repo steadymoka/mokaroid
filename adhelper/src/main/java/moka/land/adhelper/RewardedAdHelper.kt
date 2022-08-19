@@ -1,14 +1,13 @@
 package moka.land.adhelper
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import com.facebook.ads.Ad
 import com.facebook.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import com.google.android.gms.ads.reward.RewardItem
-import com.google.android.gms.ads.reward.RewardedVideoAd
-import com.google.android.gms.ads.reward.RewardedVideoAdListener
+import com.google.android.gms.ads.*
+import com.google.android.gms.ads.rewarded.RewardedAd
+import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import moka.land.base.log
 
 /**
@@ -21,18 +20,18 @@ class RewardedAdHelper private constructor() {
 
     companion object {
 
-        var mAd_admob: RewardedVideoAd? = null
+        var context: Activity? = null
+
+        var mAd_admob: RewardedAd? = null
         var mAd_audience: com.facebook.ads.RewardedVideoAd? = null
 
         var admobKey: String? = ""
         var period: Period? = null
 
-        fun initAd(context: Context, admobKey: String, audienceKey: String, period: Period) {
+        fun initAd(context: Activity, admobKey: String, audienceKey: String, period: Period) {
+            this.context = context
             this.admobKey = admobKey
             this.period = period
-
-            /* admob */
-            mAd_admob = MobileAds.getRewardedVideoAdInstance(context)
 
             /* audience */
             mAd_audience = com.facebook.ads.RewardedVideoAd(context, audienceKey)
@@ -70,34 +69,27 @@ class RewardedAdHelper private constructor() {
 
             when (period) {
                 Period.ADMOB_FACEBOOK -> {
-                    if (mAd_admob?.isLoaded == true) {
-                        mAd_admob?.show()
-                    }
-                    else if (mAd_audience?.isAdLoaded == true && mAd_audience?.isAdInvalidated == false) {
+                    if (null != mAd_admob) {
+                        mAd_admob?.show(context!!) { rewardItem ->
+                            onRewarded.invoke()
+                        }
+                    } else if (mAd_audience?.isAdLoaded == true && mAd_audience?.isAdInvalidated == false) {
                         mAd_audience?.show()
                     }
                 }
                 else -> {
                     if (mAd_audience?.isAdLoaded == true && mAd_audience?.isAdInvalidated == false) {
                         mAd_audience?.show()
-                    }
-                    else if (mAd_admob?.isLoaded == true) {
-                        mAd_admob?.show()
+                    } else if (null != mAd_admob) {
+                        mAd_admob?.show(context!!) { rewardItem ->
+                            onRewarded.invoke()
+                        }
                     }
                 }
             }
         }
 
-        fun resume(context: Context) {
-            mAd_admob?.resume(context)
-        }
-
-        fun pause(context: Context) {
-            mAd_admob?.pause(context)
-        }
-
         fun destroy(context: Context) {
-            mAd_admob?.destroy(context)
             mAd_audience?.destroy()
 
             mAd_admob = null
@@ -112,48 +104,38 @@ class RewardedAdHelper private constructor() {
          */
 
         private fun loadRewardedVideoAd_admob(callback: (isSuccessLoad: Boolean) -> Unit) {
-            mAd_admob!!.rewardedVideoAdListener = object : RewardedVideoAdListener {
-
-                override fun onRewardedVideoCompleted() {
-                }
-
-                override fun onRewardedVideoAdClosed() {
-                    loadAdmob()
-                }
-
-                override fun onRewardedVideoAdLeftApplication() {
-                }
-
-                override fun onRewardedVideoAdLoaded() {
-                    callback(true)
-                }
-
-                override fun onRewardedVideoAdOpened() {
-                }
-
-                override fun onRewarded(p0: RewardItem?) {
-                    onRewarded?.invoke()
-                }
-
-                override fun onRewardedVideoStarted() {
-                }
-
-                override fun onRewardedVideoAdFailedToLoad(p0: Int) {
-                    log("Rewarded video admob ad failed to load: $p0")
+            val adRequest = AdRequest.Builder().build()
+            RewardedAd.load(context!!, admobKey!!, adRequest, object : RewardedAdLoadCallback() {
+                override fun onAdFailedToLoad(adError: LoadAdError) {
+                    mAd_admob = null
                     callback(false)
                 }
-            }
 
-            loadAdmob()
-        }
+                override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    mAd_admob = rewardedAd
+                    callback(true)
 
-        private fun loadAdmob() {
-            mAd_admob!!.loadAd(admobKey,
-                AdRequest
-                    .Builder()
-                    .addTestDevice(AdHelper.testDevice?.ADMOB ?: "")
-                    .build()
-            )
+                    mAd_admob!!.fullScreenContentCallback = object : FullScreenContentCallback() {
+                        override fun onAdClicked() {
+                            // Called when a click is recorded for an ad.
+                        }
+
+                        override fun onAdDismissedFullScreenContent() {
+                            // Called when ad is dismissed.
+                            // Set the ad reference to null so you don't show the ad a second time.
+                            mAd_admob = null
+                        }
+
+                        override fun onAdImpression() {
+                            // Called when an impression is recorded for an ad.
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            // Called when ad is shown.
+                        }
+                    }
+                }
+            })
         }
 
         private fun loadRewardedVideoAd_audience(callback: (isSuccessLoad: Boolean) -> Unit) {
