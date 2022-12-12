@@ -2,6 +2,7 @@ package moka.land.ui.profile
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.apollographql.apollo.AboutMokaQuery
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.MyRepositoriesQuery

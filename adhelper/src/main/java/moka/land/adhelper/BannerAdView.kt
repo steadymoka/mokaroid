@@ -91,23 +91,26 @@ class BannerAdView constructor(context: Context, attributeSet: AttributeSet? = n
         _view.bannerContainer.removeAllViews()
         _view.bannerContainer.addView(facebookBannerAd)
 
-        facebookBannerAd?.setAdListener(object : AdListener {
-            override fun onAdLoaded(ad: Ad) {
-                callback?.invoke(true)
-            }
+        val config = facebookBannerAd
+            ?.buildLoadAdConfig()
+            ?.withAdListener(object : AdListener {
+                override fun onAdLoaded(ad: Ad) {
+                    callback?.invoke(true)
+                }
 
-            override fun onError(ad: Ad?, error: AdError?) {
-                _view.bannerContainer.removeAllViews()
-                fail()
-            }
+                override fun onError(ad: Ad?, error: AdError?) {
+                    _view.bannerContainer.removeAllViews()
+                    fail()
+                }
 
-            override fun onAdClicked(p0: Ad?) {
-            }
+                override fun onAdClicked(p0: Ad?) {
+                }
 
-            override fun onLoggingImpression(p0: Ad?) {
-            }
-        })
-        facebookBannerAd?.loadAd()
+                override fun onLoggingImpression(p0: Ad?) {
+                }
+            })
+            ?.build()
+        facebookBannerAd?.loadAd(config)
     }
 
     private fun loadAdmobBannerAd(fail: () -> Unit) {

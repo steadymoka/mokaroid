@@ -19,6 +19,7 @@ class AdHelperSampleLayout : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         bindEvent()
+        controlLottie()
         return _view.root
     }
 
@@ -32,6 +33,10 @@ class AdHelperSampleLayout : Fragment() {
                 .showDialog(requireActivity().supportFragmentManager) {
                 }
         }
+    }
+
+    private fun controlLottie() {
+        _view.lottieTimer.progress = 0.4f
     }
 
 }

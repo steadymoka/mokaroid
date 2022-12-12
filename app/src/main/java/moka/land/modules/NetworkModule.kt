@@ -8,6 +8,7 @@ import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.api.cache.http.HttpCachePolicy.NETWORK_ONLY
 import com.apollographql.apollo.exception.ApolloException
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import kotlinx.coroutines.suspendCancellableCoroutine
 import moka.land.BuildConfig
 import moka.land.component.AuthManager
 import moka.land.network.ServerInfo
@@ -77,7 +78,7 @@ val networkModule = module {
 }
 
 suspend fun <T> ApolloQueryCall<T>.awaitEnqueue(): T {
-    return suspendCoroutine { continuation ->
+    return suspendCancellableCoroutine { continuation ->
         this
             .httpCachePolicy(NETWORK_ONLY)
             .enqueue(object : ApolloCall.Callback<T>() {

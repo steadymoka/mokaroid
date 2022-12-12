@@ -62,35 +62,38 @@ class InterstitialAdHelper private constructor(
 
     fun showAudience(key: String, success: () -> Unit, fail: () -> Unit) {
         val interstitialAd = InterstitialAd(context, key)
-        interstitialAd.setAdListener(object : InterstitialAdListener {
-            override fun onInterstitialDisplayed(p0: Ad?) {
-            }
-
-            override fun onAdClicked(p0: Ad?) {
-            }
-
-            override fun onInterstitialDismissed(p0: Ad?) {
-                log("show_facebook_InterstitialAd dismissed")
-                onClose?.invoke()
-            }
-
-            override fun onError(p0: Ad?, p1: AdError?) {
-                log("show_facebook_InterstitialAd fail")
-                fail()
-            }
-
-            override fun onAdLoaded(p0: Ad?) {
-                log("Success audience network ad")
-                if (null == onShow || onShow?.invoke() == true) {
-                    interstitialAd.show()
+        val config = interstitialAd
+            .buildLoadAdConfig()
+            .withAdListener(object : InterstitialAdListener {
+                override fun onInterstitialDisplayed(p0: Ad?) {
                 }
-                success()
-            }
 
-            override fun onLoggingImpression(p0: Ad?) {
-            }
-        })
-        interstitialAd.loadAd()
+                override fun onAdClicked(p0: Ad?) {
+                }
+
+                override fun onInterstitialDismissed(p0: Ad?) {
+                    log("show_facebook_InterstitialAd dismissed")
+                    onClose?.invoke()
+                }
+
+                override fun onError(p0: Ad?, p1: AdError?) {
+                    log("show_facebook_InterstitialAd fail")
+                    fail()
+                }
+
+                override fun onAdLoaded(p0: Ad?) {
+                    log("Success audience network ad")
+                    if (null == onShow || onShow?.invoke() == true) {
+                        interstitialAd.show()
+                    }
+                    success()
+                }
+
+                override fun onLoggingImpression(p0: Ad?) {
+                }
+            })
+            .build()
+        interstitialAd.loadAd(config)
     }
 
     companion object {

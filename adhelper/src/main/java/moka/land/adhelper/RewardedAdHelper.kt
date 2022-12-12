@@ -100,9 +100,6 @@ class RewardedAdHelper private constructor() {
             onRewarded = null
         }
 
-        /**
-         */
-
         private fun loadRewardedVideoAd_admob(callback: (isSuccessLoad: Boolean) -> Unit) {
             val adRequest = AdRequest.Builder().build()
             RewardedAd.load(context!!, admobKey!!, adRequest, object : RewardedAdLoadCallback() {
@@ -139,43 +136,46 @@ class RewardedAdHelper private constructor() {
         }
 
         private fun loadRewardedVideoAd_audience(callback: (isSuccessLoad: Boolean) -> Unit) {
-            mAd_audience!!.setAdListener(object : com.facebook.ads.RewardedVideoAdListener {
-                override fun onError(ad: Ad, error: AdError) {
-                    // Rewarded video ad failed to load
-                    log("Rewarded video audience ad failed to load: ${error.errorMessage}")
-                    callback(false)
-                }
+            val config = mAd_audience!!
+                .buildLoadAdConfig()
+                .withAdListener(object : com.facebook.ads.RewardedVideoAdListener {
+                    override fun onError(ad: Ad, error: AdError) {
+                        // Rewarded video ad failed to load
+                        log("Rewarded video audience ad failed to load: ${error.errorMessage}")
+                        callback(false)
+                    }
 
-                override fun onAdLoaded(ad: Ad) {
-                    // Rewarded video ad is loaded and ready to be displayed
-                    callback(true)
-                }
+                    override fun onAdLoaded(ad: Ad) {
+                        // Rewarded video ad is loaded and ready to be displayed
+                        callback(true)
+                    }
 
-                override fun onAdClicked(ad: Ad) {
-                    // Rewarded video ad clicked
-                }
+                    override fun onAdClicked(ad: Ad) {
+                        // Rewarded video ad clicked
+                    }
 
-                override fun onLoggingImpression(ad: Ad) {
-                    // Rewarded Video ad impression - the event will fire when the
-                    // video starts playing
-                }
+                    override fun onLoggingImpression(ad: Ad) {
+                        // Rewarded Video ad impression - the event will fire when the
+                        // video starts playing
+                    }
 
-                override fun onRewardedVideoCompleted() {
-                    // Rewarded Video View Complete - the video has been played to the end.
-                    // You can use this event to initialize your reward
+                    override fun onRewardedVideoCompleted() {
+                        // Rewarded Video View Complete - the video has been played to the end.
+                        // You can use this event to initialize your reward
 
-                    // Call method to give reward
-                    onRewarded?.invoke()
-                }
+                        // Call method to give reward
+                        onRewarded?.invoke()
+                    }
 
-                override fun onRewardedVideoClosed() {
-                    // The Rewarded Video ad was closed - this can occur during the video
-                    // by closing the app, or closing the end card.
-                    mAd_audience?.loadAd()
-                }
-            })
+                    override fun onRewardedVideoClosed() {
+                        // The Rewarded Video ad was closed - this can occur during the video
+                        // by closing the app, or closing the end card.
+                        mAd_audience?.loadAd()
+                    }
+                })
+                .build()
 
-            mAd_audience?.loadAd()
+            mAd_audience?.loadAd(config)
         }
     }
 

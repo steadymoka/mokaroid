@@ -1,12 +1,25 @@
 package moka.land.ui.main
 
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.withCreated
+import com.facebook.stetho.dumpapp.GlobalOptions
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import moka.land.R
+import moka.land.base.log
 import moka.land.databinding.NavigationMainBinding
 import moka.land.ui.home.HomeLayout
 import moka.land.ui.profile.ProfileLayout
 import org.koin.androidx.viewmodel.ext.android.getViewModel
+import kotlin.Exception
+import kotlin.coroutines.CoroutineContext
+import kotlin.system.measureTimeMillis
 
 class MainNavGraph : AppCompatActivity() {
 

@@ -78,8 +78,8 @@ dependencies {
 
     /* Kotlin & Coroutine */
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
 
     /* Koin */
     implementation("io.insert-koin:koin-android:3.2.0")
@@ -88,23 +88,23 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.5.0")
     implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.multidex:multidex:2.0.1")
-    implementation("androidx.exifinterface:exifinterface:1.2.0")
+    implementation("androidx.exifinterface:exifinterface:1.3.3")
 
     implementation("androidx.viewpager2:viewpager2:1.0.0")
-    implementation("androidx.recyclerview:recyclerview:1.2.0-alpha05")
+    implementation("androidx.recyclerview:recyclerview:1.3.0-beta02")
     implementation("androidx.cardview:cardview:1.0.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.0-beta8")
-    implementation("com.google.android.material:material:1.1.0")
-    implementation("androidx.coordinatorlayout:coordinatorlayout:1.1.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.6.1")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
 
-    implementation("androidx.work:work-runtime-ktx:2.2.0")
+    implementation("androidx.work:work-runtime-ktx:2.7.1")
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.1")
     implementation("androidx.navigation:navigation-ui-ktx:2.5.1")
 
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
-//    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
-//    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0")
-//    kapt("androidx.lifecycle:lifecycle-compiler:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.5.1")
 
     /* Room */
     implementation("androidx.room:room-ktx:2.4.3")
@@ -116,6 +116,8 @@ dependencies {
 
     /* Network */
     implementation("com.apollographql.apollo:apollo-runtime:2.3.1")
+
+    implementation("com.airbnb.android:lottie:5.2.0")
 
     implementation(platform("com.squareup.okhttp3:okhttp-bom:4.10.0"))
     implementation("com.squareup.okhttp3:okhttp")

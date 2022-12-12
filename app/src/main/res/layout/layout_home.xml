@@ -77,7 +77,7 @@
 		android:paddingLeft="24dp"
 		android:paddingTop="16dp"
 		android:paddingBottom="16dp"
-		android:text="📌  AdHelper"
+		android:text="📌  AdHelper &amp; Lottie test"
 		android:textColor="@color/black_04"
 		android:textSize="14dp"
 		android:textStyle="bold"

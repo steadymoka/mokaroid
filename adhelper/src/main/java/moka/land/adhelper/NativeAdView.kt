@@ -94,31 +94,35 @@ class NativeAdView constructor(context: Context, attributeSet: AttributeSet? = n
         findViewById<FrameLayout>(R.id.frameLayout_media).visibleOrGone(option.media)
 
         audienceNativeAd = NativeAd(context, option.fbAudienceKey)
-        audienceNativeAd!!.setAdListener(object : NativeAdListener {
-            override fun onMediaDownloaded(p0: Ad?) {
-            }
-
-            override fun onAdLoaded(ad: Ad) {
-                if (ad != audienceNativeAd) {
-                    return
+        val config = audienceNativeAd
+            ?.buildLoadAdConfig()
+            ?.withMediaCacheFlag(NativeAdBase.MediaCacheFlag.ALL)
+            ?.withAdListener(object : NativeAdListener {
+                override fun onMediaDownloaded(p0: Ad?) {
                 }
 
-                inflateNativeAdViews(audienceNativeAd!!)
-                callback?.invoke(true)
-            }
+                override fun onAdLoaded(ad: Ad) {
+                    if (ad != audienceNativeAd) {
+                        return
+                    }
 
-            override fun onError(ad: Ad?, error: AdError?) {
-                log("=== Audience's ad failed to load / ${error?.errorCode} / ${error?.errorMessage}")
-                fail()
-            }
+                    inflateNativeAdViews(audienceNativeAd!!)
+                    callback?.invoke(true)
+                }
 
-            override fun onAdClicked(p0: Ad?) {
-            }
+                override fun onError(ad: Ad?, error: AdError?) {
+                    log("=== Audience's ad failed to load / ${error?.errorCode} / ${error?.errorMessage}")
+                    fail()
+                }
 
-            override fun onLoggingImpression(p0: Ad?) {
-            }
-        })
-        audienceNativeAd!!.loadAd(NativeAdBase.MediaCacheFlag.ALL)
+                override fun onAdClicked(p0: Ad?) {
+                }
+
+                override fun onLoggingImpression(p0: Ad?) {
+                }
+            })
+            ?.build()
+        audienceNativeAd!!.loadAd(config)
     }
 
     private fun inflateNativeAdViews(facebookNativeAd: NativeAd) {
